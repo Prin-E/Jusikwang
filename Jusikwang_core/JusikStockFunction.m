@@ -12,12 +12,14 @@
 #import "JusikRecord.h"
 #import "JusikCompanyInfo.h"
 #import "JusikEvent.h"
+#import "JusikStockMarket.h"
 
 @implementation JusikStockFunction
 @synthesize stock = _stock;
 @synthesize combinedPriceRecord = _combinedPriceRecord;
 @synthesize exchangeRateRecord = _exchangeRateRecord;
 @synthesize turn = _turn;
+@synthesize market = _market;
 
 #pragma mark - 초기화 메서드
 - (id)initWithStock: (JusikStock *)stock {
@@ -182,6 +184,28 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
         F = -0.007;
     }
     
+    // 크로스, 정배열/역배열 영향
+    NSArray *fiveDay = [record fiveDayMovingAverageOfDays: 2];
+    NSArray *twentyDay = [record twentyDayMovingAverageOfDays: 2];
+    NSArray *thirtyFourDay = [record thirtyFourDayMovingAverageOfDays: 2];
+    
+    // 크로스 영향
+    if(twentyDay != nil) {
+        double fiveDayVal = [[fiveDay lastObject] doubleValue];
+        double twentyDayVal = [[twentyDay lastObject] doubleValue];
+        
+        if(twentyDay.count > 1) {
+            double prevFiveDayVal = [[fiveDay objectAtIndex: fiveDay.count - 2] doubleValue];
+            double prevTwentyDayVal = [[twentyDay objectAtIndex: twentyDay.count - 2] doubleValue];
+            
+            // 골든 크로스
+            if(prevFiveDayVal <= prevTwentyDayVal && fiveDayVal > twentyDayVal) {
+                
+            }
+        }
+    }
+    
+    
     // 기업크기둔감, 환율민감함수, PBR영향 판별
     // 환율
     switch(info.sensitiveToExchangeRate) {
@@ -238,6 +262,9 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     [record recordValue: openingPrice];
     
     stock.price = openingPrice;
+    
+    // 이벤트 큐의 모든 이벤트 제거
+    [_events removeAllObjects];
 }
 
 /*- (void)calculateNextPeriodStockPrice {

@@ -8,12 +8,12 @@
 
 #define ARC4RANDOM_MAX      0x100000000
 
-typedef struct {
-    union {
+typedef union {
+    struct {
         double start;
         double end;
     };
-    union {
+    struct {
         double s;
         double e;
     };

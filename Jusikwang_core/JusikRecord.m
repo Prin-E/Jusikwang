@@ -82,7 +82,7 @@
 
 #pragma mark - JusikRecord 구현 코드
 @interface JusikRecord (Private)
-- (NSArray *)_movingAverageOfDay: (NSUInteger)day;
+- (NSArray *)_movingAverageOfDay: (NSUInteger)day ofDays: (NSUInteger)days;
 @end
 
 @implementation JusikRecord
@@ -165,27 +165,27 @@
 }
 
 #pragma mark - 5, 20, 34일선
-- (NSArray *)fiveDayMovingAverage {
-    return [self _movingAverageOfDay: 5];
+- (NSArray *)fiveDayMovingAverageOfDays:(NSUInteger)days {
+    return [self _movingAverageOfDay: 5 ofDays: days];
 }
 
-- (NSArray *)twentyDayMovingAverage {
-    return [self _movingAverageOfDay: 20];
+- (NSArray *)twentyDayMovingAverageOfDays:(NSUInteger)days {
+    return [self _movingAverageOfDay: 20 ofDays: days];
     
 }
 
-- (NSArray *)thirtyFourDayMovingAverage {
-    return [self _movingAverageOfDay: 34];
+- (NSArray *)thirtyFourDayMovingAverageOfDays:(NSUInteger)days {
+    return [self _movingAverageOfDay: 34 ofDays: days];
     
 }
 
-- (NSArray *)_movingAverageOfDay: (NSUInteger)day {
+- (NSArray *)_movingAverageOfDay: (NSUInteger)day ofDays:(NSUInteger)days {
     NSUInteger count = [_records count];
     if(count < day)
         return nil;
     
     NSMutableArray *a = [NSMutableArray array];
-    for(NSUInteger i = day - 1; i < count; i++) {
+    for(NSUInteger i = MAX(count-days-1, day-1); i < count; i++) {
         double ev_sum = 0.0;
         for(NSUInteger j = 0; j < day; j++) {
             JusikDayRecord *d = [self.records objectAtIndex: i + j + 1 - day];

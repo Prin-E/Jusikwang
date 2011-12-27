@@ -23,7 +23,7 @@
 - (id)init {
     self = [super init];
     if(self) {
-        self.targets = [NSMutableArray new];
+        self.targets = [NSMutableArray array];
     }
     return self;
 }

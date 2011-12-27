@@ -77,3 +77,6 @@ typedef enum {
 - (JusikStock *)stockOfCompanyWithName: (NSString *)name;
 
 @end
+
+extern NSString *JusikStockMarketNameKospi;
+extern NSString *JusikStockMarketNameDow;

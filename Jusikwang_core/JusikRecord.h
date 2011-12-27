@@ -68,8 +68,8 @@
 
 @interface JusikRecord (MovingAverage)
 
-- (NSArray *)fiveDayMovingAverage;
-- (NSArray *)twentyDayMovingAverage;
-- (NSArray *)thirtyFourDayMovingAverage;
+- (NSArray *)fiveDayMovingAverageOfDays: (NSUInteger)days;
+- (NSArray *)twentyDayMovingAverageOfDays: (NSUInteger)days;
+- (NSArray *)thirtyFourDayMovingAverageOfDays: (NSUInteger)days;
 
 @end

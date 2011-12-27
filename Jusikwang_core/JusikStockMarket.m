@@ -12,6 +12,9 @@
 #import "JusikStockFunction.h"
 #import "JusikRecord.h"
 
+NSString *JusikStockMarketNameKospi = @"com.jusikwang.stock_market.kospi";
+NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
+
 @interface JusikStockMarket (Private)
 - (void)_initObjects;
 
@@ -96,8 +99,11 @@
     _currentDate = [gregorian dateByAddingComponents: comp toDate: _currentDate options: 0];
     
     [_combinedPriceRecord setCurrentDate: _currentDate];
+    [_currentDate release];
     [_USStockPriceRecord setCurrentDate: _currentDate];
+    [_currentDate release];
     [_exchangeRateRecord setCurrentDate: _currentDate];
+    [_currentDate release];
     
     [_combinedPriceRecord startRecording];
     [_USStockPriceRecord startRecording];
@@ -109,7 +115,7 @@
     
     // 대기중인 이벤트를 미리 적용시킨다.
     _state = JusikStockMarketStateOpen;
-    NSLog(@"%s, turn:%d", __PRETTY_FUNCTION__, _turn);
+    //NSLog(@"%s, turn:%d", __PRETTY_FUNCTION__, _turn);
 }
 
 - (void)close {
@@ -129,7 +135,7 @@
     _currentTime = 0;
     
     _state = JusikStockMarketStateClose;
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    //NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)nextPeriod {
@@ -251,6 +257,7 @@
     comp.minute = 0;
     comp.second = 0;
     NSDate *date = [gregorian dateFromComponents: comp];
+    [gregorian release];
     
     [self _setInitialDate: date];
 }
@@ -267,6 +274,7 @@
     JusikStockFunction *stockFunction = [JusikStockFunction functionWithStock: stock];
     stockFunction.combinedPriceRecord = _combinedPriceRecord;
     stockFunction.exchangeRateRecord = _exchangeRateRecord;
+    stockFunction.market = self;
     
     [_stockFunctions setObject: stockFunction forKey: name];
 }
@@ -279,6 +287,7 @@
 }
 
 - (void)_processWaitingJusikEvents {
+    NSMutableArray *reservedRemovingEvents = [NSMutableArray new];
     for(JusikEvent *e in _waitingEvents) {
         if(e.isEffective == NO) {
             if(self.turn >= e.startTurn)
@@ -310,7 +319,15 @@
                 }
                 break;
         }
+        e.remainingTurn--;
+        if(e.remainingTurn < 1) {
+            [reservedRemovingEvents addObject: e];
+        }
     }
+    
+    for(JusikEvent *e in reservedRemovingEvents)
+        [_waitingEvents removeObject: e];
+    [reservedRemovingEvents release];
 }
 
 - (void)_calculateNextDayStockMarketPrice {
@@ -323,17 +340,64 @@
         combinedPriceOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.02 - 0.01;
         exchangeRateOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.016 - .008;
         
+        // 이벤트 처리
         for(JusikEvent *e in _waitingStockMarketEvents) {
+            for(NSString *target in e.targets) {
+                JusikRange r = e.change;
+                double randomValue = (double)arc4random() / (double)ARC4RANDOM_MAX;
+                double newOffset = randomValue * (r.e - r.s) + r.s;
+                
+                if([target isEqualToString: JusikStockMarketNameKospi]) {
+                    switch(e.changeWay) {
+                        case JusikEventChangeWayRateRelative:
+                            combinedPriceOffset += newOffset;
+                            break;
+                        case JusikEventChangeWayRateAbsolute:
+                            combinedPriceOffset = newOffset;
+                            break;
+                        case JusikEventChangeWayValueRelative:
+                            _combinedPrice += newOffset;
+                            break;
+                        case JusikEventChangeWayValueAbsolute:
+                            _combinedPrice = newOffset;
+                            break;
+                    }
+                }
+                else if([target isEqualToString: JusikStockMarketNameDow]) {
+                    switch(e.changeWay) {
+                        case JusikEventChangeWayRateRelative:
+                            USStockPriceOffset += newOffset;
+                            break;
+                        case JusikEventChangeWayRateAbsolute:
+                            USStockPriceOffset = newOffset;
+                            break;
+                        case JusikEventChangeWayValueRelative:
+                            _USStockPrice += newOffset;
+                            break;
+                        case JusikEventChangeWayValueAbsolute:
+                            _USStockPrice = newOffset;
+                            break;
+                    }
+                }
+            }
         }
+        // 미국주가 -> 코스피 -> 환율로 차례대로 영향을 준다. 따라서
+        // 영향을 준 이후의 값도 구해야 한다.
+        combinedPriceOffset += USStockPriceOffset * 0.7;
+        exchangeRateOffset -= combinedPriceOffset * (-0.3);
         
+        // 새 주가, 환율을 구한다.
         _combinedPrice = _combinedPrice * (1.0 + combinedPriceOffset);
         _exchangeRate = _exchangeRate * (1.0 + exchangeRateOffset);
         _USStockPrice = _USStockPrice * (1.0 + USStockPriceOffset);
+        
+        //NSLog(@"\n주가 : %.f\n미국 주가 : %.f\n환율 : %.2f원/달러", _combinedPrice, _USStockPrice, _exchangeRate);
     }
     
     [_combinedPriceRecord recordValue: _combinedPrice];
     [_exchangeRateRecord recordValue: _exchangeRate];
     [_USStockPriceRecord recordValue: _USStockPrice];
+    
     [_waitingStockMarketEvents removeAllObjects];
 }
 

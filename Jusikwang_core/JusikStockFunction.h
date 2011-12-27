@@ -11,6 +11,7 @@
 
 @class JusikStock;
 @class JusikRecord;
+@class JusikStockMarket;
 @interface JusikStockFunction : NSObject {
     JusikStock *_stock;
     
@@ -19,8 +20,11 @@
     JusikRecord *_exchangeRateRecord;
     
     NSUInteger _turn;
+    
+    JusikStockMarket *_market;
 }
 
+@property (nonatomic, assign) JusikStockMarket *market;
 @property (nonatomic, retain) JusikStock *stock;
 @property (nonatomic, retain) JusikRecord *combinedPriceRecord;
 @property (nonatomic, retain) JusikRecord *exchangeRateRecord;
@@ -42,6 +46,6 @@ combinedPriceRecord: (JusikRecord *)combinedPriceRecord
 
 - (void)calculateNextDayStockPrice;
 - (void)calculateStockPriceOfT: (double)t;
-- (void)calculateNextPeriodStockPrice;
+//- (void)calculateNextPeriodStockPrice;
 
 @end
