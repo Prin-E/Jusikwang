@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3814AA689D003CC95F /* JusikLogoViewController.m */; };
+		952E4F3B14AA689D003CC95F /* JusikLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */; };
 		95EA63E214A619E2007E86D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E114A619E2007E86D1 /* UIKit.framework */; };
 		95EA63E414A619E2007E86D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E314A619E2007E86D1 /* Foundation.framework */; };
 		95EA63E614A619E2007E86D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E514A619E2007E86D1 /* CoreGraphics.framework */; };
@@ -18,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		952E4F3714AA689D003CC95F /* JusikLogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikLogoViewController.h; sourceTree = "<group>"; };
+		952E4F3814AA689D003CC95F /* JusikLogoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikLogoViewController.m; sourceTree = "<group>"; };
+		952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikLogoViewController.xib; sourceTree = "<group>"; };
 		95EA63DD14A619E2007E86D1 /* Jusikwang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jusikwang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EA63E114A619E2007E86D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		95EA63E314A619E2007E86D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -84,6 +89,9 @@
 				95EA63F414A619E3007E86D1 /* JusikViewController.m */,
 				95EA63F614A619E3007E86D1 /* JusikViewController.xib */,
 				95EA63E814A619E2007E86D1 /* Supporting Files */,
+				952E4F3714AA689D003CC95F /* JusikLogoViewController.h */,
+				952E4F3814AA689D003CC95F /* JusikLogoViewController.m */,
+				952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */,
 			);
 			path = Jusikwang;
 			sourceTree = "<group>";
@@ -159,6 +167,7 @@
 			files = (
 				95EA63EC14A619E2007E86D1 /* InfoPlist.strings in Resources */,
 				95EA63F814A619E3007E86D1 /* JusikViewController.xib in Resources */,
+				952E4F3B14AA689D003CC95F /* JusikLogoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +181,7 @@
 				95EA63EE14A619E2007E86D1 /* main.m in Sources */,
 				95EA63F214A619E2007E86D1 /* JusikAppDelegate.m in Sources */,
 				95EA63F514A619E3007E86D1 /* JusikViewController.m in Sources */,
+				952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +293,7 @@
 				95EA63FD14A619E3007E86D1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
