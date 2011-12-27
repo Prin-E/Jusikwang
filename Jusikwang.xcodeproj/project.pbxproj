@@ -22,13 +22,13 @@
 		95EA63E114A619E2007E86D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		95EA63E314A619E2007E86D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		95EA63E514A619E2007E86D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		95EA63E914A619E2007E86D1 /* Jusikwang-Info.plist */ = {isa = PBXFileReference; path = "Jusikwang-Info.plist"; sourceTree = "<group>"; };
+		95EA63E914A619E2007E86D1 /* Jusikwang-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Jusikwang-Info.plist"; sourceTree = "<group>"; };
 		95EA63EB14A619E2007E86D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95EA63ED14A619E2007E86D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		95EA63EF14A619E2007E86D1 /* Jusikwang-Prefix.pch */ = {isa = PBXFileReference; path = "Jusikwang-Prefix.pch"; sourceTree = "<group>"; };
-		95EA63F014A619E2007E86D1 /* JusikAppDelegate.h */ = {isa = PBXFileReference; path = JusikAppDelegate.h; sourceTree = "<group>"; };
+		95EA63EF14A619E2007E86D1 /* Jusikwang-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jusikwang-Prefix.pch"; sourceTree = "<group>"; };
+		95EA63F014A619E2007E86D1 /* JusikAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JusikAppDelegate.h; sourceTree = "<group>"; };
 		95EA63F114A619E2007E86D1 /* JusikAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JusikAppDelegate.m; sourceTree = "<group>"; };
-		95EA63F314A619E2007E86D1 /* JusikViewController.h */ = {isa = PBXFileReference; path = JusikViewController.h; sourceTree = "<group>"; };
+		95EA63F314A619E2007E86D1 /* JusikViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JusikViewController.h; sourceTree = "<group>"; };
 		95EA63F414A619E3007E86D1 /* JusikViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JusikViewController.m; sourceTree = "<group>"; };
 		95EA63F714A619E3007E86D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/JusikViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,6 +77,7 @@
 		95EA63E714A619E2007E86D1 /* Jusikwang */ = {
 			isa = PBXGroup;
 			children = (
+				95EA63FF14A627C6007E86D1 /* Core */,
 				95EA63F014A619E2007E86D1 /* JusikAppDelegate.h */,
 				95EA63F114A619E2007E86D1 /* JusikAppDelegate.m */,
 				95EA63F314A619E2007E86D1 /* JusikViewController.h */,
@@ -96,6 +97,13 @@
 				95EA63EF14A619E2007E86D1 /* Jusikwang-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		95EA63FF14A627C6007E86D1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,6 +246,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Jusikwang/Jusikwang-Prefix.pch";
 				INFOPLIST_FILE = "Jusikwang/Jusikwang-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -249,6 +258,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Jusikwang/Jusikwang-Prefix.pch";
 				INFOPLIST_FILE = "Jusikwang/Jusikwang-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
