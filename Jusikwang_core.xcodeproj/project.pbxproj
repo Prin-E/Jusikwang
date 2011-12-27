@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		952E4F3514A9E890003CC95F /* JusikStockDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3414A9E890003CC95F /* JusikStockDataType.m */; };
+		95691F3A1497B07F0037E708 /* JusikStockFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 95691F391497B07F0037E708 /* JusikStockFunction.m */; };
+		95CC000514A7585B00D04279 /* JusikEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CC000414A7585B00D04279 /* JusikEvent.m */; };
+		95CC000914A7654500D04279 /* JusikRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CC000814A7654500D04279 /* JusikRecord.m */; };
 		95D664671494887C0022EBBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95D664661494887C0022EBBE /* Foundation.framework */; };
 		95D6646A1494887C0022EBBE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D664691494887C0022EBBE /* main.m */; };
 		95D6646E1494887C0022EBBE /* Jusikwang_core.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D6646D1494887C0022EBBE /* Jusikwang_core.1 */; };
+		95D6647614948F540022EBBE /* JusikStockMarket.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6647514948F540022EBBE /* JusikStockMarket.m */; };
+		95D664791494B3A70022EBBE /* JusikCompanyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D664781494B3A70022EBBE /* JusikCompanyInfo.m */; };
+		95D6647D1494B8070022EBBE /* JusikBusinessType.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6647C1494B8070022EBBE /* JusikBusinessType.m */; };
+		95D6648014951B990022EBBE /* JusikStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D6647F14951B990022EBBE /* JusikStock.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,11 +34,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		952E4F3414A9E890003CC95F /* JusikStockDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockDataType.m; sourceTree = "<group>"; };
+		95691F381497B07F0037E708 /* JusikStockFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockFunction.h; sourceTree = "<group>"; };
+		95691F391497B07F0037E708 /* JusikStockFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockFunction.m; sourceTree = "<group>"; };
+		95CC000314A7585B00D04279 /* JusikEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikEvent.h; sourceTree = "<group>"; };
+		95CC000414A7585B00D04279 /* JusikEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikEvent.m; sourceTree = "<group>"; };
+		95CC000714A7654500D04279 /* JusikRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikRecord.h; sourceTree = "<group>"; };
+		95CC000814A7654500D04279 /* JusikRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikRecord.m; sourceTree = "<group>"; };
 		95D664621494887C0022EBBE /* Jusikwang_core */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Jusikwang_core; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D664661494887C0022EBBE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		95D664691494887C0022EBBE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		95D6646C1494887C0022EBBE /* Jusikwang_core-Prefix.pch */ = {isa = PBXFileReference; path = "Jusikwang_core-Prefix.pch"; sourceTree = "<group>"; };
+		95D6646C1494887C0022EBBE /* Jusikwang_core-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jusikwang_core-Prefix.pch"; sourceTree = "<group>"; };
 		95D6646D1494887C0022EBBE /* Jusikwang_core.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Jusikwang_core.1; sourceTree = "<group>"; };
+		95D6647414948F540022EBBE /* JusikStockMarket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockMarket.h; sourceTree = "<group>"; };
+		95D6647514948F540022EBBE /* JusikStockMarket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockMarket.m; sourceTree = "<group>"; };
+		95D664771494B3A70022EBBE /* JusikCompanyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikCompanyInfo.h; sourceTree = "<group>"; };
+		95D664781494B3A70022EBBE /* JusikCompanyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikCompanyInfo.m; sourceTree = "<group>"; };
+		95D6647A1494B6000022EBBE /* JusikStockDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockDataType.h; sourceTree = "<group>"; };
+		95D6647B1494B8070022EBBE /* JusikBusinessType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikBusinessType.h; sourceTree = "<group>"; };
+		95D6647C1494B8070022EBBE /* JusikBusinessType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikBusinessType.m; sourceTree = "<group>"; };
+		95D6647E14951B990022EBBE /* JusikStock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStock.h; sourceTree = "<group>"; };
+		95D6647F14951B990022EBBE /* JusikStock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStock.m; sourceTree = "<group>"; };
+		95D6648114951E350022EBBE /* JusikCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikCore.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +73,7 @@
 		95D664571494887B0022EBBE = {
 			isa = PBXGroup;
 			children = (
+				95D6648114951E350022EBBE /* JusikCore.h */,
 				95D664681494887C0022EBBE /* Jusikwang_core */,
 				95D664651494887C0022EBBE /* Frameworks */,
 				95D664631494887C0022EBBE /* Products */,
@@ -76,6 +102,22 @@
 				95D664691494887C0022EBBE /* main.m */,
 				95D6646D1494887C0022EBBE /* Jusikwang_core.1 */,
 				95D6646B1494887C0022EBBE /* Supporting Files */,
+				95D6647414948F540022EBBE /* JusikStockMarket.h */,
+				95D6647514948F540022EBBE /* JusikStockMarket.m */,
+				95D664771494B3A70022EBBE /* JusikCompanyInfo.h */,
+				95D664781494B3A70022EBBE /* JusikCompanyInfo.m */,
+				95D6647A1494B6000022EBBE /* JusikStockDataType.h */,
+				952E4F3414A9E890003CC95F /* JusikStockDataType.m */,
+				95D6647B1494B8070022EBBE /* JusikBusinessType.h */,
+				95D6647C1494B8070022EBBE /* JusikBusinessType.m */,
+				95D6647E14951B990022EBBE /* JusikStock.h */,
+				95D6647F14951B990022EBBE /* JusikStock.m */,
+				95691F381497B07F0037E708 /* JusikStockFunction.h */,
+				95691F391497B07F0037E708 /* JusikStockFunction.m */,
+				95CC000314A7585B00D04279 /* JusikEvent.h */,
+				95CC000414A7585B00D04279 /* JusikEvent.m */,
+				95CC000714A7654500D04279 /* JusikRecord.h */,
+				95CC000814A7654500D04279 /* JusikRecord.m */,
 			);
 			path = Jusikwang_core;
 			sourceTree = "<group>";
@@ -140,6 +182,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				95D6646A1494887C0022EBBE /* main.m in Sources */,
+				95D6647614948F540022EBBE /* JusikStockMarket.m in Sources */,
+				95D664791494B3A70022EBBE /* JusikCompanyInfo.m in Sources */,
+				95D6647D1494B8070022EBBE /* JusikBusinessType.m in Sources */,
+				95D6648014951B990022EBBE /* JusikStock.m in Sources */,
+				95691F3A1497B07F0037E708 /* JusikStockFunction.m in Sources */,
+				95CC000514A7585B00D04279 /* JusikEvent.m in Sources */,
+				95CC000914A7654500D04279 /* JusikRecord.m in Sources */,
+				952E4F3514A9E890003CC95F /* JusikStockDataType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +200,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -176,7 +226,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -228,6 +278,7 @@
 				95D664731494887C0022EBBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
