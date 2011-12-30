@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JusikLogoViewController : UIViewController
+@interface JusikLogoViewController : UIViewController {
+    UIImageView *_logoImageView;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *logoImageView;
+
+- (void)show3DsLogo;
+- (void)fadeIn:(id)object;
+- (void)fadeOut:(id)object;
+- (void)postEndNotification:(id)object;
 
 @end
+
+extern NSString *JusikLogoViewAnimationDidEndNotification;

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class JusikLogoViewController;
 @interface JusikViewController : UIViewController
 
+@property (nonatomic, retain) JusikLogoViewController *logoViewController;
+
+- (void)logoAnimationDidEnd: (NSNotification *)n;
 @end
