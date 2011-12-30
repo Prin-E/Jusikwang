@@ -38,3 +38,4 @@ typedef enum {
 } JusikSensitiveValue;
 
 extern inline JusikRange JusikRangeMake(double s, double e);
+extern inline double JusikGetRandomValue(double s, double e);

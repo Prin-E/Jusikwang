@@ -14,6 +14,15 @@
 #import "JusikEvent.h"
 #import "JusikStockMarket.h"
 
+@interface JusikStockFunction (Private)
+- (void)_addEventInWaitingEventQueue: (JusikEvent *)e;
+- (double)_calculatedOpenPriceRate;
+- (double)_calculatedClosedPriceRate;
+
+- (void)_processWaitingStockFunctionEvents;
+- (void)_processEvents;
+@end
+
 @implementation JusikStockFunction
 @synthesize stock = _stock;
 @synthesize combinedPriceRecord = _combinedPriceRecord;
@@ -38,6 +47,7 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
         self.exchangeRateRecord = exchangeRateRecord;
         
         _events = [NSMutableArray new];
+        _waitingStockFunctionEvents = [NSMutableArray new];
     }
     return self;
 }
@@ -62,15 +72,116 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
 }
 
 #pragma mark - 이벤트 처리
-- (void)addEventInEventQueue:(JusikEvent *)event {
-    if([_events containsObject: event]) return;
+- (void)addEventInWaitingEventQueue:(JusikEvent *)event {
+    if([_waitingStockFunctionEvents containsObject: event]) return;
     
-    [_events addObject: event];
+    [_waitingStockFunctionEvents addObject: event];
+}
+
+- (void)processJusikEvents:(NSArray *)events {
+    for(JusikEvent *event in events) {
+        if([_events containsObject: event]) return;
+    
+        [_events addObject: event];
+    }
+}
+
+- (void)_processWaitingStockFunctionEvents {
+    NSMutableArray *reservedRemovingEvents = [NSMutableArray new];
+    
+    for(JusikEvent *e in _waitingStockFunctionEvents) {
+        if(e.isEffective == NO) {
+            if(self.turn >= e.startTurn)
+                e.effective = YES;
+        }
+        
+        if(e.isEffective) {
+            if([e.value isEqualToString: JusikEventValueCrossEffect]) {
+                switch(e.changeWay) {
+                    case JusikEventChangeWayRateRelative:
+                    case JusikEventChangeWayValueRelative:
+                        _G += JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                    case JusikEventChangeWayRateAbsolute:
+                    case JusikEventChangeWayValueAbsolute:
+                        _G = JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                }
+            }
+            else if([e.value isEqualToString: JusikEventValueArrangementEffect]) {
+                switch(e.changeWay) {
+                    case JusikEventChangeWayRateRelative:
+                    case JusikEventChangeWayValueRelative:
+                        _H += JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                    case JusikEventChangeWayRateAbsolute:
+                    case JusikEventChangeWayValueAbsolute:
+                        _H = JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                }
+            }
+            else if([e.value isEqualToString: JusikEventValueRSIEffect]) {
+                switch(e.changeWay) {
+                    case JusikEventChangeWayRateRelative:
+                    case JusikEventChangeWayValueRelative:
+                        _I += JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                    case JusikEventChangeWayRateAbsolute:
+                    case JusikEventChangeWayValueAbsolute:
+                        _I = JusikGetRandomValue(e.change.s, e.change.e);
+                        break;
+                }
+            }
+        }
+        
+        e.remainingTurn--;
+        if(e.remainingTurn < 1) {
+            if([reservedRemovingEvents containsObject: e] == NO)
+                [reservedRemovingEvents addObject: e];
+        }
+    }
+
+    for(JusikEvent *e in reservedRemovingEvents)
+        [_waitingStockFunctionEvents removeObject: e];
+    [reservedRemovingEvents release];
+}
+
+- (void)_processEvents {
+    for(JusikEvent *e in _events) {
+        if([e.value isEqualToString: JusikEventValuePrice] || e.value == nil) {
+            switch(e.changeWay) {
+                case JusikEventChangeWayRateRelative:
+                    _J += JusikGetRandomValue(e.change.s, e.change.e);
+                    break;
+                case JusikEventChangeWayRateAbsolute:
+                    _J = JusikGetRandomValue(e.change.s, e.change.e);
+                    break;
+                case JusikEventChangeWayValueRelative:
+                    // 아무 일도 수행하지 않는다.
+                    /*
+                    _closingPrice += JusikGetRandomValue(e.change.s, e.change.e);
+                     */
+                    break;
+                case JusikEventChangeWayValueAbsolute:
+                    // 아무 일도 수행하지 않는다.
+                    /*
+                    _closingPrice = JusikGetRandomValue(e.change.s, e.change.e);
+                    _J = 0;
+                     */
+                    break;
+            }
+        }
+    }
+        
+    // 외부로부터 들어온 이벤트를 먼저 처리한다.
+    [_events removeAllObjects];
 }
 
 #pragma mark - 함수 값 계산
 - (void)calculateNextDayStockPrice {
-    double x = 1.0, y = 1.0;
+    _x = 1.0;
+    _y = 1.0;
+    
     /*
      주식 영향 변수들
      순서대로
@@ -86,11 +197,21 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
      I : RSI 영향
      J : 이벤트 영향
      */
-    double A = 0.0, B = 0.0, C = 0.0, D = 0.0, E = 0.0, F = 0.0, G = 0.0, H = 0.0, I = 0.0, J = 0.0;
+    _A = 0.0;
+    _B = 0.0;
+    _C = 0.0;
+    _D = 0.0;
+    _E = 0.0;
+    _F = 0.0;
+    _G = 0.0;
+    _H = 0.0;
+    _I = 0.0;
+    _J = 0.0;
     
     double prevDayClosingPrice;
-    double openingPrice;
-    double closingPrice;
+    
+    _openingPrice = 0.0;
+    _closingPrice = 0.0;
     
     JusikStock *stock = self.stock;
     JusikCompanyInfo *info = stock.info;
@@ -101,7 +222,7 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     // 코스피 지수 영향 계산
     count = self.combinedPriceRecord.records.count;
     if(count < 2)
-        A = 0.0;
+        _A = 0.0;
     else {
         JusikDayRecord *prevDay = [self.combinedPriceRecord.records objectAtIndex: count - 2];
         JusikDayRecord *today = self.combinedPriceRecord.currentDayRecord;
@@ -125,13 +246,13 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
                 r.e = 0.03;
                 break;
         }
-        A = r.s + (r.e - r.s) * (double)arc4random() / (double)ARC4RANDOM_MAX * rate * 100.0;
+        _A = JusikGetRandomValue(r.s, r.e) * rate * 100.0;
     }
     
     // 원/달러 환율 계산
     count = self.exchangeRateRecord.records.count;
     if(count < 2)
-        B = 0.0;
+        _B = 0.0;
     else {
         JusikDayRecord *prevDay = [self.combinedPriceRecord.records objectAtIndex: count - 2];
         JusikDayRecord *today = self.combinedPriceRecord.currentDayRecord;
@@ -141,47 +262,49 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
         
         JusikBusinessType *b = info.businessType;
         double e = b.exchangeRateEffect;
-        B = e * rate * 100.0;
+        _B = e * rate * 100.0;
     }
     
     // PER 영향
     double EPS = info.EPS;
     if(EPS < 0.0)
-        C = 0.0;
+        _C = 0.0;
     else {
         double bPER = info.businessType.PER;
         double PER = info.PER;
         if(bPER > PER)
-            C = 0.02;
+            _C = 0.01;
         else if(bPER < PER)
-            C = -0.01;
+            _C = -0.015;
         else
-            C = 0.0;
+            _C = -0.01;
     }
     
     // ROE 영향
     JusikRange ROE = stock.info.ROE;
     if(ROE.s > 0.0 && ROE.e > 0.0)
-        D = 0.003;
+        _D = 0.002;
     else if(ROE.s < 0.0 && ROE.e < 0.0)
-        D = -0.006;
+        _D = -0.006;
     else
-        D = 0.0;
+        _D = 0.0;
     
     // BPS 영향
     double BPS = stock.info.BPS;
     if(stock.price * 0.85 <= BPS && BPS <= stock.price * 1.15)
-        E = 0.003;
+        _E = 0.003;
     else
-        E = 0.0;
+        _E = 0.0;
     
     // PBR 영향
     double PBR = stock.info.PBR;
     if(PBR < 1) {
-        F = 0.007;
+        if(self.turn >= 120)
+            _F = 0.005;
     }
     else if(PBR > 1) {
-        F = -0.007;
+        if(self.turn >= 120)
+            _F = -0.006;
     }
     
     // 크로스, 정배열/역배열 영향
@@ -200,71 +323,185 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
             
             // 골든 크로스
             if(prevFiveDayVal <= prevTwentyDayVal && fiveDayVal > twentyDayVal) {
+                JusikEvent *e = [[JusikEvent alloc] init];
+                e.type = JusikEventTypeCompany;
+                e.targets = [NSArray arrayWithObject: self.stock.info.name];
+                e.value = JusikEventValueCrossEffect;
                 
+                e.startTurn = self.turn;
+                e.persistTurn = 7;
+                e.change = JusikRangeMake(0.013, 0.013);
+                e.changeWay = JusikEventChangeWayRateAbsolute;
+                
+                [self addEventInWaitingEventQueue: e];
+                [e release];
+            }
+            // 데드 크로스
+            else if(prevFiveDayVal >= prevTwentyDayVal && fiveDayVal < twentyDayVal) {
+                JusikEvent *e = [[JusikEvent alloc] init];
+                e.type = JusikEventTypeCompany;
+                e.targets = [NSArray arrayWithObject: self.stock.info.name];
+                e.value = JusikEventValueCrossEffect;
+                
+                e.startTurn = self.turn;
+                e.persistTurn = 7;
+                e.change = JusikRangeMake(-0.015, -0.015);
+                e.changeWay = JusikEventChangeWayRateAbsolute;
+                
+                [self addEventInWaitingEventQueue: e];
+                [e release];
             }
         }
     }
     
+    // 정배열/역배열 영향
+    if(thirtyFourDay != nil) {
+        double fiveDayVal = [[fiveDay lastObject] doubleValue];
+        double twentyDayVal = [[twentyDay lastObject] doubleValue];
+        double thirtyFourDayVal = [[thirtyFourDay lastObject] doubleValue];
+        
+        if(fiveDayVal > twentyDayVal && twentyDayVal > thirtyFourDayVal) {
+            JusikEvent *e = [[JusikEvent alloc] init];
+            e.type = JusikEventTypeCompany;
+            e.targets = [NSArray arrayWithObject: self.stock.info.name];
+            e.value = JusikEventValueArrangementEffect;
+            
+            e.startTurn = self.turn;
+            e.persistTurn = 10;
+            e.change = JusikRangeMake(0.008, 0.008);
+            e.changeWay = JusikEventChangeWayRateAbsolute;
+            
+            [self addEventInWaitingEventQueue: e];
+            [e release];
+        }
+        else if(fiveDayVal < twentyDayVal && twentyDayVal < thirtyFourDayVal) {
+            JusikEvent *e = [[JusikEvent alloc] init];
+            e.type = JusikEventTypeCompany;
+            e.targets = [NSArray arrayWithObject: self.stock.info.name];
+            e.value = JusikEventValueArrangementEffect;
+            
+            e.startTurn = self.turn;
+            e.persistTurn = 10;
+            e.change = JusikRangeMake(-0.008, -0.008);
+            e.changeWay = JusikEventChangeWayRateAbsolute;
+            
+            [self addEventInWaitingEventQueue: e];
+            [e release];
+        }
+    }
+    
+    // RSI 영향
+    if(record.records.count > 13) {
+        double raise = 0.0, fall = 0.0;
+        
+        for(NSUInteger i = 0; i < 14; i++) {
+            JusikDayRecord *d = [record.records objectAtIndex: record.records.count - 14 + i];
+            double rate = (d.endValue / d.startValue) - 1.0;
+            if(rate > 0) {
+                raise += rate;
+            }
+            else {
+                fall += rate;
+            }
+        }
+        
+        // RSI = 100 * 14일간 상승폭 합 / (14일간 상승폭 합 + 14일간 하락폭 합)
+        double RSI = 100.0 * raise / (raise - fall);
+        if(RSI < 30) {
+            JusikEvent *e = [[JusikEvent alloc] init];
+            e.type = JusikEventTypeCompany;
+            e.targets = [NSArray arrayWithObject: self.stock.info.name];
+            e.value = JusikEventValueRSIEffect;
+            
+            e.startTurn = self.turn + 1;
+            e.persistTurn = 1;
+            e.change = JusikRangeMake(0.013, 0.013);
+            e.changeWay = JusikEventChangeWayRateAbsolute;
+            
+            [self addEventInWaitingEventQueue: e];
+            [e release];
+        }
+        else if(RSI > 70) {
+            JusikEvent *e = [[JusikEvent alloc] init];
+            e.type = JusikEventTypeCompany;
+            e.targets = [NSArray arrayWithObject: self.stock.info.name];
+            e.value = JusikEventValueRSIEffect;
+            
+            e.startTurn = self.turn + 1;
+            e.persistTurn = 1;
+            e.change = JusikRangeMake(-0.023, -0.023);
+            e.changeWay = JusikEventChangeWayRateAbsolute;
+            
+            [self addEventInWaitingEventQueue: e];
+            [e release];
+        }
+    }
+    
+    // 크로스, 배열, RSI 영향으로 발생된 내부 이벤트를 처리한다.
+    // G~I 변수는 여기서 처리한다.
+    [self _processWaitingStockFunctionEvents];
     
     // 기업크기둔감, 환율민감함수, PBR영향 판별
     // 환율
     switch(info.sensitiveToExchangeRate) {
         case JusikSensitiveValueNormal:
-            y = 1.0;
+            _y = 1.0;
             break;
         case JusikSensitiveValueSensitive:
-            y = 2.0;
+            _y = 2.0;
             break;
         case JusikSensitiveValueInsensitive:
-            y = 0.5;
+            _y = 0.5;
             break;
     }
     
     // 기업크기
     switch(info.sensitiveToBusinessScale) {
         case JusikSensitiveValueNormal:
-            x = 1.0;
+            _x = 1.0;
             break;
         case JusikSensitiveValueSensitive:
-            x = 2.0;
+            _x = 2.0;
             break;
         case JusikSensitiveValueInsensitive:
-            x = 0.5;
+            _x = 0.5;
             break;
     }
     
     // PBR 무영향
     switch(info.sensitiveToPBR) {
         case JusikSensitiveValueInsensitive:
-            F = 0.0;
+            _F = 0.0;
             break;
         default:
             break;
     }
     
+    // 외부에서 온 이벤트를 여기서 처리.
+    // J 변수는 여기서 산출한다.
+    [self _processEvents];
+    
     // 함수 값 계산
     count = record.records.count;
     if(count < 1) {
-        openingPrice = stock.price;
-        closingPrice = stock.price * 
-        (pow(1.0+A, x) * pow(1.0+B, y) * (1.0+C) * (1.0+D) * (1.0+E) * (1.0+F) + G + H + I + J);
+        _openingPrice = stock.price;
+        _closingPrice = stock.price * [self _calculatedClosedPriceRate];
     }
     else {
         prevDayClosingPrice = [record currentDayRecord].endValue;
-        openingPrice = prevDayClosingPrice * ((1.0 + A) + J);
-        closingPrice = prevDayClosingPrice * 
-        (pow(1.0+A, x) * pow(1.0+B, y) * (1.0+C) * (1.0+D) * (1.0+E) * (1.0+F) + G + H + I + J);
+        _openingPrice = prevDayClosingPrice * [self _calculatedOpenPriceRate];
+        _closingPrice = prevDayClosingPrice * [self _calculatedClosedPriceRate];
         
     }
+    
+    // 레코드에 기록한다.
     record.hasEndValue = YES;
-    record.endValue = closingPrice;
+    record.endValue = _closingPrice;
     [record startRecording];
-    [record recordValue: openingPrice];
+    [record recordValue: _openingPrice];
     
-    stock.price = openingPrice;
-    
-    // 이벤트 큐의 모든 이벤트 제거
-    [_events removeAllObjects];
+    // 주가 지수 갱신.
+    stock.price = _openingPrice;
 }
 
 /*- (void)calculateNextPeriodStockPrice {
@@ -324,6 +561,17 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     _stock.price = newValue;
 }
 
+- (double)_calculatedOpenPriceRate {
+    double val = (1.0 + _A) + _J;
+    return val;
+}
+
+- (double)_calculatedClosedPriceRate {
+    double val = pow(1.0+_A, _x) * pow(1.0+_B, _y) * (1.0+_C) * (1.0+_D) * (1.0+_E) * (1.0+_F) + _G + _H + _I + _J;
+    NSLog(@"A=%.3f, B=%.3f, C=%.3f, D=%.3f, E=%.3f, F=%.3f, G=%.3f, H=%.3f, I=%.3f", _A, _B, _C, _D, _E, _F, _G, _H, _I);
+    return val;
+}
+
 #pragma mark - 메모리 해제
 - (void)dealloc {
     [_stock release];
@@ -331,6 +579,7 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     [_exchangeRateRecord release];
     
     [_events release];
+    [_waitingStockFunctionEvents release];
     
     [super dealloc];
 }

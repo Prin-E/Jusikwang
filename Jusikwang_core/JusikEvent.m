@@ -8,10 +8,18 @@
 
 #import "JusikEvent.h"
 
+NSString *JusikEventValuePrice = @"price";
+NSString *JusikEventValueCrossEffect = @"cross_effect";
+NSString *JusikEventValueArrangementEffect = @"arrangement_effect";
+NSString *JusikEventValueRSIEffect = @"rsi_effect";
+
 @implementation JusikEvent
 @synthesize name = _name;
+
 @synthesize type = _type;
 @synthesize targets = _targets;
+@synthesize value = _value;
+
 @synthesize change = _change;
 @synthesize changeWay = _changeWay;
 @synthesize startTurn = _startTurn;
@@ -42,6 +50,7 @@
 - (void)dealloc {
     self.name = nil;
     self.targets = nil;
+    self.value = nil;
     
     [super dealloc];
 }

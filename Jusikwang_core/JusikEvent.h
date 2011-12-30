@@ -22,10 +22,16 @@ typedef enum {
     JusikEventChangeWayValueAbsolute = 4
 } JusikEventChangeWay;
 
+extern NSString *JusikEventValuePrice;
+extern NSString *JusikEventValueCrossEffect;
+extern NSString *JusikEventValueArrangementEffect;
+extern NSString *JusikEventValueRSIEffect;
+
 @interface JusikEvent : NSObject {
     NSString *_name;
     JusikEventType _type;
     NSMutableArray *_targets;
+    NSString *_value;
     
     JusikRange _change;
     JusikEventChangeWay _changeWay;
@@ -36,9 +42,10 @@ typedef enum {
     BOOL _effective;
     NSUInteger _remainingTurn;
 }
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, copy) NSString *name;
 @property JusikEventType type;
 @property (nonatomic, copy) NSMutableArray *targets;
+@property (nonatomic, copy) NSString *value;
 
 @property JusikRange change;
 @property JusikEventChangeWay changeWay;

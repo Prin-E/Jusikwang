@@ -12,16 +12,24 @@
 @class JusikStock;
 @class JusikRecord;
 @class JusikStockMarket;
-@interface JusikStockFunction : NSObject {
+@interface JusikStockFunction : NSObject <JusikEventProcessing> {
     JusikStock *_stock;
     
     NSMutableArray *_events;
+    NSMutableArray *_waitingStockFunctionEvents;
+    
     JusikRecord *_combinedPriceRecord;
     JusikRecord *_exchangeRateRecord;
     
     NSUInteger _turn;
     
     JusikStockMarket *_market;
+    
+    double _A, _B, _C, _D, _E, _F, _G, _H, _I, _J;
+    double _x, _y;
+    
+    double _openingPrice;
+    double _closingPrice;
 }
 
 @property (nonatomic, assign) JusikStockMarket *market;
@@ -41,8 +49,6 @@ combinedPriceRecord: (JusikRecord *)combinedPriceRecord
 + (id)functionWithStock: (JusikStock *)stock
     combinedPriceRecord: (JusikRecord *)combinedPriceRecord
      exchangeRateRecord: (JusikRecord *)exchangeRateRecord;
-
-- (void)addEventInEventQueue: (JusikEvent *)event;
 
 - (void)calculateNextDayStockPrice;
 - (void)calculateStockPriceOfT: (double)t;

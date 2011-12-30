@@ -139,6 +139,10 @@
     return _period;
 }
 
+- (NSString *)description {
+    return @"헤헷";
+}
+
 #pragma mark - 레코딩
 - (void)startRecording {
     JusikDayRecord *newRecord = [[JusikDayRecord alloc] init];
@@ -152,6 +156,8 @@
     _isRecording = YES;
     
     [_records addObject: newRecord];
+    [newRecord release];
+    
     _currentDayRecord = newRecord;
 }
 
@@ -201,7 +207,6 @@
 #pragma mark - 메모리 해제
 - (void)dealloc {
     [_records release];
-    [_currentDayRecord release];
     [_currentDate release];
     
     [super dealloc];

@@ -96,14 +96,17 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
         _turn += 1;
     }
     
-    _currentDate = [gregorian dateByAddingComponents: comp toDate: _currentDate options: 0];
+    NSDate *newDate = [[gregorian dateByAddingComponents: comp toDate: _currentDate options: 0] retain];
+    
+    if(_currentDate) {
+        [_currentDate release];
+        _currentDate = nil;
+    }
+    _currentDate = newDate;
     
     [_combinedPriceRecord setCurrentDate: _currentDate];
-    [_currentDate release];
     [_USStockPriceRecord setCurrentDate: _currentDate];
-    [_currentDate release];
     [_exchangeRateRecord setCurrentDate: _currentDate];
-    [_currentDate release];
     
     [_combinedPriceRecord startRecording];
     [_USStockPriceRecord startRecording];
@@ -115,7 +118,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     
     // 대기중인 이벤트를 미리 적용시킨다.
     _state = JusikStockMarketStateOpen;
-    //NSLog(@"%s, turn:%d", __PRETTY_FUNCTION__, _turn);
+    NSLog(@"%s, turn:%d", __PRETTY_FUNCTION__, _turn);
 }
 
 - (void)close {
@@ -256,7 +259,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     comp.hour = 9;
     comp.minute = 0;
     comp.second = 0;
-    NSDate *date = [gregorian dateFromComponents: comp];
+    NSDate *date = [[gregorian dateFromComponents: comp] retain];
     [gregorian release];
     
     [self _setInitialDate: date];
@@ -294,34 +297,36 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
                 e.effective = YES;
         }
         
-        switch(e.type) {
-            case JusikEventTypeStockMarket:
-                [_waitingStockMarketEvents addObject: e];
-                break;
-            case JusikEventTypeBusinessType:
-                [_stockFunctions enumerateKeysAndObjectsWithOptions: NSEnumerationConcurrent
-                                                         usingBlock: ^(id key, id obj, BOOL *stop)
-                 {
-                     JusikStockFunction *f = (JusikStockFunction *)obj;
-                     JusikStock *stock = f.stock;
-                     for(NSString *businessType in e.targets) {
-                         if([stock.info.businessType.name isEqualToString: businessType]) {
-                             [f addEventInEventQueue: e];
-                             break;
+        if(e.isEffective) {
+            switch(e.type) {
+                case JusikEventTypeStockMarket:
+                    [_waitingStockMarketEvents addObject: e];
+                    break;
+                case JusikEventTypeBusinessType:
+                    [_stockFunctions enumerateKeysAndObjectsWithOptions: NSEnumerationConcurrent
+                                                             usingBlock: ^(id key, id obj, BOOL *stop)
+                     {
+                         JusikStockFunction *f = (JusikStockFunction *)obj;
+                         JusikStock *stock = f.stock;
+                         for(NSString *businessType in e.targets) {
+                             if([stock.info.businessType.name isEqualToString: businessType]) {
+                                 [f processJusikEvents: [NSArray arrayWithObject: e]];
+                                 break;
+                             }
                          }
-                     }
-                 }];
-                break;
-            case JusikEventTypeCompany:
-                for(NSString *companyName in e.targets) {
-                    JusikStockFunction *f = [_stockFunctions objectForKey: companyName];
-                    [f addEventInEventQueue: e];
-                }
-                break;
-        }
-        e.remainingTurn--;
-        if(e.remainingTurn < 1) {
-            [reservedRemovingEvents addObject: e];
+                     }];
+                    break;
+                case JusikEventTypeCompany:
+                    for(NSString *companyName in e.targets) {
+                        JusikStockFunction *f = [_stockFunctions objectForKey: companyName];
+                        [f processJusikEvents: [NSArray arrayWithObject: e]];
+                    }
+                    break;
+            }
+            e.remainingTurn--;
+            if(e.remainingTurn < 1) {
+                [reservedRemovingEvents addObject: e];
+            }
         }
     }
     
@@ -335,10 +340,14 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     double exchangeRateOffset = 0.0;
     double USStockPriceOffset = 0.0;
     
+    if(self.turn > 55) {
+        NSLog(@"============");
+    }
+    
     // 처음 실행했을 때는 기본 값 그대로 간다.
     if(_openedCount > 1) {
         combinedPriceOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.02 - 0.01;
-        exchangeRateOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.016 - .008;
+        exchangeRateOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.01 - .005;
         
         // 이벤트 처리
         for(JusikEvent *e in _waitingStockMarketEvents) {
@@ -360,6 +369,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
                             break;
                         case JusikEventChangeWayValueAbsolute:
                             _combinedPrice = newOffset;
+                            combinedPriceOffset = 0;
                             break;
                     }
                 }
@@ -376,6 +386,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
                             break;
                         case JusikEventChangeWayValueAbsolute:
                             _USStockPrice = newOffset;
+                            USStockPriceOffset = 0;
                             break;
                     }
                 }
@@ -383,15 +394,15 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
         }
         // 미국주가 -> 코스피 -> 환율로 차례대로 영향을 준다. 따라서
         // 영향을 준 이후의 값도 구해야 한다.
-        combinedPriceOffset += USStockPriceOffset * 0.7;
-        exchangeRateOffset -= combinedPriceOffset * (-0.3);
+        combinedPriceOffset += USStockPriceOffset * 0.6;
+        exchangeRateOffset -= combinedPriceOffset * (-0.4);
         
         // 새 주가, 환율을 구한다.
         _combinedPrice = _combinedPrice * (1.0 + combinedPriceOffset);
         _exchangeRate = _exchangeRate * (1.0 + exchangeRateOffset);
         _USStockPrice = _USStockPrice * (1.0 + USStockPriceOffset);
         
-        //NSLog(@"\n주가 : %.f\n미국 주가 : %.f\n환율 : %.2f원/달러", _combinedPrice, _USStockPrice, _exchangeRate);
+        NSLog(@"\n주가 : %.f\n미국 주가 : %.f\n환율 : %.2f원/달러", _combinedPrice, _USStockPrice, _exchangeRate);
     }
     
     [_combinedPriceRecord recordValue: _combinedPrice];
@@ -405,6 +416,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     void (^stockFunctionEnumerateBlock)(id, JusikStockFunction*, BOOL*) = 
     ^(id key, JusikStockFunction *f, BOOL *stop) {
         [f.stock.record setCurrentDate: _currentDate];
+        [f setTurn: self.turn];
         [f calculateNextDayStockPrice];
     };
     [_stockFunctions enumerateKeysAndObjectsWithOptions: NSEnumerationConcurrent
@@ -429,6 +441,8 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     [_combinedPriceRecord release];
     [_USStockPriceRecord release];
     [_exchangeRateRecord release];
+    
+    [_currentDate release];
     
     [_waitingEvents release];
     [_waitingStockMarketEvents release];
