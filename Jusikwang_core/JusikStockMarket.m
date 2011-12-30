@@ -204,7 +204,8 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
 
 #pragma mark -
 - (JusikStock *)stockOfCompanyWithName: (NSString *)name {
-    return [_stocks objectForKey: name];
+    JusikStock *stock = [_stocks objectForKey: name];
+    return stock;
 }
 
 #pragma mark - 주식 이벤트 처리

@@ -7,6 +7,7 @@
 //
 
 #define ARC4RANDOM_MAX      0x100000000
+#define kJusikStockCommission 0.00015
 
 typedef union {
     struct {

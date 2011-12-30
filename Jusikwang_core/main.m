@@ -12,6 +12,13 @@
 int main (int argc, const char * argv[])
 {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    // 플레이어 생성
+    JusikPlayer *player = [[JusikPlayer alloc] initWithName: @"com.jusikwang.player.yuri"
+                                               initialMoney: 5000000
+                                               intelligence: 0
+                                               fatigability: 0
+                                                reliability: 0];
+    
     // 마켓 생성
     JusikStockMarket *market = [[JusikStockMarket alloc] initWithInitialDateWithYear: 2011 month: 11 day: 10];
     
@@ -104,6 +111,11 @@ int main (int argc, const char * argv[])
         }
         [market close];
     }
+    
+    [player buyStockName: @"com.jusikwang.company.dongeo" 
+              fromMarket: market
+                   count: 10];
+    NSLog(@"플레이어가 주식을 샀습니다!\n현재 금액:%d", (NSUInteger)player.money);
     for(int j = 1; j <= 11; j++) {
         [market open];
         NSLog(@"2initial : %.f", stock.price);
@@ -114,6 +126,11 @@ int main (int argc, const char * argv[])
         }
         [market close];
     }
+    [player sellStockName: @"com.jusikwang.company.dongeo"
+                 toMarket: market
+                    count: 5];
+    NSLog(@"플레이어가 주식을 팔았습니다!\n현재 금액:%d", (NSUInteger)player.money);
+    
     for(int j = 1; j <= 10; j++) {
         [market open];
         NSLog(@"initial : %.f", stock.price);
@@ -124,6 +141,10 @@ int main (int argc, const char * argv[])
         }
         [market close];
     }
+    [player sellStockName: @"com.jusikwang.company.dongeo"
+                 toMarket: market
+                    count: 5];
+    NSLog(@"플레이어가 주식을 팔았습니다!\n현재 금액:%d", (NSUInteger)player.money);
     
     [market removeCompanyWithName: @"com.jusikwang.company.dongeo"];
     [market release];

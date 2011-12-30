@@ -15,7 +15,6 @@
     double _price;
     
     JusikRecord *_record;
-    NSMutableArray *_movingAverages;
 }
 
 @property (nonatomic, readonly) JusikRecord *record;

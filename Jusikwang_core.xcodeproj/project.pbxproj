@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		952E4F3514A9E890003CC95F /* JusikStockDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3414A9E890003CC95F /* JusikStockDataType.m */; };
 		95691F3A1497B07F0037E708 /* JusikStockFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 95691F391497B07F0037E708 /* JusikStockFunction.m */; };
+		95BA71B814AE3BB00020B203 /* JusikPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71B714AE3BAF0020B203 /* JusikPlayer.m */; };
+		95BA71BB14AE43AC0020B203 /* JusikPurchasedStockInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71BA14AE43AB0020B203 /* JusikPurchasedStockInfo.m */; };
 		95CC000514A7585B00D04279 /* JusikEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CC000414A7585B00D04279 /* JusikEvent.m */; };
 		95CC000914A7654500D04279 /* JusikRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CC000814A7654500D04279 /* JusikRecord.m */; };
 		95D664671494887C0022EBBE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95D664661494887C0022EBBE /* Foundation.framework */; };
@@ -37,6 +39,10 @@
 		952E4F3414A9E890003CC95F /* JusikStockDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockDataType.m; sourceTree = "<group>"; };
 		95691F381497B07F0037E708 /* JusikStockFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockFunction.h; sourceTree = "<group>"; };
 		95691F391497B07F0037E708 /* JusikStockFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockFunction.m; sourceTree = "<group>"; };
+		95BA71B614AE3BAD0020B203 /* JusikPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikPlayer.h; sourceTree = "<group>"; };
+		95BA71B714AE3BAF0020B203 /* JusikPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikPlayer.m; sourceTree = "<group>"; };
+		95BA71B914AE43AA0020B203 /* JusikPurchasedStockInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikPurchasedStockInfo.h; sourceTree = "<group>"; };
+		95BA71BA14AE43AB0020B203 /* JusikPurchasedStockInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikPurchasedStockInfo.m; sourceTree = "<group>"; };
 		95CC000314A7585B00D04279 /* JusikEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikEvent.h; sourceTree = "<group>"; };
 		95CC000414A7585B00D04279 /* JusikEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikEvent.m; sourceTree = "<group>"; };
 		95CC000714A7654500D04279 /* JusikRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikRecord.h; sourceTree = "<group>"; };
@@ -118,6 +124,10 @@
 				95CC000414A7585B00D04279 /* JusikEvent.m */,
 				95CC000714A7654500D04279 /* JusikRecord.h */,
 				95CC000814A7654500D04279 /* JusikRecord.m */,
+				95BA71B614AE3BAD0020B203 /* JusikPlayer.h */,
+				95BA71B714AE3BAF0020B203 /* JusikPlayer.m */,
+				95BA71B914AE43AA0020B203 /* JusikPurchasedStockInfo.h */,
+				95BA71BA14AE43AB0020B203 /* JusikPurchasedStockInfo.m */,
 			);
 			path = Jusikwang_core;
 			sourceTree = "<group>";
@@ -190,6 +200,8 @@
 				95CC000514A7585B00D04279 /* JusikEvent.m in Sources */,
 				95CC000914A7654500D04279 /* JusikRecord.m in Sources */,
 				952E4F3514A9E890003CC95F /* JusikStockDataType.m in Sources */,
+				95BA71B814AE3BB00020B203 /* JusikPlayer.m in Sources */,
+				95BA71BB14AE43AC0020B203 /* JusikPurchasedStockInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

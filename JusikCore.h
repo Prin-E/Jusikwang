@@ -14,3 +14,4 @@
 #import "JusikRecord.h"
 #import "JusikStockFunction.h"
 #import "JusikEvent.h"
+#import "JusikPlayer.h"
