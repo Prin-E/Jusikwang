@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class JusikStockMarket;
+@class JusikPlayer;
 @interface JusikStockGameViewController : UIViewController
 
+@property (nonatomic, retain) JusikStockMarket *market;
+@property (nonatomic, retain) JusikPlayer *player;
+
+- (void)play;
+
+- (void)openMarket;
+- (void)closeMarket;
+
+- (IBAction)newsSkip: (id)sender;
+- (IBAction)newsParticipateStockMarket: (id)sender;
 @end

@@ -1,17 +1,17 @@
 //
-//  JusikStockGameViewController.m
+//  JusikPlayerInfoViewController.m
 //  Jusikwang
 //
-//  Created by 이 현우 on 12. 1. 2..
+//  Created by 이 현우 on 12. 1. 3..
 //  Copyright (c) 2012 서울시립대학교. All rights reserved.
 //
 
-#import "JusikStockGameViewController.h"
-#import "JusikStockMarket.h"
+#import "JusikPlayerInfoViewController.h"
+#import "SlidingTabsControl.h"
 #import "JusikPlayer.h"
 
-@implementation JusikStockGameViewController
-@synthesize market = _market;
+@implementation JusikPlayerInfoViewController
+@synthesize tab = _tab;
 @synthesize player = _player;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -36,7 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -50,6 +49,29 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - SlidingTabsControl
+
+- (UILabel*) labelFor:(SlidingTabsControl*)slidingTabsControl atIndex:(NSUInteger)tabIndex {
+    UILabel *label = [[[UILabel alloc] init] autorelease];
+    switch(tabIndex) {
+        case 0:
+            label.text = @"Stat";
+            break;
+        case 1:
+            label.text = @"News";
+            break;
+    }
+    return label;
+}
+
+- (void) touchUpInsideTabIndex:(NSUInteger)tabIndex {
+    
+}
+
+- (void) touchDownAtTabIndex:(NSUInteger)tabIndex {
+    
 }
 
 @end

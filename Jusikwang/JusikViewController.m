@@ -12,9 +12,14 @@
 #import "JusikGameViewController.h"
 #import "JusikUIDataTypes.h"
 
-@implementation JusikViewController
+@implementation JusikViewController {
+@private
+    UIViewController *_currentViewController;
+}
+
 @synthesize logoViewController = _logoViewController;
 @synthesize mainMenuViewController = _mainMenuViewController;
+@synthesize gameViewController = _gameViewController;
 
 - (void)didReceiveMemoryWarning
 {
@@ -37,6 +42,8 @@
     // Release any retained subviews of the main view.
     
     self.logoViewController = nil;
+    self.mainMenuViewController = nil;
+    self.gameViewController = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,8 +78,26 @@
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * kJusikViewFadeTime), dispatch_get_current_queue(), ^ {
         JusikGameViewController *vc = [[JusikGameViewController alloc] initWithNibName: @"JusikGameViewController" bundle: nil];
+        self.gameViewController = vc;
+        [vc release];
+        
+        self.gameViewController.viewController = self;
+        
         [self.view addSubview: vc.view];
     });
+}
+
+- (void)exitGame {
+    [UIView animateWithDuration: kJusikViewFadeTime
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^{
+                         self.gameViewController.view.alpha = 0;
+                     }
+                     completion: ^(BOOL complete) {
+                         self.gameViewController = nil;
+                         [self showMainMenuView];
+                     }];
 }
 
 #pragma mark 메인 뷰 보이기
@@ -98,8 +123,9 @@
                          self.mainMenuViewController.view.alpha = 1.0;
                      }
                      completion: ^(BOOL complete) {
-                         
+                         _currentViewController = self.mainMenuViewController;
                      }];
+    [self.mainMenuViewController showAnimation];
 }
 
 - (void)hideMainMenuView {
@@ -110,6 +136,7 @@
                          self.mainMenuViewController.view.alpha = 0.0;
                      }
                      completion: ^(BOOL complete) {
+                         _currentViewController = nil;
                          [self.mainMenuViewController.view removeFromSuperview];
                      }];
 }
@@ -136,6 +163,7 @@
                          self.logoViewController.view.alpha = 1.0;
                      }
                      completion: ^(BOOL complete) {
+                         _currentViewController = self.logoViewController;
                          [self.logoViewController performSelector: @selector(showLogos) 
                                                        withObject: nil];
                      }];
@@ -143,18 +171,6 @@
 }
 
 - (void)hideLogoView {
-    [self.logoViewController.view removeFromSuperview];
-    self.logoViewController = nil;
-    [self performSelector: @selector(showMainMenuView) 
-               withObject: nil ];
-}
-
-#pragma mark - 노티피케이션
-- (void)logoAnimationDidEnd:(NSNotification *)n {
-    [UIView beginAnimations: @"JusikViewLogoAnimationBegin" context: nil];
-    [UIView setAnimationDuration: kJusikViewFadeTime];
-    [UIView commitAnimations];
-    
     [UIView animateWithDuration: kJusikViewFadeTime
                           delay: 0.0
                         options: UIViewAnimationOptionCurveLinear
@@ -162,9 +178,17 @@
                          self.logoViewController.view.alpha = 0.0;
                      }
                      completion: ^(BOOL complete) {
-                         [self performSelector: @selector(hideLogoView)
+                         _currentViewController = nil;
+                         [self.logoViewController.view removeFromSuperview];
+                         self.logoViewController = nil;
+                         [self performSelector: @selector(showMainMenuView) 
                                     withObject: nil];
                      }];
+}
+
+#pragma mark - 노티피케이션
+- (void)logoAnimationDidEnd:(NSNotification *)n {
+    [self hideLogoView];
 }
 
 @end

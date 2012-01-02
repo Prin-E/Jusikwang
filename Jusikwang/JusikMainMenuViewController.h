@@ -12,4 +12,6 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *startNewGameButton;
 
+- (void)showAnimation;
+
 @end

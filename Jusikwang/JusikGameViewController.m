@@ -7,18 +7,34 @@
 //
 
 #import "JusikGameViewController.h"
+#import "JusikViewController.h"
 #import "JusikStatusBarController.h"
 #import "JusikUIDataTypes.h"
+#import "JusikPlayerInfoViewController.h"
+#import "JusikStockGameViewController.h"
 
 #import "JusikCore.h"
 
-@implementation JusikGameViewController
+@interface JusikGameViewController (Private)
+- (void)_initStatusBar;
+- (void)_layoutViews;
+@end
+
+@implementation JusikGameViewController {
+    BOOL _showingMenu;
+}
+
 @synthesize market = _market;
 @synthesize player = _player;
 
 @synthesize statusBarController = _statusBarController;
+@synthesize viewController = _viewController;
+@synthesize piViewController = _piViewController;
+@synthesize stockGameController = _stockGameController;
+
 @synthesize contentView = _contentView;
 @synthesize statusBarMenuView = _statusBarMenuView;
+@synthesize menuView = _menuView;
 
 #pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -46,9 +62,35 @@
                                                  action: @selector(showMenu:)
                                        forControlEvents: UIControlEventTouchUpInside];
     
-    CGRect frame = self.statusBarController.view.frame;
-    frame.origin.y = self.statusBarMenuView.frame.size.height - frame.size.height;
-    self.statusBarController.view.frame = frame;
+    [self _layoutViews];
+}
+
+- (JusikPlayerInfoViewController *)piViewController {
+    return _piViewController;
+}
+
+- (void)setPiViewController:(JusikPlayerInfoViewController *)piViewController {
+    [_piViewController.view removeFromSuperview];
+    [piViewController retain];
+    [_piViewController release];
+    
+    _piViewController = piViewController;
+    [self.statusBarMenuView addSubview: _piViewController.view];
+    
+    _piViewController.player = self.player;
+    [self _layoutViews];
+}
+
+- (JusikStockGameViewController *)stockGameController {
+    return _stockGameController;
+}
+
+- (void)setStockGameController:(JusikStockGameViewController *)stockGameController {
+    [_stockGameController.view removeFromSuperview];
+    [stockGameController retain];
+    [_stockGameController release];
+    
+    _stockGameController = stockGameController;
 }
 
 - (JusikPlayer *)player {
@@ -104,20 +146,24 @@
     _showingMenu = !_showingMenu;
 }
 
+- (void)exitGame:(id)sender {
+    [self.viewController exitGame];
+}
+
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // Do any additional setup after loading the view from its nib.
-    JusikStatusBarController *bar = [[JusikStatusBarController alloc] initWithNibName: @"JusikStatusBarController" bundle: nil];
-    self.statusBarController = bar;
-    [bar release];
-    
+    [self _initStatusBar];
     [self.view addSubview: self.statusBarMenuView];
-    CGRect frame = self.statusBarMenuView.frame;
-    frame.origin.y = -frame.size.height + self.statusBarController.view.frame.size.height;
-    self.statusBarMenuView.frame = frame;
+    [self.statusBarMenuView addSubview: self.menuView];
+    
+    JusikPlayerInfoViewController *pi = [[JusikPlayerInfoViewController alloc] initWithNibName:@"JusikPlayerInfoViewController" bundle: nil];
+    self.piViewController = pi;
+    [pi release];
+    
+    [self _layoutViews];
     
     JusikPlayer *player = [[JusikPlayer alloc] initWithName: @"test"
                                                initialMoney: 5000000
@@ -138,7 +184,8 @@
 {
     [super viewDidUnload];
     
-    self.statusBarController = nil;
+    self.statusBarMenuView = nil;
+    self.menuView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -147,12 +194,64 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - 비공개 메서드
+- (void)_initStatusBar {
+    JusikStatusBarController *bar = [[JusikStatusBarController alloc] initWithNibName: @"JusikStatusBarController" bundle: nil];
+    self.statusBarController = bar;
+    [bar release];
+    
+    [self.statusBarMenuView addSubview: bar.view];
+}
+
+- (void)_layoutViews {
+    CGRect menuViewFrame;
+    CGRect statViewFrame;
+    CGRect statusBarFrame;
+    CGRect barMenuViewFrame;
+    
+    menuViewFrame = self.menuView.frame;
+    statViewFrame = self.piViewController.view.frame;
+    statusBarFrame = self.statusBarController.view.frame;
+    barMenuViewFrame = self.statusBarMenuView.frame;
+    
+    // BarMenuView
+    if(_showingMenu) {
+        barMenuViewFrame.origin.y = 0;
+    }
+    else {
+        barMenuViewFrame.origin.y = -barMenuViewFrame.size.height + statusBarFrame.size.height;
+    }
+    
+    self.statusBarMenuView.frame = barMenuViewFrame;
+    
+    // Menu View
+    menuViewFrame.size.width = barMenuViewFrame.size.width / 3;
+    menuViewFrame.size.height = barMenuViewFrame.size.height - statusBarFrame.size.height;
+    menuViewFrame.origin.x = barMenuViewFrame.size.width - menuViewFrame.size.width;
+    menuViewFrame.origin.y = 0;
+    self.menuView.frame = menuViewFrame;
+    
+    // Stat View
+    statViewFrame.size.width = barMenuViewFrame.size.width / 3 * 2;
+    statViewFrame.size.height = barMenuViewFrame.size.height - statusBarFrame.size.height;
+    statViewFrame.origin.x = 0;
+    statViewFrame.origin.y = 0;
+    self.piViewController.view.frame = statViewFrame;
+    
+    // Status Bar
+    statusBarFrame.origin.x = 0;
+    statusBarFrame.origin.y = barMenuViewFrame.size.height - statusBarFrame.size.height;
+    self.statusBarController.view.frame = statusBarFrame;
+}
+
 #pragma mark - 메모리 해제
 - (void)dealloc {
     [_market release];
     [_player release];
     
     self.statusBarController = nil;
+    self.piViewController = nil;
+    
     [super dealloc];
 }
 

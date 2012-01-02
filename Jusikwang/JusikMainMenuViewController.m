@@ -8,7 +8,9 @@
 
 #import "JusikMainMenuViewController.h"
 
-@implementation JusikMainMenuViewController
+@implementation JusikMainMenuViewController {
+    IBOutlet UIImageView *logoImageView;
+}
 @synthesize startNewGameButton = _startNewGameButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -49,6 +51,27 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - 애니메이션
+- (void)showAnimation {
+    logoImageView.alpha = 0.0;
+    CGRect toFrame = logoImageView.frame;
+    CGRect fromFrame = toFrame;
+    fromFrame.origin.y -= fromFrame.size.height * 0.25;
+    logoImageView.frame = fromFrame;
+    
+    [UIView animateWithDuration: 0.5
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         logoImageView.alpha = 1.0;
+                         logoImageView.frame = toFrame;
+                     }
+                     completion: ^(BOOL completed) {
+                         if(completed == NO)
+                             logoImageView.frame = toFrame;
+                     }];
 }
 
 @end

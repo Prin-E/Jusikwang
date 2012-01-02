@@ -77,7 +77,7 @@
 					<object class="IBUIButton" id="1038064478">
 						<reference key="NSNextResponder" ref="448285352"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{388, 233}, {72, 37}}</string>
+						<string key="NSFrame">{{310, 188}, {150, 100}}</string>
 						<reference key="NSSuperview" ref="448285352"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -112,7 +112,7 @@
 					<object class="IBUIButton" id="454117507">
 						<reference key="NSNextResponder" ref="448285352"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 233}, {89, 37}}</string>
+						<string key="NSFrame">{{20, 188}, {150, 100}}</string>
 						<reference key="NSSuperview" ref="448285352"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1038064478"/>
@@ -138,7 +138,7 @@
 							<object class="IBUIImageView" id="838805680">
 								<reference key="NSNextResponder" ref="1030720533"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 71}, {160, 120}}</string>
+								<string key="NSFrame">{{20, 42}, {160, 120}}</string>
 								<reference key="NSSuperview" ref="1030720533"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="61480058"/>
@@ -149,42 +149,10 @@
 									<string key="NSResourceName">menu_background.png</string>
 								</object>
 							</object>
-							<object class="IBUILabel" id="956290925">
-								<reference key="NSNextResponder" ref="1030720533"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{36, 0}, {276, 34}}</string>
-								<reference key="NSSuperview" ref="1030720533"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="731332357"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">7</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">THE JUSIK TIMES</string>
-								<object class="NSColor" key="IBUITextColor" id="682267131">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDAAA</bytes>
-								</object>
-								<nil key="IBUIHighlightedColor"/>
-								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">10</float>
-								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">Cochin-Bold</string>
-									<string key="family">Cochin</string>
-									<int key="traits">2</int>
-									<double key="pointSize">32</double>
-								</object>
-								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Cochin-Bold</string>
-									<double key="NSSize">32</double>
-									<int key="NSfFlags">16</int>
-								</object>
-							</object>
 							<object class="IBUILabel" id="731332357">
 								<reference key="NSNextResponder" ref="1030720533"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{78, 42}, {192, 21}}</string>
+								<string key="NSFrame">{{193, 26}, {192, 21}}</string>
 								<reference key="NSSuperview" ref="1030720533"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="838805680"/>
@@ -194,7 +162,10 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<string key="IBUIText">2011년 11월 24일 목요일</string>
-								<reference key="IBUITextColor" ref="682267131"/>
+								<object class="NSColor" key="IBUITextColor" id="682267131">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MCAwIDAAA</bytes>
+								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
@@ -212,7 +183,7 @@
 							<object class="IBUILabel" id="61480058">
 								<reference key="NSNextResponder" ref="1030720533"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{188, 120}, {90, 21}}</string>
+								<string key="NSFrame">{{202, 74}, {90, 21}}</string>
 								<reference key="NSSuperview" ref="1030720533"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="454117507"/>
@@ -236,8 +207,37 @@
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
+							<object class="IBUILabel" id="956290925">
+								<reference key="NSNextResponder" ref="1030720533"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{95, 0}, {276, 34}}</string>
+								<reference key="NSSuperview" ref="1030720533"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="731332357"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">THE JUSIK TIMES</string>
+								<reference key="IBUITextColor" ref="682267131"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<string key="name">Cochin-Bold</string>
+									<string key="family">Cochin</string>
+									<int key="traits">2</int>
+									<double key="pointSize">32</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Cochin-Bold</string>
+									<double key="NSSize">32</double>
+									<int key="NSfFlags">16</int>
+								</object>
+							</object>
 						</array>
-						<string key="NSFrame">{{74, 25}, {332, 200}}</string>
+						<string key="NSFrame">{{10, 10}, {460, 170}}</string>
 						<reference key="NSSuperview" ref="448285352"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="956290925"/>
@@ -330,6 +330,24 @@
 					</object>
 					<int key="connectionID">3</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">newsParticipateStockMarket:</string>
+						<reference key="source" ref="1038064478"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">18</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">newsSkip:</string>
+						<reference key="source" ref="454117507"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">17</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -359,18 +377,12 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">4</int>
-						<reference key="object" ref="100332621"/>
-						<reference key="parent" ref="191373211"/>
-						<string key="objectName">World Map</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
 						<reference key="object" ref="448285352"/>
 						<array class="NSMutableArray" key="children">
+							<reference ref="1030720533"/>
 							<reference ref="1038064478"/>
 							<reference ref="454117507"/>
-							<reference ref="1030720533"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">News View</string>
@@ -421,11 +433,6 @@
 						<reference key="parent" ref="1030720533"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">14</int>
-						<reference key="object" ref="956290925"/>
-						<reference key="parent" ref="1030720533"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">15</int>
 						<reference key="object" ref="731332357"/>
 						<reference key="parent" ref="1030720533"/>
@@ -434,6 +441,17 @@
 						<int key="objectID">11</int>
 						<reference key="object" ref="61480058"/>
 						<reference key="parent" ref="1030720533"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">14</int>
+						<reference key="object" ref="956290925"/>
+						<reference key="parent" ref="1030720533"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">4</int>
+						<reference key="object" ref="100332621"/>
+						<reference key="parent" ref="191373211"/>
+						<string key="objectName">World Map</string>
 					</object>
 				</array>
 			</object>
@@ -460,13 +478,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">16</int>
+			<int key="maxID">18</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">JusikStockGameViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="newsParticipateStockMarket:">id</string>
+						<string key="newsSkip:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="newsParticipateStockMarket:">
+							<string key="name">newsParticipateStockMarket:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="newsSkip:">
+							<string key="name">newsSkip:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/JusikStockGameViewController.h</string>

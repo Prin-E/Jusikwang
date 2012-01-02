@@ -69,7 +69,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUINormalTitle">Show</string>
+						<string key="IBUINormalTitle">Menu</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="36477244">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -108,7 +108,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="673824753">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="915878883">
@@ -242,7 +242,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{337, 4}, {87, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -268,7 +267,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{430, 30}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="220748541"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -282,7 +280,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="1045423177">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="130115110">
@@ -431,7 +429,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{430, 30}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="819322630"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>

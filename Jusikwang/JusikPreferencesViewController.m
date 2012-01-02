@@ -1,18 +1,14 @@
 //
-//  JusikStockGameViewController.m
+//  JusikPreferencesViewController.m
 //  Jusikwang
 //
-//  Created by 이 현우 on 12. 1. 2..
+//  Created by 이 현우 on 12. 1. 3..
 //  Copyright (c) 2012 서울시립대학교. All rights reserved.
 //
 
-#import "JusikStockGameViewController.h"
-#import "JusikStockMarket.h"
-#import "JusikPlayer.h"
+#import "JusikPreferencesViewController.h"
 
-@implementation JusikStockGameViewController
-@synthesize market = _market;
-@synthesize player = _player;
+@implementation JusikPreferencesViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

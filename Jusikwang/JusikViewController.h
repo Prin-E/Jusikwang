@@ -10,11 +10,12 @@
 
 @class JusikLogoViewController;
 @class JusikMainMenuViewController;
+@class JusikGameViewController;
 @interface JusikViewController : UIViewController
 
 @property (nonatomic, retain) JusikLogoViewController *logoViewController;
 @property (nonatomic, retain) JusikMainMenuViewController *mainMenuViewController;
-
+@property (nonatomic, retain) JusikGameViewController *gameViewController;
 // 로고
 - (void)logoAnimationDidEnd: (NSNotification *)n;
 - (void)showLogoView;
@@ -26,5 +27,6 @@
 
 // 게임 시작
 - (void)startNewGame: (id)sender;
+- (void)exitGame;
 
 @end
