@@ -43,7 +43,7 @@ int main (int argc, const char * argv[])
                                          sensitiveToPBR: JusikSensitiveValueNormal];
     
     [type release];
-    //[market addCompany: info initialPrice: 19000];
+    [market addCompany: info initialPrice: 19000];
     [info release];
     
     // 동어제약
@@ -66,14 +66,14 @@ int main (int argc, const char * argv[])
     [market addCompany: info initialPrice: 102000];
     [info release];
     
-    JusikStock *stock = [market stockOfCompanyWithName: @"com.jusikwang.company.dongeo"];
+    JusikStock *stock = [market stockOfCompanyWithName: @"com.jusikwang.company.ahnlab"];
     
     // 이벤트
     JusikEvent *e = [[JusikEvent alloc] init];
     e.name = @"com.jusikwang.event.test";
     e.type = JusikEventTypeStockMarket;
     e.targets = [NSArray arrayWithObject: @"com.jusikwang.stock_market.dow"];
-    e.change = JusikRangeMake(-0.02, 0.035);
+    e.change = JusikRangeMake(-0.025, 0.035);
     e.changeWay = JusikEventChangeWayRateAbsolute;
     e.startTurn = 1;
     e.persistTurn = 39;

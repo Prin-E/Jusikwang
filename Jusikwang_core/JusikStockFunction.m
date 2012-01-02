@@ -268,16 +268,16 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     // PER 영향
     double EPS = info.EPS;
     if(EPS < 0.0)
-        _C = 0.0;
+        _C = -0.006;
     else {
         double bPER = info.businessType.PER;
         double PER = info.PER;
         if(bPER > PER)
-            _C = 0.01;
+            _C = 0.006;
         else if(bPER < PER)
-            _C = -0.015;
-        else
             _C = -0.01;
+        else
+            _C = -0.006;
     }
     
     // ROE 영향

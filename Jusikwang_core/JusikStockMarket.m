@@ -347,8 +347,8 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     
     // 처음 실행했을 때는 기본 값 그대로 간다.
     if(_openedCount > 1) {
-        combinedPriceOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.02 - 0.01;
-        exchangeRateOffset = (double)arc4random() / (double)ARC4RANDOM_MAX * 0.01 - .005;
+        combinedPriceOffset = JusikGetRandomValue(-0.09, 0.09);
+        exchangeRateOffset = JusikGetRandomValue(-0.05, 0.05);
         
         // 이벤트 처리
         for(JusikEvent *e in _waitingStockMarketEvents) {
@@ -395,15 +395,23 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
         }
         // 미국주가 -> 코스피 -> 환율로 차례대로 영향을 준다. 따라서
         // 영향을 준 이후의 값도 구해야 한다.
-        combinedPriceOffset += USStockPriceOffset * 0.6;
-        exchangeRateOffset -= combinedPriceOffset * (-0.4);
+        combinedPriceOffset += USStockPriceOffset * 0.5;
+        exchangeRateOffset -= combinedPriceOffset * 0.4;
         
         // 새 주가, 환율을 구한다.
+        [self willChangeValueForKey: @"combinedPrice"];
+        [self willChangeValueForKey: @"exchangeRate"];
+        [self willChangeValueForKey: @"USStockPrice"];
+        
         _combinedPrice = _combinedPrice * (1.0 + combinedPriceOffset);
         _exchangeRate = _exchangeRate * (1.0 + exchangeRateOffset);
         _USStockPrice = _USStockPrice * (1.0 + USStockPriceOffset);
         
-        NSLog(@"\n주가 : %.f\n미국 주가 : %.f\n환율 : %.2f원/달러", _combinedPrice, _USStockPrice, _exchangeRate);
+        [self didChangeValueForKey: @"combinedPrice"];
+        [self didChangeValueForKey: @"exchangeRate"];
+        [self didChangeValueForKey: @"USStockPrice"];
+        
+        //NSLog(@"\n주가 : %.f\n미국 주가 : %.f\n환율 : %.2f원/달러", _combinedPrice, _USStockPrice, _exchangeRate);
     }
     
     [_combinedPriceRecord recordValue: _combinedPrice];
