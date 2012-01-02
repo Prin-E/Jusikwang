@@ -271,7 +271,7 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
         _C = -0.006;
     else {
         double bPER = info.businessType.PER;
-        double PER = info.PER;
+        double PER = stock.PER;
         if(bPER > PER)
             _C = 0.006;
         else if(bPER < PER)

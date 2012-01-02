@@ -66,6 +66,26 @@ int main (int argc, const char * argv[])
     [market addCompany: info initialPrice: 102000];
     [info release];
     
+    // 백제에스지
+    type = [[JusikBusinessType alloc] initWithIdentifier: 3
+                                                    name: @"com.jusikwang.business.marine"
+                                                     PER: 11.9
+                                      exchangeRateEffect: -0.012];
+    info = [[JusikCompanyInfo alloc] initWithIdentifier: 8
+                                                   name: @"com.jusikwang.company.baekjaesg"
+                                           capitalStock: JusikCapitalStockSmall                                                             businessType: type
+                                           detailedType: @"com.jusikwang.business.detailed.test"
+                                                    EPS: 127
+                                                    ROE: JusikRangeMake(1.38, 2.26)
+                                                    BPS: 5680
+                                sensitiveToExchangeRate: JusikSensitiveValueNormal
+                               sensitiveToBusinessScale: JusikSensitiveValueSensitive
+                                         sensitiveToPBR: JusikSensitiveValueNormal];
+    
+    [type release];
+    [market addCompany: info initialPrice: 3130];
+    [info release];
+    
     JusikStock *stock = [market stockOfCompanyWithName: @"com.jusikwang.company.ahnlab"];
     
     // 이벤트

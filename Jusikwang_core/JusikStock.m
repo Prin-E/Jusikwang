@@ -27,6 +27,13 @@
     return self;
 }
 
+- (double)PER {
+    if(self.info) {
+        return self.price / self.info.EPS;
+    }
+    return 0;
+}
+
 - (void)dealloc {
     [_info release];
     [_record release];

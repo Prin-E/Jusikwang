@@ -17,6 +17,8 @@
     JusikRecord *_record;
 }
 
+@property (readonly) double PER;
+
 @property (nonatomic, readonly) JusikRecord *record;
 @property (nonatomic, readonly) JusikCompanyInfo *info;
 @property (readwrite) double price;
