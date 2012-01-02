@@ -13,6 +13,26 @@
 		95BA71AF14ABBCD40020B203 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71AE14ABBCD40020B203 /* Images */; };
 		95BA71B314ABBDA40020B203 /* JusikMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */; };
 		95BA71B414ABBDA40020B203 /* JusikMainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */; };
+		95D1D6A014AFD65400BEF3A0 /* JusikStockMarket.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */; };
+		95D1D6A114AFD65400BEF3A0 /* JusikCompanyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68F14AFD65400BEF3A0 /* JusikCompanyInfo.m */; };
+		95D1D6A214AFD65400BEF3A0 /* JusikStockDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69114AFD65400BEF3A0 /* JusikStockDataType.m */; };
+		95D1D6A314AFD65400BEF3A0 /* JusikBusinessType.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69314AFD65400BEF3A0 /* JusikBusinessType.m */; };
+		95D1D6A414AFD65400BEF3A0 /* JusikStock.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69514AFD65400BEF3A0 /* JusikStock.m */; };
+		95D1D6A514AFD65400BEF3A0 /* JusikStockFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69714AFD65400BEF3A0 /* JusikStockFunction.m */; };
+		95D1D6A614AFD65400BEF3A0 /* JusikEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69914AFD65400BEF3A0 /* JusikEvent.m */; };
+		95D1D6A714AFD65400BEF3A0 /* JusikRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69B14AFD65400BEF3A0 /* JusikRecord.m */; };
+		95D1D6A814AFD65400BEF3A0 /* JusikPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69D14AFD65400BEF3A0 /* JusikPlayer.m */; };
+		95D1D6A914AFD65400BEF3A0 /* JusikPurchasedStockInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69F14AFD65400BEF3A0 /* JusikPurchasedStockInfo.m */; };
+		95D1D6AC14AFD67A00BEF3A0 /* Musics in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6AB14AFD67A00BEF3A0 /* Musics */; };
+		95D1D6B414AFE88000BEF3A0 /* JusikStatusBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D6B214AFE87F00BEF3A0 /* JusikStatusBarController.m */; };
+		95D1D6B514AFE88000BEF3A0 /* JusikStatusBarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6B314AFE88000BEF3A0 /* JusikStatusBarController.xib */; };
+		95D1D6B914B0C62700BEF3A0 /* JusikGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D6B714B0C62600BEF3A0 /* JusikGameViewController.m */; };
+		95D1D6BA14B0C62700BEF3A0 /* JusikGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6B814B0C62600BEF3A0 /* JusikGameViewController.xib */; };
+		95D1D6BF14B0F81300BEF3A0 /* JusikStockGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D6BD14B0F81200BEF3A0 /* JusikStockGameViewController.m */; };
+		95D1D6C014B0F81300BEF3A0 /* JusikStockGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6BE14B0F81300BEF3A0 /* JusikStockGameViewController.xib */; };
+		95D1D6C414B201F300BEF3A0 /* JusikLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */; };
+		95D1D6C514B201F300BEF3A0 /* JusikLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */; };
+		95D1D6CF14B20A0600BEF3A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6D014B20A0600BEF3A0 /* Localizable.strings */; };
 		95EA63E214A619E2007E86D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E114A619E2007E86D1 /* UIKit.framework */; };
 		95EA63E414A619E2007E86D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E314A619E2007E86D1 /* Foundation.framework */; };
 		95EA63E614A619E2007E86D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E514A619E2007E86D1 /* CoreGraphics.framework */; };
@@ -32,19 +52,55 @@
 		95BA71B014ABBDA40020B203 /* JusikMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikMainMenuViewController.h; sourceTree = "<group>"; };
 		95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikMainMenuViewController.m; sourceTree = "<group>"; };
 		95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikMainMenuViewController.xib; sourceTree = "<group>"; };
+		95D1D68B14AFD65400BEF3A0 /* JusikCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikCore.h; path = ../../Jusikwang_core/JusikCore.h; sourceTree = "<group>"; };
+		95D1D68C14AFD65400BEF3A0 /* JusikStockMarket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikStockMarket.h; path = ../../Jusikwang_core/Jusikwang_core/JusikStockMarket.h; sourceTree = "<group>"; };
+		95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikStockMarket.m; path = ../../Jusikwang_core/Jusikwang_core/JusikStockMarket.m; sourceTree = "<group>"; };
+		95D1D68E14AFD65400BEF3A0 /* JusikCompanyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikCompanyInfo.h; path = ../../Jusikwang_core/Jusikwang_core/JusikCompanyInfo.h; sourceTree = "<group>"; };
+		95D1D68F14AFD65400BEF3A0 /* JusikCompanyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikCompanyInfo.m; path = ../../Jusikwang_core/Jusikwang_core/JusikCompanyInfo.m; sourceTree = "<group>"; };
+		95D1D69014AFD65400BEF3A0 /* JusikStockDataType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikStockDataType.h; path = ../../Jusikwang_core/Jusikwang_core/JusikStockDataType.h; sourceTree = "<group>"; };
+		95D1D69114AFD65400BEF3A0 /* JusikStockDataType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikStockDataType.m; path = ../../Jusikwang_core/Jusikwang_core/JusikStockDataType.m; sourceTree = "<group>"; };
+		95D1D69214AFD65400BEF3A0 /* JusikBusinessType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikBusinessType.h; path = ../../Jusikwang_core/Jusikwang_core/JusikBusinessType.h; sourceTree = "<group>"; };
+		95D1D69314AFD65400BEF3A0 /* JusikBusinessType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikBusinessType.m; path = ../../Jusikwang_core/Jusikwang_core/JusikBusinessType.m; sourceTree = "<group>"; };
+		95D1D69414AFD65400BEF3A0 /* JusikStock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikStock.h; path = ../../Jusikwang_core/Jusikwang_core/JusikStock.h; sourceTree = "<group>"; };
+		95D1D69514AFD65400BEF3A0 /* JusikStock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikStock.m; path = ../../Jusikwang_core/Jusikwang_core/JusikStock.m; sourceTree = "<group>"; };
+		95D1D69614AFD65400BEF3A0 /* JusikStockFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikStockFunction.h; path = ../../Jusikwang_core/Jusikwang_core/JusikStockFunction.h; sourceTree = "<group>"; };
+		95D1D69714AFD65400BEF3A0 /* JusikStockFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikStockFunction.m; path = ../../Jusikwang_core/Jusikwang_core/JusikStockFunction.m; sourceTree = "<group>"; };
+		95D1D69814AFD65400BEF3A0 /* JusikEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikEvent.h; path = ../../Jusikwang_core/Jusikwang_core/JusikEvent.h; sourceTree = "<group>"; };
+		95D1D69914AFD65400BEF3A0 /* JusikEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikEvent.m; path = ../../Jusikwang_core/Jusikwang_core/JusikEvent.m; sourceTree = "<group>"; };
+		95D1D69A14AFD65400BEF3A0 /* JusikRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikRecord.h; path = ../../Jusikwang_core/Jusikwang_core/JusikRecord.h; sourceTree = "<group>"; };
+		95D1D69B14AFD65400BEF3A0 /* JusikRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikRecord.m; path = ../../Jusikwang_core/Jusikwang_core/JusikRecord.m; sourceTree = "<group>"; };
+		95D1D69C14AFD65400BEF3A0 /* JusikPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikPlayer.h; path = ../../Jusikwang_core/Jusikwang_core/JusikPlayer.h; sourceTree = "<group>"; };
+		95D1D69D14AFD65400BEF3A0 /* JusikPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikPlayer.m; path = ../../Jusikwang_core/Jusikwang_core/JusikPlayer.m; sourceTree = "<group>"; };
+		95D1D69E14AFD65400BEF3A0 /* JusikPurchasedStockInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikPurchasedStockInfo.h; path = ../../Jusikwang_core/Jusikwang_core/JusikPurchasedStockInfo.h; sourceTree = "<group>"; };
+		95D1D69F14AFD65400BEF3A0 /* JusikPurchasedStockInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikPurchasedStockInfo.m; path = ../../Jusikwang_core/Jusikwang_core/JusikPurchasedStockInfo.m; sourceTree = "<group>"; };
+		95D1D6AB14AFD67A00BEF3A0 /* Musics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Musics; path = ../../Musics; sourceTree = "<group>"; };
+		95D1D6B114AFE87F00BEF3A0 /* JusikStatusBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStatusBarController.h; sourceTree = "<group>"; };
+		95D1D6B214AFE87F00BEF3A0 /* JusikStatusBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStatusBarController.m; sourceTree = "<group>"; };
+		95D1D6B314AFE88000BEF3A0 /* JusikStatusBarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikStatusBarController.xib; sourceTree = "<group>"; };
+		95D1D6B614B0C62500BEF3A0 /* JusikGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikGameViewController.h; sourceTree = "<group>"; };
+		95D1D6B714B0C62600BEF3A0 /* JusikGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikGameViewController.m; sourceTree = "<group>"; };
+		95D1D6B814B0C62600BEF3A0 /* JusikGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikGameViewController.xib; sourceTree = "<group>"; };
+		95D1D6BB14B0CF6D00BEF3A0 /* JusikUIDataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikUIDataTypes.h; sourceTree = "<group>"; };
+		95D1D6BC14B0F81200BEF3A0 /* JusikStockGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockGameViewController.h; sourceTree = "<group>"; };
+		95D1D6BD14B0F81200BEF3A0 /* JusikStockGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockGameViewController.m; sourceTree = "<group>"; };
+		95D1D6BE14B0F81300BEF3A0 /* JusikStockGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikStockGameViewController.xib; sourceTree = "<group>"; };
+		95D1D6C114B201EF00BEF3A0 /* JusikLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikLoadingViewController.h; sourceTree = "<group>"; };
+		95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikLoadingViewController.m; sourceTree = "<group>"; };
+		95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikLoadingViewController.xib; sourceTree = "<group>"; };
+		95D1D6C814B2090800BEF3A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = "/Users/leehyeonwoo/Desktop/내 개발/Projects/3Ds/Jusikwang/Jusikwang/Jusikwang/ko.lproj/JusikViewController.xib"; sourceTree = "<absolute>"; };
+		95D1D6C914B2090800BEF3A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/leehyeonwoo/Desktop/내 개발/Projects/3Ds/Jusikwang/Jusikwang/Jusikwang/ko.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
+		95D1D6D014B20A0600BEF3A0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		95EA63DD14A619E2007E86D1 /* Jusikwang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jusikwang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EA63E114A619E2007E86D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		95EA63E314A619E2007E86D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		95EA63E514A619E2007E86D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		95EA63E914A619E2007E86D1 /* Jusikwang-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Jusikwang-Info.plist"; sourceTree = "<group>"; };
-		95EA63EB14A619E2007E86D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		95EA63ED14A619E2007E86D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		95EA63EF14A619E2007E86D1 /* Jusikwang-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jusikwang-Prefix.pch"; sourceTree = "<group>"; };
 		95EA63F014A619E2007E86D1 /* JusikAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JusikAppDelegate.h; sourceTree = "<group>"; };
 		95EA63F114A619E2007E86D1 /* JusikAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JusikAppDelegate.m; sourceTree = "<group>"; };
 		95EA63F314A619E2007E86D1 /* JusikViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JusikViewController.h; sourceTree = "<group>"; };
 		95EA63F414A619E3007E86D1 /* JusikViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JusikViewController.m; sourceTree = "<group>"; };
-		95EA63F714A619E3007E86D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/JusikViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +147,7 @@
 		95EA63E714A619E2007E86D1 /* Jusikwang */ = {
 			isa = PBXGroup;
 			children = (
+				95D1D6AB14AFD67A00BEF3A0 /* Musics */,
 				95BA71AE14ABBCD40020B203 /* Images */,
 				95BA71A514ABB3290020B203 /* DB */,
 				95EA63FF14A627C6007E86D1 /* Core */,
@@ -106,6 +163,20 @@
 				95BA71B014ABBDA40020B203 /* JusikMainMenuViewController.h */,
 				95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */,
 				95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */,
+				95D1D6C114B201EF00BEF3A0 /* JusikLoadingViewController.h */,
+				95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */,
+				95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */,
+				95D1D6B114AFE87F00BEF3A0 /* JusikStatusBarController.h */,
+				95D1D6B214AFE87F00BEF3A0 /* JusikStatusBarController.m */,
+				95D1D6B314AFE88000BEF3A0 /* JusikStatusBarController.xib */,
+				95D1D6B614B0C62500BEF3A0 /* JusikGameViewController.h */,
+				95D1D6B714B0C62600BEF3A0 /* JusikGameViewController.m */,
+				95D1D6B814B0C62600BEF3A0 /* JusikGameViewController.xib */,
+				95D1D6BB14B0CF6D00BEF3A0 /* JusikUIDataTypes.h */,
+				95D1D6BC14B0F81200BEF3A0 /* JusikStockGameViewController.h */,
+				95D1D6BD14B0F81200BEF3A0 /* JusikStockGameViewController.m */,
+				95D1D6BE14B0F81300BEF3A0 /* JusikStockGameViewController.xib */,
+				95D1D6D014B20A0600BEF3A0 /* Localizable.strings */,
 			);
 			path = Jusikwang;
 			sourceTree = "<group>";
@@ -124,6 +195,27 @@
 		95EA63FF14A627C6007E86D1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				95D1D68B14AFD65400BEF3A0 /* JusikCore.h */,
+				95D1D68C14AFD65400BEF3A0 /* JusikStockMarket.h */,
+				95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */,
+				95D1D68E14AFD65400BEF3A0 /* JusikCompanyInfo.h */,
+				95D1D68F14AFD65400BEF3A0 /* JusikCompanyInfo.m */,
+				95D1D69014AFD65400BEF3A0 /* JusikStockDataType.h */,
+				95D1D69114AFD65400BEF3A0 /* JusikStockDataType.m */,
+				95D1D69214AFD65400BEF3A0 /* JusikBusinessType.h */,
+				95D1D69314AFD65400BEF3A0 /* JusikBusinessType.m */,
+				95D1D69414AFD65400BEF3A0 /* JusikStock.h */,
+				95D1D69514AFD65400BEF3A0 /* JusikStock.m */,
+				95D1D69614AFD65400BEF3A0 /* JusikStockFunction.h */,
+				95D1D69714AFD65400BEF3A0 /* JusikStockFunction.m */,
+				95D1D69814AFD65400BEF3A0 /* JusikEvent.h */,
+				95D1D69914AFD65400BEF3A0 /* JusikEvent.m */,
+				95D1D69A14AFD65400BEF3A0 /* JusikRecord.h */,
+				95D1D69B14AFD65400BEF3A0 /* JusikRecord.m */,
+				95D1D69C14AFD65400BEF3A0 /* JusikPlayer.h */,
+				95D1D69D14AFD65400BEF3A0 /* JusikPlayer.m */,
+				95D1D69E14AFD65400BEF3A0 /* JusikPurchasedStockInfo.h */,
+				95D1D69F14AFD65400BEF3A0 /* JusikPurchasedStockInfo.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -163,6 +255,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ko,
 			);
 			mainGroup = 95EA63D214A619E2007E86D1;
 			productRefGroup = 95EA63DE14A619E2007E86D1 /* Products */;
@@ -185,6 +278,12 @@
 				95BA71A714ABB3290020B203 /* DB in Resources */,
 				95BA71AF14ABBCD40020B203 /* Images in Resources */,
 				95BA71B414ABBDA40020B203 /* JusikMainMenuViewController.xib in Resources */,
+				95D1D6AC14AFD67A00BEF3A0 /* Musics in Resources */,
+				95D1D6B514AFE88000BEF3A0 /* JusikStatusBarController.xib in Resources */,
+				95D1D6BA14B0C62700BEF3A0 /* JusikGameViewController.xib in Resources */,
+				95D1D6C014B0F81300BEF3A0 /* JusikStockGameViewController.xib in Resources */,
+				95D1D6C514B201F300BEF3A0 /* JusikLoadingViewController.xib in Resources */,
+				95D1D6CF14B20A0600BEF3A0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +299,20 @@
 				95EA63F514A619E3007E86D1 /* JusikViewController.m in Sources */,
 				952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */,
 				95BA71B314ABBDA40020B203 /* JusikMainMenuViewController.m in Sources */,
+				95D1D6A014AFD65400BEF3A0 /* JusikStockMarket.m in Sources */,
+				95D1D6A114AFD65400BEF3A0 /* JusikCompanyInfo.m in Sources */,
+				95D1D6A214AFD65400BEF3A0 /* JusikStockDataType.m in Sources */,
+				95D1D6A314AFD65400BEF3A0 /* JusikBusinessType.m in Sources */,
+				95D1D6A414AFD65400BEF3A0 /* JusikStock.m in Sources */,
+				95D1D6A514AFD65400BEF3A0 /* JusikStockFunction.m in Sources */,
+				95D1D6A614AFD65400BEF3A0 /* JusikEvent.m in Sources */,
+				95D1D6A714AFD65400BEF3A0 /* JusikRecord.m in Sources */,
+				95D1D6A814AFD65400BEF3A0 /* JusikPlayer.m in Sources */,
+				95D1D6A914AFD65400BEF3A0 /* JusikPurchasedStockInfo.m in Sources */,
+				95D1D6B414AFE88000BEF3A0 /* JusikStatusBarController.m in Sources */,
+				95D1D6B914B0C62700BEF3A0 /* JusikGameViewController.m in Sources */,
+				95D1D6BF14B0F81300BEF3A0 /* JusikStockGameViewController.m in Sources */,
+				95D1D6C414B201F300BEF3A0 /* JusikLoadingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +322,7 @@
 		95EA63EA14A619E2007E86D1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				95EA63EB14A619E2007E86D1 /* en */,
+				95D1D6C914B2090800BEF3A0 /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -217,7 +330,7 @@
 		95EA63F614A619E3007E86D1 /* JusikViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				95EA63F714A619E3007E86D1 /* en */,
+				95D1D6C814B2090800BEF3A0 /* ko */,
 			);
 			name = JusikViewController.xib;
 			sourceTree = "<group>";

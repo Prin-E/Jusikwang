@@ -1,16 +1,31 @@
 //
-//  JusikMainMenuViewController.m
+//  JusikLoadingViewController.m
 //  Jusikwang
 //
-//  Created by 이 현우 on 11. 12. 29..
-//  Copyright (c) 2011 서울시립대학교. All rights reserved.
+//  Created by 이 현우 on 12. 1. 3..
+//  Copyright (c) 2012 서울시립대학교. All rights reserved.
 //
 
-#import "JusikMainMenuViewController.h"
+#import "JusikLoadingViewController.h"
+#import "JusikStockMarket.h"
+#import "JusikPlayer.h"
 
-@implementation JusikMainMenuViewController
-@synthesize startNewGameButton = _startNewGameButton;
+@implementation JusikLoadingViewController {
+    JusikStockMarket *_market;
+    JusikPlayer *_player;
+    
+    BOOL _isLoading;
+    
+    NSUInteger _loadedElements;
+    NSUInteger _allElements;
+}
+@synthesize market = _market;
+@synthesize player = _player;
 
+@synthesize progressView = _progressView;
+@synthesize imageView = _imageView;
+
+#pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,7 +44,6 @@
 }
 
 #pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,8 +53,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    self.startNewGameButton = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -49,6 +61,16 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL)load {
+    if(_isLoading) return NO;
+    
+    _allElements = 3;
+    _loadedElements = 0;
+    
+    
+    return YES;
 }
 
 @end

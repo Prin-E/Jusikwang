@@ -7,6 +7,7 @@
 //
 
 #import "JusikLogoViewController.h"
+#import "JusikUIDataTypes.h"
 
 NSString *JusikLogoViewAnimationDidEndNotification = @"JusikLogoViewAnimationDidEndNotification";
 
@@ -38,8 +39,6 @@ NSString *JusikLogoViewAnimationDidEndNotification = @"JusikLogoViewAnimationDid
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    [self show3DsLogo];
 }
 
 - (void)viewDidUnload
@@ -50,59 +49,67 @@ NSString *JusikLogoViewAnimationDidEndNotification = @"JusikLogoViewAnimationDid
 }
 
 #pragma mark - 로고 애니메이션
+- (void)showLogos {
+    [self show3DsLogo];
+    
+}
 - (void)show3DsLogo {
     self.logoImageView.alpha = 0.0;
     
     UIImage *image = [UIImage imageNamed: @"Images/team3Ds.png"];
     [self.logoImageView setImage: image];
     
-    NSTimer *fadeOutTimer = [NSTimer timerWithTimeInterval: 1.0
-                                                    target: self
-                                                  selector: @selector(fadeIn:)
-                                                  userInfo: nil
-                                                   repeats: NO];
-    [[NSRunLoop currentRunLoop] addTimer: fadeOutTimer forMode: NSDefaultRunLoopMode];
+    [self performSelector: @selector(fadeIn:) withObject: nil];
 }
 
 - (void)fadeIn:(id)object {
-    [UIView beginAnimations: @"JusikLogoViewAnimationTeam3Ds" context: nil];
-    [UIView setAnimationDuration: 1.0f];
-    [UIView setAnimationCurve: UIViewAnimationCurveEaseIn];
-    
-    self.logoImageView.alpha = 1.0f;
-    
-    [UIView commitAnimations];
-    
-    NSTimer *fadeOutTimer = [NSTimer timerWithTimeInterval: 3.0
-                                                    target: self
-                                                  selector: @selector(fadeOut:)
-                                                  userInfo: nil
-                                                   repeats: NO];
-    [[NSRunLoop currentRunLoop] addTimer: fadeOutTimer forMode: NSDefaultRunLoopMode];
-    
+    [UIView animateWithDuration: kJusikViewFadeInTime
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^{
+                         self.logoImageView.alpha = 1.0;
+                     }
+                     completion: ^(BOOL finished) {
+                         [self performSelector: @selector(receiveTouch:) 
+                                    withObject: nil];
+                         
+                         [self performSelector: @selector(fadeOut:) 
+                                    withObject: nil
+                                    afterDelay: kJusikLogoViewIdleTime];
+                     }];
+}
+
+- (void)receiveTouch: (id)object {
+    _canReceiveTouch = YES;
 }
 
 - (void)fadeOut:(id)object {
-    [UIView beginAnimations: @"JusikLogoViewAnimationTeam3Ds" context: nil];
-    [UIView setAnimationDuration: 1.0f];
-    [UIView setAnimationCurve: UIViewAnimationCurveEaseIn];
-    
-    self.logoImageView.alpha = 0.0f;
-    
-    [UIView commitAnimations];
-    
-    NSTimer *fadeOutTimer = [NSTimer timerWithTimeInterval: 1.0
-                                                    target: self
-                                                  selector: @selector(postEndNotification:)
-                                                  userInfo: nil
-                                                   repeats: NO];
-    [[NSRunLoop currentRunLoop] addTimer: fadeOutTimer forMode: NSDefaultRunLoopMode];
+    [UIView animateWithDuration: kJusikViewFadeOutTime 
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveLinear
+                     animations: ^ {
+                         self.logoImageView.alpha = 0.0;
+                     }
+                     completion: ^(BOOL finished) {
+                         [self postEndNotification: self];
+                     }];
 }
 
 - (void)postEndNotification:(id)object {
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotification: [NSNotification notificationWithName: JusikLogoViewAnimationDidEndNotification
+    if(_isPosted == NO) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotification: [NSNotification notificationWithName: JusikLogoViewAnimationDidEndNotification
                                                         object: self]];
+        _isPosted = YES;
+    }
+}
+
+#pragma mark - 터치 이벤트
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if(_canReceiveTouch) {
+        [self fadeOut: nil];
+        NSLog(@"touches!");
+    }
 }
 
 @end

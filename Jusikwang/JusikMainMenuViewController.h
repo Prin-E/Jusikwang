@@ -10,4 +10,6 @@
 
 @interface JusikMainMenuViewController : UIViewController
 
+@property (nonatomic, retain) IBOutlet UIButton *startNewGameButton;
+
 @end

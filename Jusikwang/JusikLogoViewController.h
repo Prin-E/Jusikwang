@@ -10,10 +10,14 @@
 
 @interface JusikLogoViewController : UIViewController {
     UIImageView *_logoImageView;
+    
+    BOOL _canReceiveTouch;
+    BOOL _isPosted;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *logoImageView;
 
+- (void)showLogos;
 - (void)show3DsLogo;
 - (void)fadeIn:(id)object;
 - (void)fadeOut:(id)object;

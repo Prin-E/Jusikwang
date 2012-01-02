@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  Jusikwang
+
+  Created by 이 현우 on 12. 1. 3..
+  Copyright (c) 2012 서울시립대학교. All rights reserved.
+*/
+
+"Jusikwang" = "주식왕";
+"jusikwang" = "주식왕";
+
+// 업종
+"com.jusikwang.business.car" = "자동차";
+"com.jusikwang.business.marine" = "수산물";
+"com.jusikwang.business.medicine_manufacture" = "제약";
+"com.jusikwang.business.shipbuilding" = "조선";
+"com.jusikwang.business.shipping" = "해운";
+"com.jusikwang.business.steel" = "철강";
+"com.jusikwang.business.bank" = "은행";
+"com.jusikwang.business.share" = "증권";
+"com.jusikwang.business.oil" = "석유";
+"com.jusikwang.business.chemistry" = "화학";
+"com.jusikwang.business.electricity" = "전기/전자";
+"com.jusikwang.business.software" = "소프트웨어";
+"com.jusikwang.business.flight" = "항공";
+"com.jusikwang.business.education" = "교육";
+"com.jusikwang.business.alternative_energy" = "대체에너지";
+
+// 세부업종
+"com.jusikwang.business.car.manufacture" = "자동차 개발/제작";
+"com.jusikwang.business.car.part_manufacture" = "자동차 부품 제작";
+"com.jusikwang.business.car.special_manufacture" = "특수차량 제작";
+
+"com.jusikwang.business.marine.manufacture" = "수산물 가공";
+
+"com.jusikwang.business.medicine_manufacture.develop" = "신약 개발";
+"com.jusikwang.business.medicine_manufacture.vaccine" = "백신 개발";
+
+// 기업
+"com.jusikwang.company.dongeo" = "동어제약";

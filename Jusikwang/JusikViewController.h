@@ -9,9 +9,22 @@
 #import <UIKit/UIKit.h>
 
 @class JusikLogoViewController;
+@class JusikMainMenuViewController;
 @interface JusikViewController : UIViewController
 
 @property (nonatomic, retain) JusikLogoViewController *logoViewController;
+@property (nonatomic, retain) JusikMainMenuViewController *mainMenuViewController;
 
+// 로고
 - (void)logoAnimationDidEnd: (NSNotification *)n;
+- (void)showLogoView;
+- (void)hideLogoView;
+
+// 메인메뉴
+- (void)showMainMenuView;
+- (void)hideMainMenuView;
+
+// 게임 시작
+- (void)startNewGame: (id)sender;
+
 @end

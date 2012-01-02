@@ -1,15 +1,14 @@
 //
-//  JusikMainMenuViewController.m
+//  JusikStockGameViewController.m
 //  Jusikwang
 //
-//  Created by 이 현우 on 11. 12. 29..
-//  Copyright (c) 2011 서울시립대학교. All rights reserved.
+//  Created by 이 현우 on 12. 1. 2..
+//  Copyright (c) 2012 서울시립대학교. All rights reserved.
 //
 
-#import "JusikMainMenuViewController.h"
+#import "JusikStockGameViewController.h"
 
-@implementation JusikMainMenuViewController
-@synthesize startNewGameButton = _startNewGameButton;
+@implementation JusikStockGameViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,8 +38,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    self.startNewGameButton = nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
