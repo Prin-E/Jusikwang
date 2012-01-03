@@ -11,26 +11,18 @@
 @class JusikPurchasedStockInfo;
 @class JusikStockMarket;
 @class JusikSkill;
-@interface JusikPlayer : NSObject {
-    NSString *_name;
-    
-    NSMutableDictionary *_purchasedStockInfos;
-    double _money;
-    
-    double _intelligence;
-    double _fatigability;
-    double _reliability;
-    
-    NSMutableDictionary *_skills;
-}
-@property (nonatomic, readonly) NSString *name;
+@interface JusikPlayer : NSObject
 
+@property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSDictionary *purchasedStockInfos;
 
 @property (nonatomic, readonly) double money;
 @property (nonatomic, readwrite) double intelligence;
 @property (nonatomic, readwrite) double fatigability;
 @property (nonatomic, readwrite) double reliability;
+
+@property (nonatomic, readonly) NSArray *skills;
+@property (nonatomic, readonly) NSArray *favorites;
 
 - (id)initWithName: (NSString *)name
       initialMoney: (double)money
@@ -41,10 +33,12 @@
 - (BOOL)buyStockName: (NSString *)name fromMarket: (JusikStockMarket *)market count: (NSUInteger)count;
 - (BOOL)sellStockName: (NSString *)name toMarket: (JusikStockMarket *)market count: (NSUInteger)count;
 
-/*
-- (void)addSkill: (JusikSkill *)skill;
-- (JusikSkill *)skillWithName: (NSString *)name;
-- (BOOL)hasSkill: (NSString *)name;
-*/
+- (void)addSkill: (NSString *)skill;
+- (void)removeSkill: (NSString *)skill;
+- (BOOL)hasSkill: (NSString *)skill;
+
+- (void)addCompanyNameToFavorites: (NSString *)company;
+- (void)removeCompanyNameFromFavorites: (NSString *)company;
+
 
 @end

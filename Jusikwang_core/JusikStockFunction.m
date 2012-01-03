@@ -517,26 +517,34 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
     double value = record.currentDayRecord.startValue * (1.0 - t) + t * record.currentDayRecord.endValue;
     double newValue = 0.0;
     double prevValue = 0.0;
-    double r = (double)arc4random() / (double)ARC4RANDOM_MAX;
+    double r = JusikGetRandomValue(0.0, 1.0);
     double s = 0.0; //(0~1)
     double offset = 0.0;
-    if(r < 0.5) {
+    
+    
+    if(r < 0.15) {
+        s = 0.0;
+    }
+    else if(r < 0.55) {
         s = 0.01;
     }
-    else if(r < 0.75) {
+    else if(r < 0.80) {
         s = 0.02;
     }
-    else if(r < 0.875) {
+    else if(r < 0.90) {
         s = 0.03;
     }
-    else if(r < 0.9375) {
+    else if(r < 0.95) {
+        s = 0.04;
+    }
+    else if(r < 0.98) {
         s = 0.05;
     }
-    else if(r < 0.96875) {
-        s = 0.08;
+    else if(r < 0.995) {
+        s = 0.06;
     }
     else {
-        s = 0.10;
+        s = 0.07;
     }
     
     r = (double)arc4random() / (double)ARC4RANDOM_MAX - 0.5;

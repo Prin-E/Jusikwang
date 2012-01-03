@@ -30,70 +30,6 @@ NSString *JusikBusinessTypeNameAlternativeEnergy = @"com.jusikwang.business.alte
 @synthesize PER = _PER;
 @synthesize exchangeRateEffect = _exchangeRateEffect;
 
-/*
-+ (JusikBusinessType *)carType {
-    return [JusikBusinessType typeWithIdentifier: 1
-                                            name: @"car"
-                                             PER: 9.06];
-}
-
-+ (JusikBusinessType *)marineProductType {
-    
-}
-
-+ (JusikBusinessType *)medicineManufactureType {
-    
-}
-
-+ (JusikBusinessType *)shipbuildingType {
-    
-}
-
-+ (JusikBusinessType *)shippingType {
-    
-}
-
-+ (JusikBusinessType *)steelType {
-    
-}
-
-+ (JusikBusinessType *)bankType {
-    
-}
-
-+ (JusikBusinessType *)shareType {
-    
-}
-
-+ (JusikBusinessType *)oilType {
-    
-}
-
-+ (JusikBusinessType *)chemistryType {
-    
-}
-
-+ (JusikBusinessType *)electronicsType {
-    
-}
-
-+ (JusikBusinessType *)softwareType {
-    
-}
-
-+ (JusikBusinessType *)flightType {
-    
-}
-
-+ (JusikBusinessType *)educationType {
-    
-}
-
-+ (JusikBusinessType *)alternativeEnergyType {
-    
-}
-*/
-
 - (id)initWithIdentifier: (NSUInteger)identifier
                     name: (NSString *)name
                      PER: (double)PER
@@ -118,6 +54,19 @@ NSString *JusikBusinessTypeNameAlternativeEnergy = @"com.jusikwang.business.alte
                                                          exchangeRateEffect: exchangeRateEffect];
     
     return [type autorelease];
+}
+
+- (BOOL)isEqual:(id)object {
+    JusikBusinessType *type = object;
+    if(self.identifier != type.identifier)
+        return NO;
+    if([self.name isEqualToString: type.name] == NO)
+        return NO;
+    if(self.PER != type.PER)
+        return NO;
+    if(self.exchangeRateEffect != type.exchangeRateEffect)
+        return NO;
+    return YES;
 }
 
 - (void)dealloc {

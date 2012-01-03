@@ -20,24 +20,6 @@
 @property (nonatomic, readonly) double PER;
 @property (nonatomic, readonly) double exchangeRateEffect;
 
-/*
-+ (JusikBusinessType *)carType;
-+ (JusikBusinessType *)marineProductType;
-+ (JusikBusinessType *)medicineManufactureType;
-+ (JusikBusinessType *)shipbuildingType;
-+ (JusikBusinessType *)shippingType;
-+ (JusikBusinessType *)steelType;
-+ (JusikBusinessType *)bankType;
-+ (JusikBusinessType *)shareType;
-+ (JusikBusinessType *)oilType;
-+ (JusikBusinessType *)chemistryType;
-+ (JusikBusinessType *)electronicsType;
-+ (JusikBusinessType *)softwareType;
-+ (JusikBusinessType *)flightType;
-+ (JusikBusinessType *)educationType;
-+ (JusikBusinessType *)alternativeEnergyType;
-*/
-
 - (id)initWithIdentifier: (NSUInteger)identifier
                     name: (NSString *)name
                      PER: (double)PER
