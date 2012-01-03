@@ -27,6 +27,8 @@ typedef enum {
 @property (nonatomic, retain) JusikStockMarket *market;
 @property (nonatomic, retain) JusikPlayer *player;
 
+@property (nonatomic, readonly) JusikGamePlayState gameState;
+
 // View Controllers
 @property (nonatomic, assign) JusikViewController *viewController;
 @property (nonatomic, retain) JusikStatusBarController *statusBarController;

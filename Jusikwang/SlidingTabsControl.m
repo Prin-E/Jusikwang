@@ -9,16 +9,18 @@
 #import "SlidingTabsControl.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation SlidingTabsControl
+@interface SlidingTabsControl (Private)
+- (void)_initViews;
+@end
 
+@implementation SlidingTabsControl
+@synthesize delegate = _delegate;
+@synthesize tabCount = _tabCount;
+
+#pragma mark - 초기화 메서드
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        self.backgroundColor = [UIColor blueColor];
-    }
-    return self;
+    return [self initWithTabCount: 0 delegate: nil];
 }
 
 - (id) initWithTabCount:(NSUInteger)tabCount
@@ -28,74 +30,39 @@
     {
         // Set the delegate
         _delegate = slidingTabsControlDelegate;
-        
-        // Set our frame
-        self.frame = CGRectMake(0, 0, 320, 40);
-        self.backgroundColor = [UIColor darkGrayColor];
-        
-        // Initalize the array we use to store our buttons
-        _buttons = [[NSMutableArray alloc] initWithCapacity:tabCount];
-        
-        // horizontalOffset tracks the proper x value as we add buttons as subviews
-        CGFloat horizontalOffset = 0;
-        CGFloat buttonWidth = (320.0 / tabCount);
-        CGFloat buttonHeight = 40;
-        
-        // Draw our tab!
-        _tab = [[SlidingTabsTab alloc] initWithFrame:CGRectMake(-5, 0, buttonWidth+10.0, buttonHeight)];
-        [self addSubview:_tab];
-        
-        // Iterate through each segment
-        for (NSUInteger i = 0 ; i < tabCount ; i++)
-        {
-            // Get the label for the segment
-            UILabel *label = [_delegate labelFor:self atIndex:i];
-            label.backgroundColor = [UIColor clearColor];
-            label.font = [UIFont fontWithName:@"Arial-BoldMT" size:16.0f];
-            label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.35];
-            label.shadowOffset = CGSizeMake(0, -1.0);
-            label.textColor = [UIColor whiteColor];
-            label.textAlignment = UITextAlignmentCenter;
-            label.frame = CGRectMake((int)horizontalOffset, 0, buttonWidth, buttonHeight);
-            [self addSubview:label];
-            
-            // Create a button
-            UIButton* button = [[UIButton alloc] initWithFrame:CGRectMake(horizontalOffset, 0.0, buttonWidth, buttonHeight)];
-            
-            // Register for touch events
-            [button addTarget:self action:@selector(touchDownAction:) forControlEvents:UIControlEventTouchDown];
-            [button addTarget:self action:@selector(touchUpInsideAction:) forControlEvents:UIControlEventTouchUpInside];
-            [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchUpOutside];
-            [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchDragOutside];
-            [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchDragInside];
-            
-            // Add the button to our buttons array
-            [_buttons addObject:button];
-            
-            // Set the button's x offset
-            button.frame = CGRectMake(horizontalOffset, 0.0, button.frame.size.width, button.frame.size.height);
-            
-            // Add the button as our subview
-            [self addSubview:button];
-            
-            // Add the divider unless we are at the last segment
-            if (i != tabCount - 1)
-            {
-                //UIImageView* divider = [[[UIImageView alloc] initWithImage:dividerImage] autorelease];
-                //divider.frame = CGRectMake(horizontalOffset + segmentsize.width, 0.0, dividerImage.size.width, dividerImage.size.height);
-                //[self addSubview:divider];
-            }
-            
-            // Advance the horizontal offset
-            horizontalOffset = horizontalOffset + buttonWidth;
-            
-           
-        }
+        _tabCount = tabCount;
+        [self _initViews];
     }
     
     return self;
 }
 
+#pragma mark - 프로퍼티 메서드
+- (id<SlidingTabsControlDelegate>)delegate {
+    return _delegate;
+}
+
+- (void)setDelegate:(id<SlidingTabsControlDelegate>)delegate {
+    if(_delegate != delegate) {
+        [(NSObject *)delegate retain];
+        [_delegate release];
+        
+        _delegate = (NSObject<SlidingTabsControlDelegate> *)delegate;
+        
+        [self _initViews];
+    }
+}
+
+- (NSUInteger)tabCount {
+    return _tabCount;
+}
+
+- (void)setTabCount:(NSUInteger)tabCount {
+    _tabCount = tabCount;
+    [self _initViews];
+}
+
+#pragma mark - 그리기
 - (void)drawRect:(CGRect)rect
 {
     // Set background gradient
@@ -154,6 +121,7 @@
     CGContextRestoreGState(context);
 }
 
+#pragma mark - 터치 액션 처리
 - (void)touchDownAction:(UIButton*)button
 {
     if ([_delegate respondsToSelector:@selector(touchDownAtTabIndex:)])
@@ -182,6 +150,82 @@
 
 }
 
+#pragma mark - 비공개 메서드
+- (void)_initViews {
+    // Set our frame
+    self.frame = CGRectMake(0, 0, 320, 40);
+    self.backgroundColor = [UIColor darkGrayColor];
+    
+    // Initalize the array we use to store our buttons
+    if(_buttons) {
+        for(UIView *v in _buttons)
+            [v removeFromSuperview];
+        [_buttons release];
+        _buttons = nil;
+    }
+    _buttons = [[NSMutableArray alloc] initWithCapacity:self.tabCount];
+    
+    // horizontalOffset tracks the proper x value as we add buttons as subviews
+    CGFloat horizontalOffset = 0;
+    CGFloat buttonWidth = (320.0 / self.tabCount);
+    CGFloat buttonHeight = 40;
+    
+    // Draw our tab!
+    if(_tab) {
+        [_tab removeFromSuperview];
+        [_tab release];
+        _tab = nil;
+    }
+    _tab = [[SlidingTabsTab alloc] initWithFrame:CGRectMake(-5, 0, buttonWidth+10.0, buttonHeight)];
+    [self addSubview:_tab];
+    
+    // Iterate through each segment
+    for (NSUInteger i = 0 ; i < self.tabCount ; i++)
+    {
+        // Get the label for the segment
+        UILabel *label = [_delegate labelFor:self atIndex:i];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont fontWithName:@"Arial-BoldMT" size:16.0f];
+        label.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.35];
+        label.shadowOffset = CGSizeMake(0, -1.0);
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = UITextAlignmentCenter;
+        label.frame = CGRectMake((int)horizontalOffset, 0, buttonWidth, buttonHeight);
+        [self addSubview:label];
+        
+        // Create a button
+        UIButton* button = [[UIButton alloc] initWithFrame:CGRectMake(horizontalOffset, 0.0, buttonWidth, buttonHeight)];
+        
+        // Register for touch events
+        [button addTarget:self action:@selector(touchDownAction:) forControlEvents:UIControlEventTouchDown];
+        [button addTarget:self action:@selector(touchUpInsideAction:) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchUpOutside];
+        [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchDragOutside];
+        [button addTarget:self action:@selector(otherTouchesAction:) forControlEvents:UIControlEventTouchDragInside];
+        
+        // Add the button to our buttons array
+        [_buttons addObject:button];
+        
+        // Set the button's x offset
+        button.frame = CGRectMake(horizontalOffset, 0.0, button.frame.size.width, button.frame.size.height);
+        
+        // Add the button as our subview
+        [self addSubview:button];
+        
+        // Add the divider unless we are at the last segment
+        if (i != self.tabCount - 1)
+        {
+            //UIImageView* divider = [[[UIImageView alloc] initWithImage:dividerImage] autorelease];
+            //divider.frame = CGRectMake(horizontalOffset + segmentsize.width, 0.0, dividerImage.size.width, dividerImage.size.height);
+            //[self addSubview:divider];
+        }
+        
+        // Advance the horizontal offset
+        horizontalOffset = horizontalOffset + buttonWidth;
+    }
+}
+
+#pragma mark - 메모리 해제
 - (void)dealloc
 {
     [super dealloc];

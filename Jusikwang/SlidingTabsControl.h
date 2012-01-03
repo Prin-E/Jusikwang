@@ -3,6 +3,7 @@
 //  SlidingTabs
 //
 //  Created by Mathew Piccinato on 5/12/11.
+//  Modified by 이현우.
 //  Copyright 2011 Constructt. All rights reserved.
 //
 
@@ -16,6 +17,7 @@
     SlidingTabsTab* _tab;
     NSMutableArray* _buttons;
     NSObject <SlidingTabsControlDelegate> *_delegate;
+    NSUInteger _tabCount;
 }
 
 /**
@@ -24,7 +26,8 @@
 - (id) initWithTabCount:(NSUInteger)tabCount
                    delegate:(NSObject <SlidingTabsControlDelegate>*)slidingTabsControlDelegate;
 
-
+@property (nonatomic, retain) id <SlidingTabsControlDelegate> delegate;
+@property (nonatomic, readwrite) NSUInteger tabCount;
 @end
 
 @protocol SlidingTabsControlDelegate

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9506950514B2FB350038BC74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9506950414B2FB350038BC74 /* libsqlite3.dylib */; };
 		952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3814AA689D003CC95F /* JusikLogoViewController.m */; };
 		952E4F3B14AA689D003CC95F /* JusikLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */; };
 		9585273F14B21D4F00EBC3CC /* JusikFavoriteStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9506950414B2FB350038BC74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		952E4F3714AA689D003CC95F /* JusikLogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikLogoViewController.h; sourceTree = "<group>"; };
 		952E4F3814AA689D003CC95F /* JusikLogoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikLogoViewController.m; sourceTree = "<group>"; };
 		952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikLogoViewController.xib; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9506950514B2FB350038BC74 /* libsqlite3.dylib in Frameworks */,
 				95EA63E214A619E2007E86D1 /* UIKit.framework in Frameworks */,
 				95EA63E414A619E2007E86D1 /* Foundation.framework in Frameworks */,
 				95EA63E614A619E2007E86D1 /* CoreGraphics.framework in Frameworks */,
@@ -136,6 +139,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9506950314B2FAD70038BC74 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				95D1D6C114B201EF00BEF3A0 /* JusikLoadingViewController.h */,
+				95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */,
+				95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */,
+			);
+			name = Loading;
+			sourceTree = "<group>";
+		};
 		9585274C14B22CD600EBC3CC /* SlidingTabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +181,7 @@
 		9585276214B25B8B00EBC3CC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9506950314B2FAD70038BC74 /* Loading */,
 				9585276514B25BF500EBC3CC /* Game */,
 				9585276414B25BA600EBC3CC /* Main Menu */,
 				9585276314B25B9500EBC3CC /* Logo */,
@@ -236,6 +250,7 @@
 		95EA63E014A619E2007E86D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9506950414B2FB350038BC74 /* libsqlite3.dylib */,
 				95EA63E114A619E2007E86D1 /* UIKit.framework */,
 				95EA63E314A619E2007E86D1 /* Foundation.framework */,
 				95EA63E514A619E2007E86D1 /* CoreGraphics.framework */,
@@ -256,9 +271,6 @@
 				95EA63F414A619E3007E86D1 /* JusikViewController.m */,
 				95EA63F614A619E3007E86D1 /* JusikViewController.xib */,
 				95EA63E814A619E2007E86D1 /* Supporting Files */,
-				95D1D6C114B201EF00BEF3A0 /* JusikLoadingViewController.h */,
-				95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */,
-				95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */,
 				95D1D6BB14B0CF6D00BEF3A0 /* JusikUIDataTypes.h */,
 				95D1D6D014B20A0600BEF3A0 /* Localizable.strings */,
 				9585275B14B25A1200EBC3CC /* JusikPreferencesViewController.h */,

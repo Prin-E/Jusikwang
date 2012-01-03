@@ -27,6 +27,8 @@
 @synthesize market = _market;
 @synthesize player = _player;
 
+@synthesize gameState = _gameState;
+
 @synthesize statusBarController = _statusBarController;
 @synthesize viewController = _viewController;
 @synthesize piViewController = _piViewController;
@@ -91,6 +93,11 @@
     [_stockGameController release];
     
     _stockGameController = stockGameController;
+    
+    self.stockGameController.market = self.market;
+    self.stockGameController.player = self.player;
+    
+    [self.contentView addSubview: self.stockGameController.view];
 }
 
 - (JusikPlayer *)player {
@@ -128,22 +135,34 @@
 
 #pragma mark - 액션
 - (void)showMenu:(id)sender {
-    [UIView beginAnimations: @"JusikGameViewShowMenu" context: nil];
-    [UIView setAnimationDuration: kJusikViewFadeTime];
-    [UIView setAnimationCurve: UIViewAnimationCurveEaseOut];
-    
-    CGRect frame = self.statusBarMenuView.frame;
-    if(_showingMenu) {
-        frame.origin.y = -frame.size.height + self.statusBarController.view.frame.size.height;
-    }
-    else {
-        frame.origin.y = 0.0;
-    }
-    self.statusBarMenuView.frame = frame;
-    
-    [UIView commitAnimations];
+    [UIView animateWithDuration: kJusikViewShowHideTime
+                          delay: 0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         CGRect frame = self.statusBarMenuView.frame;
+                         if(_showingMenu)
+                             frame.origin.y = -frame.size.height + self.statusBarController.view.frame.size.height;
+                         else
+                             frame.origin.y = 0.0;
+                         
+                         self.statusBarMenuView.frame = frame;                         
+                     }
+                     completion: ^(BOOL completed) {
+                         
+                     }];
     
     _showingMenu = !_showingMenu;
+    
+    switch(self.gameState) {
+        case JusikGamePlayStateStock:
+            if(_showingMenu)
+                [self.stockGameController pause];
+            else
+                [self.stockGameController resume];
+            break;
+        case JusikGamePlayStateActivity:
+            break;
+    }
 }
 
 - (void)exitGame:(id)sender {
@@ -173,11 +192,21 @@
     self.player = player;
     [player release];
     
+    self.piViewController.player = self.player;
+    
     JusikStockMarket *market = [[JusikStockMarket alloc] initWithInitialDateWithYear: 2011
                                                                                month: 11
                                                                                  day: 10];
     self.market = market;
     [market release];
+    
+    JusikStockGameViewController *vc = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
+    self.stockGameController = vc;
+    [vc release];
+    
+    _gameState = JusikGamePlayStateStock;
+    
+    [vc play];
 }
 
 - (void)viewDidUnload
@@ -251,6 +280,7 @@
     
     self.statusBarController = nil;
     self.piViewController = nil;
+    self.stockGameController = nil;
     
     [super dealloc];
 }

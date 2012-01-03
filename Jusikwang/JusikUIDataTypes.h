@@ -14,3 +14,6 @@
 
 // Logo Idle Time
 #define kJusikLogoViewIdleTime 0.5
+
+// Show/Hide
+#define kJusikViewShowHideTime 0.5

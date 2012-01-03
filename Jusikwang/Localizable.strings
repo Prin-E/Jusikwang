@@ -38,3 +38,9 @@
 
 // 기업
 "com.jusikwang.company.dongeo" = "동어제약";
+
+// 스탯
+"Asset" = "자금";
+"Intelligence" = "지력";
+"Reliability" = "신뢰도";
+"Fatigability" = "피로도";

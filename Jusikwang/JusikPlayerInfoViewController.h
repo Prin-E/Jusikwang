@@ -12,7 +12,22 @@
 @class JusikPlayer;
 @interface JusikPlayerInfoViewController : UIViewController <SlidingTabsControlDelegate>
 
-@property (nonatomic, retain) IBOutlet SlidingTabsControl *tab;
-
+// Core
 @property (nonatomic, retain) JusikPlayer *player;
+
+// UI
+@property (nonatomic, retain) IBOutlet SlidingTabsControl *tab;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
+
+@property (nonatomic, retain) IBOutlet UIView *statView;
+@property (nonatomic, retain) IBOutlet UILabel *statPlayerName;
+@property (nonatomic, retain) IBOutlet UILabel *statAssetText;
+@property (nonatomic, retain) IBOutlet UILabel *statIntelligenceText;
+@property (nonatomic, retain) IBOutlet UILabel *statReliabilityText;
+@property (nonatomic, retain) IBOutlet UILabel *statFatigabilityText;
+
+@property (nonatomic, retain) IBOutlet UIView *newsHistoryView;
+
+- (void)updateStat;
+
 @end
