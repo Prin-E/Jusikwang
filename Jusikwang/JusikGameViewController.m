@@ -12,6 +12,7 @@
 #import "JusikUIDataTypes.h"
 #import "JusikPlayerInfoViewController.h"
 #import "JusikStockGameViewController.h"
+#import "JusikActivityGameViewController.h"
 
 #import "JusikCore.h"
 
@@ -22,17 +23,23 @@
 
 @implementation JusikGameViewController {
     BOOL _showingMenu;
+    UIViewController *_currentGameController;
 }
 
 @synthesize market = _market;
 @synthesize player = _player;
 
 @synthesize gameState = _gameState;
+@synthesize date = _date;
+@synthesize turn = _turn;
+@synthesize showsTutorial = _showsTutorial;
 
 @synthesize statusBarController = _statusBarController;
 @synthesize viewController = _viewController;
 @synthesize piViewController = _piViewController;
+
 @synthesize stockGameController = _stockGameController;
+@synthesize activityGameController = _activityGameController;
 
 @synthesize contentView = _contentView;
 @synthesize statusBarMenuView = _statusBarMenuView;
@@ -43,6 +50,37 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        NSDateComponents *comp = [NSDateComponents new];
+        comp.year = 2011;
+        comp.month = 11;
+        comp.day = 10;
+        _date = [comp date];
+        [_date retain];
+        [comp release];
+        
+        _gameState = JusikGamePlayStateStock;
+        _showsTutorial = YES;
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(stockGameDidStart:)
+                                                     name: JusikStockGameViewGameDidStartNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(stockGamePeriodDidUpdate:)
+                                                     name: JusikStockGameViewPeriodDidUpdateNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(stockGameDidEnd:)
+                                                     name: JusikStockGameViewGameDidStopNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(activityGameDidStart:)
+                                                     name: JusikActivityGameViewGameDidStartNotification
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(activityGameDidStart:)
+                                                     name: JusikActivityGameViewGameDidStopNotification
+                                                   object: nil];
     }
     return self;
 }
@@ -110,6 +148,7 @@
     _player = player;
     
     self.statusBarController.player = player;
+    self.piViewController.player = player;
 }
 
 - (JusikStockMarket *)market {
@@ -122,6 +161,73 @@
     _market = market;
     
     self.statusBarController.market = market;
+}
+
+- (NSDate *)date {
+    return [[_date copy] autorelease];
+}
+
+- (void)setDate:(NSDate *)date {
+    if(_date != date) {
+        [_date release];
+        _date = [date copy];
+    }
+    self.statusBarController.date = self.date;
+}
+
+- (BOOL)isWeekday {
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit fromDate: self.date];
+    if(comp.day >= 6) {
+        return YES;
+    }
+    return NO;
+}
+
+- (JusikGamePlayState)gameState {
+    return _gameState;
+}
+
+- (void)setGameState:(JusikGamePlayState)gameState {
+    if(_gameState == gameState) return;
+    if(gameState == JusikGamePlayStateStock) {
+        if([self isWeekday]) {
+            // 주말은 주식시장을 이용할 수 없다.
+            return;
+        }
+    }
+    _gameState = gameState;
+    
+    UIViewController *gameController = nil;
+    if(self.gameState == JusikGamePlayStateStock) {
+        gameController = self.stockGameController;
+        [(JusikActivityGameViewController *)_currentGameController stop];
+    }
+    else {
+        gameController = self.activityGameController;
+        [(JusikStockGameViewController *)_currentGameController stop];
+    }
+    [UIView animateWithDuration: kJusikViewFadeTime
+                          delay: 0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         _currentGameController.view.alpha = 0;
+                     }
+                     completion: ^(BOOL completed) {
+                         [_currentGameController.view removeFromSuperview];
+                         gameController.view.alpha = 0;
+                         [self.contentView addSubview: gameController.view];
+                         [UIView animateWithDuration: kJusikViewFadeTime
+                                               delay: 0
+                                             options: UIViewAnimationOptionCurveEaseOut
+                                          animations: ^{
+                                              gameController.view.alpha = 1;
+                                          }
+                                          completion: ^(BOOL completed) {
+                                              gameController.view.alpha = 1;
+                                              _currentGameController = gameController;
+                                          }];
+                     }];
 }
 
 #pragma mark 메모리 관리
@@ -169,6 +275,84 @@
     [self.viewController exitGame];
 }
 
+- (void)play {
+    if(self.gameState == JusikGamePlayStateStock) {
+        if([self isWeekday] == NO)
+            [self.stockGameController play];
+        else {
+            self.gameState = JusikGamePlayStateActivity;
+            [self.activityGameController play];
+        }
+    }
+    else {
+        [self.activityGameController play];
+    }
+}
+
+- (void)pause {
+    if(self.gameState == JusikGamePlayStateStock) {
+        [self.stockGameController pause];
+    }
+    else {
+        [self.activityGameController pause];
+    }
+}
+
+- (void)resume {
+    if(self.gameState == JusikGamePlayStateStock) {
+        [self.stockGameController resume];
+    }
+    else {
+        [self.activityGameController resume];
+    }
+}
+
+- (void)stop {
+    if(self.gameState == JusikGamePlayStateStock) {
+        [self.stockGameController stop];
+    }
+    else {
+        [self.activityGameController stop];
+    }
+}
+
+- (void)nextDay {
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *comp = [[NSDateComponents alloc] init];
+    comp.day = 1;
+    
+    NSDate *newDate = [gregorian dateByAddingComponents: comp 
+                                                 toDate: _date
+                                                options: 0];
+    [_date release];
+    _date = newDate;
+    [_date retain];
+}
+
+#pragma mark - 노티피케이션
+- (void)stockGameDidStart: (NSNotification *)n {
+    
+}
+
+- (void)stockGamePeriodDidUpdate: (NSNotification *)n {
+    
+}
+
+- (void)stockGameDidEnd: (NSNotification *)n {
+    self.gameState = JusikGamePlayStateActivity;
+    [self play];
+}
+
+- (void)activityGameDidStart: (NSNotification *)n {
+    
+}
+
+- (void)activityGameDidEnd: (NSNotification *)n {
+    [self nextDay];
+    self.gameState = JusikGamePlayStateStock;
+    [self play];
+}
+
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
@@ -184,29 +368,18 @@
     
     [self _layoutViews];
     
-    JusikPlayer *player = [[JusikPlayer alloc] initWithName: @"test"
-                                               initialMoney: 5000000
-                                               intelligence: 50
-                                               fatigability: 50
-                                                reliability: 50];
-    self.player = player;
-    [player release];
+    JusikStockGameViewController *stockGame = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
+    self.stockGameController = stockGame;
+    [stockGame release];
     
-    self.piViewController.player = self.player;
+    JusikActivityGameViewController *activityGame = [[JusikActivityGameViewController alloc] initWithNibName: @"JusikActivityGameViewController" bundle: nil];
+    self.activityGameController = activityGame;
+    [activityGame release];
     
-    JusikStockMarket *market = [[JusikStockMarket alloc] initWithInitialDateWithYear: 2011
-                                                                               month: 11
-                                                                                 day: 10];
-    self.market = market;
-    [market release];
+    self.gameState = JusikGamePlayStateStock;
     
-    JusikStockGameViewController *vc = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
-    self.stockGameController = vc;
-    [vc release];
-    
-    _gameState = JusikGamePlayStateStock;
-    
-    [vc play];
+    [self nextDay];
+    [self play];
 }
 
 - (void)viewDidUnload
@@ -230,6 +403,9 @@
     [bar release];
     
     [self.statusBarMenuView addSubview: bar.view];
+    
+    self.statusBarController.player = self.player;
+    self.statusBarController.market = self.market;
 }
 
 - (void)_layoutViews {
@@ -277,10 +453,14 @@
 - (void)dealloc {
     [_market release];
     [_player release];
+    [_date release];
     
     self.statusBarController = nil;
     self.piViewController = nil;
     self.stockGameController = nil;
+    self.activityGameController = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
     
     [super dealloc];
 }

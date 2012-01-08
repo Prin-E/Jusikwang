@@ -140,6 +140,19 @@
     [self updateStatus];
 }
 
+- (NSDate *)date {
+    return [[_date copy] autorelease];
+}
+
+- (void)setDate:(NSDate *)date {
+    if(_date != date) {
+        [_date release];
+        _date = [date copy];
+        
+        [self updateDate];
+    }
+}
+
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
@@ -219,6 +232,14 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
     [self updateStatus];
+}
+
+- (void)updateDate {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat: @"yyyy-MM-dd EEE"];
+    self.stockTimeDateText.text = [formatter stringFromDate: _date];
+    self.activityTimeDateText.text = [formatter stringFromDate: _date];
+    [formatter release];
 }
 
 #pragma mark - 메모리 해제

@@ -7,11 +7,16 @@
 //
 
 #import "JusikMainMenuViewController.h"
+#import "JusikUIDataTypes.h"
 
 @implementation JusikMainMenuViewController {
     IBOutlet UIImageView *logoImageView;
+    UIView *_currentView;
 }
 @synthesize startNewGameButton = _startNewGameButton;
+@synthesize mainMenuView = _mainMenuView;
+@synthesize preferenceView = _preferenceView;
+@synthesize creditView = _creditView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +41,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self.view addSubview: self.mainMenuView];
+    _currentView = self.mainMenuView;
 }
 
 - (void)viewDidUnload
@@ -43,8 +51,9 @@
     [super viewDidUnload];
     
     self.startNewGameButton = nil;
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.mainMenuView = nil;
+    self.preferenceView = nil;
+    self.creditView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -53,8 +62,18 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)changeToMainMenuView {
+    [UIView transitionFromView: _currentView
+                        toView: _mainMenuView
+                      duration: kJusikViewFadeTime
+                       options: UIViewAnimationOptionCurveEaseOut
+                    completion: ^(BOOL completed) {
+                        
+                    }];
+}
+
 #pragma mark - 애니메이션
-- (void)showAnimation {
+- (void)showMainMenuAnimation {
     logoImageView.alpha = 0.0;
     CGRect toFrame = logoImageView.frame;
     CGRect fromFrame = toFrame;

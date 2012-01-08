@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JusikFavoriteStockView : UIScrollView
+@class JusikPlayer;
+@interface JusikFavoriteStockView : UIView
+
+@property (nonatomic, retain) JusikPlayer *player;
 
 @end

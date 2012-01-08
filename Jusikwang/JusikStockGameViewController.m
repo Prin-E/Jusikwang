@@ -12,7 +12,7 @@
 #import "JusikUIDataTypes.h"
 
 #define kJusikStockTimePeriod 10
-#define kJusikStockGameMaxSeconds 180
+#define kJusikStockGameMaxSeconds 10
 
 NSString *const JusikStockGameViewGameDidStartNotification =  @"JusikStockGameViewGameDidStartNotification";
 NSString *const JusikStockGameViewPeriodDidUpdateNotification = @"JusikStockGameViewPeriodDidUpdateNotification";
@@ -37,6 +37,9 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 - (void)showFavoriteView;
 - (void)hideFavoriteView;
+
+- (void)showResultView;
+- (void)hideResultView;
 @end
 
 @implementation JusikStockGameViewController {
@@ -51,8 +54,10 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 @synthesize favoriteView = _favoriteView;
 @synthesize newsView = _newsView;
+@synthesize newsBackgroundView = _newsBackgroundView;
 @synthesize favoriteShowButton = _favoriteShowButton;
 @synthesize gameTimeText = _gameTimeText;
+@synthesize resultView = _resultView;
 
 @synthesize market = _market;
 @synthesize player = _player;
@@ -112,6 +117,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     _seconds = 0;
     [self setupTimer];
     
+    [self.view addSubview: self.gameTimeText];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName: JusikStockGameViewGameDidStartNotification
                       object: self];
@@ -130,7 +136,35 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     [self.market close];
     
     self.gameTimeText.text = @"";
+    [self.gameTimeText removeFromSuperview];
     _participating = NO;
+    
+    [self showResultView];
+}
+
+- (void)setupGameView {
+    self.gameTimeText.text = @"";
+    UIImage *img = [UIImage imageNamed: @"Images/result.png"];
+    if(img)
+        self.resultView.backgroundColor = [UIColor colorWithPatternImage: img];
+}
+
+- (void)showResultView {
+    [self.view addSubview: self.resultView];
+    CGRect frame = self.resultView.frame;
+    CGRect viewFrame = self.view.frame;
+    frame.origin.x = (viewFrame.size.width - frame.size.width) * 0.5;
+    frame.origin.y = (viewFrame.size.height - frame.size.height) * 0.5;
+    self.resultView.frame = frame;
+}
+
+- (void)hideResultView {
+    [self.resultView removeFromSuperview];
+}
+
+- (void)resultButtonAction:(id)sender {
+    [self hideResultView];
+    [self stop];
 }
 
 #pragma mark - Timer
@@ -152,7 +186,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     }
 }
 
-- (void)gameTimer {    
+- (void)gameTimer {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     _seconds++;
     _timerCount++;
     
@@ -172,19 +207,18 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     NSUInteger time = kJusikStockGameMaxSeconds - _seconds;
     NSUInteger timeMinute = time / 60;
     NSUInteger timeSecond = time % 60;
-    self.gameTimeText.text = [NSString stringWithFormat: @"Time : %2d:%2d", timeMinute, timeSecond];
+    self.gameTimeText.text = [NSString stringWithFormat: @"Time : %02d:%02d", timeMinute, timeSecond];
 }
 
 - (void)nextPeriod {
     [self.market nextPeriod];
 }
 
-- (void)setupGameView {
-    self.gameTimeText.text = @"";
-}
-
 #pragma mark - 뉴스
 - (void)setupNewsView {
+    UIImage *img = [UIImage imageNamed: @"Images/briefing_newpaper.png"];
+    if(img)
+        self.newsBackgroundView.backgroundColor = [UIColor colorWithPatternImage: img];
     self.newsView.alpha = 0.0;
     [self.view addSubview: self.newsView];
     
@@ -235,12 +269,18 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 #pragma mark - 즐겨찾기
 - (void)setupFavoriteView {
+    [self.view addSubview: self.favoriteShowButton];
     [self.view addSubview: self.favoriteView];
     
     CGRect frame = self.favoriteView.frame;
     frame.origin.x = 0;
-    frame.origin.y = self.view.frame.size.height - self.favoriteShowButton.frame.size.height;
+    frame.origin.y = self.view.frame.size.height;
     self.favoriteView.frame = frame;
+    
+    frame = self.favoriteShowButton.frame;
+    frame.origin.x = self.view.frame.size.width - frame.size.width;
+    frame.origin.y = self.view.frame.size.height - frame.size.height;
+    self.favoriteShowButton.frame = frame;
 }
 
 - (void)toggleShowingFavoriteView:(id)sender {
@@ -255,14 +295,18 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     
     _showingFavoriteView = YES;
     
-    CGRect frame = self.favoriteView.frame;
+    CGRect favoriteViewFrame = self.favoriteView.frame;
+    CGRect favoriteButtonFrame = self.favoriteShowButton.frame;
     CGRect viewFrame = self.view.frame;
-    frame.origin.x = 0;
-    frame.origin.y = viewFrame.size.height - frame.size.height;
+    favoriteViewFrame.origin.x = 0;
+    favoriteViewFrame.origin.y = viewFrame.size.height - favoriteViewFrame.size.height;
+    favoriteButtonFrame.origin.x = viewFrame.size.width;
+    favoriteButtonFrame.origin.y = viewFrame.size.height - favoriteButtonFrame.size.height - favoriteViewFrame.size.height;
     
     [UIView animateWithDuration: kJusikViewShowHideTime
                      animations: ^{
-                         self.favoriteView.frame = frame;
+                         self.favoriteView.frame = favoriteViewFrame;
+                         self.favoriteShowButton.frame = favoriteButtonFrame;
                      }];
 }
 
@@ -271,15 +315,18 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     
     _showingFavoriteView = NO;
     
-    CGRect frame = self.favoriteView.frame;
+    CGRect favoriteViewFrame = self.favoriteView.frame;
+    CGRect favoriteButtonFrame = self.favoriteShowButton.frame;
     CGRect viewFrame = self.view.frame;
-    CGRect buttonFrame = self.favoriteShowButton.frame;
-    frame.origin.x = 0;
-    frame.origin.y = viewFrame.size.height - buttonFrame.size.height;
+    favoriteViewFrame.origin.x = 0;
+    favoriteViewFrame.origin.y = viewFrame.size.height;
+    favoriteButtonFrame.origin.x = viewFrame.size.width;
+    favoriteButtonFrame.origin.y = viewFrame.size.height - favoriteButtonFrame.size.height;
     
     [UIView animateWithDuration: kJusikViewShowHideTime
                      animations: ^{
-                         self.favoriteView.frame = frame;
+                         self.favoriteView.frame = favoriteViewFrame;
+                         self.favoriteShowButton.frame = favoriteButtonFrame;
                      }];
 }
 
@@ -300,6 +347,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     [self stop];
     
     self.newsView = nil;
+    self.newsBackgroundView = nil;
     self.favoriteView = nil;
     self.favoriteShowButton = nil;
     self.gameTimeText = nil;

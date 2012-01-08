@@ -11,11 +11,13 @@
 @class JusikLogoViewController;
 @class JusikMainMenuViewController;
 @class JusikGameViewController;
+@class JusikLoadingViewController;
 @interface JusikViewController : UIViewController
 
 @property (nonatomic, retain) JusikLogoViewController *logoViewController;
 @property (nonatomic, retain) JusikMainMenuViewController *mainMenuViewController;
 @property (nonatomic, retain) JusikGameViewController *gameViewController;
+@property (nonatomic, retain) JusikLoadingViewController *loadingViewController;
 // 로고
 - (void)logoAnimationDidEnd: (NSNotification *)n;
 - (void)showLogoView;

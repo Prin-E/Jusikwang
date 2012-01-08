@@ -11,6 +11,8 @@
 #import "JusikMainMenuViewController.h"
 #import "JusikGameViewController.h"
 #import "JusikUIDataTypes.h"
+#import "JusikLoadingViewController.h"
+#import "JusikBGMPlayer.h"
 
 @implementation JusikViewController {
 @private
@@ -20,6 +22,7 @@
 @synthesize logoViewController = _logoViewController;
 @synthesize mainMenuViewController = _mainMenuViewController;
 @synthesize gameViewController = _gameViewController;
+@synthesize loadingViewController = _loadingViewController;
 
 - (void)didReceiveMemoryWarning
 {
@@ -77,14 +80,44 @@
     [self hideMainMenuView];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * kJusikViewFadeTime), dispatch_get_current_queue(), ^ {
-        JusikGameViewController *vc = [[JusikGameViewController alloc] initWithNibName: @"JusikGameViewController" bundle: nil];
-        self.gameViewController = vc;
+        
+        JusikLoadingViewController *vc = [[JusikLoadingViewController alloc] initWithNibName: @"JusikLoadingViewController" 
+                                                                                      bundle: nil];
+        self.loadingViewController = vc;
         [vc release];
         
-        self.gameViewController.viewController = self;
-        
         [self.view addSubview: vc.view];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(gameLoadDidComplete:)
+                                                     name: JusikLoadingViewLoadDidCompleteNotification
+                                                   object: vc];
+        
+        [vc loadWithDBName: @"game.db"];
     });
+}
+
+- (void)gameLoadDidComplete: (NSNotification *)n {
+    [UIView animateWithDuration: kJusikViewFadeTime
+                     animations: ^{
+                         self.loadingViewController.view.alpha = 0;
+                     }
+                     completion: ^(BOOL completed) {
+                         self.gameViewController = self.loadingViewController.gameViewController;
+                         self.loadingViewController = nil;
+                         self.gameViewController.viewController = self;
+                         self.gameViewController.view.alpha = 0;
+                         [self.view addSubview: self.gameViewController.view];
+                         [UIView animateWithDuration: kJusikViewFadeTime
+                                          animations: ^{
+                                              self.gameViewController.view.alpha = 1;
+                                          }
+                                          completion: ^(BOOL completed) {
+                                              self.gameViewController.view.alpha = 1;
+                                          }];
+                         
+                     }];
+    
 }
 
 - (void)exitGame {
@@ -125,7 +158,9 @@
                      completion: ^(BOOL complete) {
                          _currentViewController = self.mainMenuViewController;
                      }];
-    [self.mainMenuViewController showAnimation];
+    [self.mainMenuViewController showMainMenuAnimation];
+    
+    [[JusikBGMPlayer sharedPlayer] playMusic: JusikBGMMusicMainMenu];
 }
 
 - (void)hideMainMenuView {

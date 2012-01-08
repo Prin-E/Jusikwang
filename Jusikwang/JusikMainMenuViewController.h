@@ -12,6 +12,11 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *startNewGameButton;
 
-- (void)showAnimation;
+@property (nonatomic, retain) IBOutlet UIView *mainMenuView;
+@property (nonatomic, retain) IBOutlet UIView *preferenceView;
+@property (nonatomic, retain) IBOutlet UIView *creditView;
+
+- (void)changeToMainMenuView;
+- (void)showMainMenuAnimation;
 
 @end

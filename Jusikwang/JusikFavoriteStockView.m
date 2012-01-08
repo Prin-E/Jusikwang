@@ -7,7 +7,16 @@
 //
 
 #import "JusikFavoriteStockView.h"
+#import "JusikPlayer.h"
 
-@implementation JusikFavoriteStockView
+@implementation JusikFavoriteStockView {
+    @private
+    UIScrollView *_scrollView;
+    NSMutableArray *_buttons;
+    
+    UIButton *_favoriteSortButton;
+}
+
+@synthesize player = _player;
 
 @end

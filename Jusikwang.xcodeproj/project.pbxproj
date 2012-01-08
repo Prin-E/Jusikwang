@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9506950514B2FB350038BC74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9506950414B2FB350038BC74 /* libsqlite3.dylib */; };
+		9506950B14B730ED0038BC74 /* JusikDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9506950A14B730EC0038BC74 /* JusikDBManager.m */; };
 		952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3814AA689D003CC95F /* JusikLogoViewController.m */; };
 		952E4F3B14AA689D003CC95F /* JusikLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */; };
 		9585273F14B21D4F00EBC3CC /* JusikFavoriteStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */; };
@@ -15,8 +16,12 @@
 		9585274B14B22CD100EBC3CC /* SlidingTabsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585274914B22CCE00EBC3CC /* SlidingTabsControl.m */; };
 		9585275014B22FB800EBC3CC /* JusikPlayerInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585274E14B22FB100EBC3CC /* JusikPlayerInfoViewController.m */; };
 		9585275114B22FB800EBC3CC /* JusikPlayerInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9585274F14B22FB200EBC3CC /* JusikPlayerInfoViewController.xib */; };
-		9585275E14B25A2C00EBC3CC /* JusikPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585275C14B25A1800EBC3CC /* JusikPreferencesViewController.m */; };
-		9585275F14B25A2C00EBC3CC /* JusikPreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9585275D14B25A1E00EBC3CC /* JusikPreferencesViewController.xib */; };
+		95B9527914B8E28300EE53C3 /* JusikActivityGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B9527714B8E28300EE53C3 /* JusikActivityGameViewController.m */; };
+		95B9527A14B8E28300EE53C3 /* JusikActivityGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */; };
+		95B9527E14B8E42800EE53C3 /* JusikBGMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */; };
+		95B9528014B8E4FA00EE53C3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B9527F14B8E4FA00EE53C3 /* AVFoundation.framework */; };
+		95B9528414B98F8C00EE53C3 /* JusikActivityGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */; };
+		95B9528614B9EA9E00EE53C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B9528514B9EA9D00EE53C3 /* QuartzCore.framework */; };
 		95BA71A714ABB3290020B203 /* DB in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71A514ABB3290020B203 /* DB */; };
 		95BA71AF14ABBCD40020B203 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71AE14ABBCD40020B203 /* Images */; };
 		95BA71B314ABBDA40020B203 /* JusikMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */; };
@@ -53,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		9506950414B2FB350038BC74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		9506950914B730EC0038BC74 /* JusikDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikDBManager.h; sourceTree = "<group>"; };
+		9506950A14B730EC0038BC74 /* JusikDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikDBManager.m; sourceTree = "<group>"; };
 		952E4F3714AA689D003CC95F /* JusikLogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikLogoViewController.h; sourceTree = "<group>"; };
 		952E4F3814AA689D003CC95F /* JusikLogoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikLogoViewController.m; sourceTree = "<group>"; };
 		952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikLogoViewController.xib; sourceTree = "<group>"; };
@@ -65,9 +72,16 @@
 		9585274D14B22FAE00EBC3CC /* JusikPlayerInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikPlayerInfoViewController.h; sourceTree = "<group>"; };
 		9585274E14B22FB100EBC3CC /* JusikPlayerInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikPlayerInfoViewController.m; sourceTree = "<group>"; };
 		9585274F14B22FB200EBC3CC /* JusikPlayerInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikPlayerInfoViewController.xib; sourceTree = "<group>"; };
-		9585275B14B25A1200EBC3CC /* JusikPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikPreferencesViewController.h; sourceTree = "<group>"; };
-		9585275C14B25A1800EBC3CC /* JusikPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikPreferencesViewController.m; sourceTree = "<group>"; };
-		9585275D14B25A1E00EBC3CC /* JusikPreferencesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikPreferencesViewController.xib; sourceTree = "<group>"; };
+		95B9527614B8E28300EE53C3 /* JusikActivityGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikActivityGameViewController.h; sourceTree = "<group>"; };
+		95B9527714B8E28300EE53C3 /* JusikActivityGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikActivityGameViewController.m; sourceTree = "<group>"; };
+		95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikActivityGameViewController.xib; sourceTree = "<group>"; };
+		95B9527C14B8E42500EE53C3 /* JusikBGMPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikBGMPlayer.h; sourceTree = "<group>"; };
+		95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikBGMPlayer.m; sourceTree = "<group>"; };
+		95B9527F14B8E4FA00EE53C3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		95B9528114B96EDA00EE53C3 /* JusikGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikGameController.h; sourceTree = "<group>"; };
+		95B9528214B98F8100EE53C3 /* JusikActivityGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikActivityGameView.h; sourceTree = "<group>"; };
+		95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikActivityGameView.m; sourceTree = "<group>"; };
+		95B9528514B9EA9D00EE53C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		95BA71A514ABB3290020B203 /* DB */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DB; path = ../../DB; sourceTree = "<group>"; };
 		95BA71AE14ABBCD40020B203 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../../Images; sourceTree = "<group>"; };
 		95BA71B014ABBDA40020B203 /* JusikMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikMainMenuViewController.h; sourceTree = "<group>"; };
@@ -129,6 +143,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95B9528614B9EA9E00EE53C3 /* QuartzCore.framework in Frameworks */,
+				95B9528014B8E4FA00EE53C3 /* AVFoundation.framework in Frameworks */,
 				9506950514B2FB350038BC74 /* libsqlite3.dylib in Frameworks */,
 				95EA63E214A619E2007E86D1 /* UIKit.framework in Frameworks */,
 				95EA63E414A619E2007E86D1 /* Foundation.framework in Frameworks */,
@@ -145,6 +161,8 @@
 				95D1D6C114B201EF00BEF3A0 /* JusikLoadingViewController.h */,
 				95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */,
 				95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */,
+				9506950914B730EC0038BC74 /* JusikDBManager.h */,
+				9506950A14B730EC0038BC74 /* JusikDBManager.m */,
 			);
 			name = Loading;
 			sourceTree = "<group>";
@@ -226,6 +244,14 @@
 				9585274D14B22FAE00EBC3CC /* JusikPlayerInfoViewController.h */,
 				9585274E14B22FB100EBC3CC /* JusikPlayerInfoViewController.m */,
 				9585274F14B22FB200EBC3CC /* JusikPlayerInfoViewController.xib */,
+				95B9527614B8E28300EE53C3 /* JusikActivityGameViewController.h */,
+				95B9527714B8E28300EE53C3 /* JusikActivityGameViewController.m */,
+				95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */,
+				95B9527C14B8E42500EE53C3 /* JusikBGMPlayer.h */,
+				95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */,
+				95B9528114B96EDA00EE53C3 /* JusikGameController.h */,
+				95B9528214B98F8100EE53C3 /* JusikActivityGameView.h */,
+				95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -233,6 +259,8 @@
 		95EA63D214A619E2007E86D1 = {
 			isa = PBXGroup;
 			children = (
+				95B9528514B9EA9D00EE53C3 /* QuartzCore.framework */,
+				95B9527F14B8E4FA00EE53C3 /* AVFoundation.framework */,
 				95EA63E714A619E2007E86D1 /* Jusikwang */,
 				95EA63E014A619E2007E86D1 /* Frameworks */,
 				95EA63DE14A619E2007E86D1 /* Products */,
@@ -273,9 +301,6 @@
 				95EA63E814A619E2007E86D1 /* Supporting Files */,
 				95D1D6BB14B0CF6D00BEF3A0 /* JusikUIDataTypes.h */,
 				95D1D6D014B20A0600BEF3A0 /* Localizable.strings */,
-				9585275B14B25A1200EBC3CC /* JusikPreferencesViewController.h */,
-				9585275C14B25A1800EBC3CC /* JusikPreferencesViewController.m */,
-				9585275D14B25A1E00EBC3CC /* JusikPreferencesViewController.xib */,
 			);
 			path = Jusikwang;
 			sourceTree = "<group>";
@@ -384,7 +409,7 @@
 				95D1D6C514B201F300BEF3A0 /* JusikLoadingViewController.xib in Resources */,
 				95D1D6CF14B20A0600BEF3A0 /* Localizable.strings in Resources */,
 				9585275114B22FB800EBC3CC /* JusikPlayerInfoViewController.xib in Resources */,
-				9585275F14B25A2C00EBC3CC /* JusikPreferencesViewController.xib in Resources */,
+				95B9527A14B8E28300EE53C3 /* JusikActivityGameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +443,10 @@
 				9585274A14B22CD100EBC3CC /* SlidingTabsTab.m in Sources */,
 				9585274B14B22CD100EBC3CC /* SlidingTabsControl.m in Sources */,
 				9585275014B22FB800EBC3CC /* JusikPlayerInfoViewController.m in Sources */,
-				9585275E14B25A2C00EBC3CC /* JusikPreferencesViewController.m in Sources */,
+				9506950B14B730ED0038BC74 /* JusikDBManager.m in Sources */,
+				95B9527914B8E28300EE53C3 /* JusikActivityGameViewController.m in Sources */,
+				95B9527E14B8E42800EE53C3 /* JusikBGMPlayer.m in Sources */,
+				95B9528414B98F8C00EE53C3 /* JusikActivityGameView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,7 +476,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -463,7 +495,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -472,7 +505,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -480,8 +517,9 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

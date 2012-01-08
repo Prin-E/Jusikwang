@@ -211,6 +211,7 @@
         
         // Add the button as our subview
         [self addSubview:button];
+        [button release];
         
         // Add the divider unless we are at the last segment
         if (i != self.tabCount - 1)

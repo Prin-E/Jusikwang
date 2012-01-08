@@ -13,6 +13,7 @@
 @class JusikGameViewController;
 @interface JusikLoadingViewController : UIViewController
 
+@property (nonatomic, retain) JusikGameViewController *gameViewController;
 @property (nonatomic, retain) JusikStockMarket *market;
 @property (nonatomic, retain) JusikPlayer *player;
 
@@ -20,9 +21,8 @@
 @property (nonatomic, retain) IBOutlet UIProgressView *progressView;
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
 
-
 // Load
-- (BOOL)load;
+- (BOOL)loadWithDBName: (NSString *)dbName;
 
 @end
 

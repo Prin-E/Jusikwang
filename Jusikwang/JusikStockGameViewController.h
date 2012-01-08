@@ -7,16 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JusikGameController.h"
 
 @class JusikStockMarket;
 @class JusikPlayer;
-@interface JusikStockGameViewController : UIViewController
+@interface JusikStockGameViewController : UIViewController <JusikGameController>
 
 @property (nonatomic, retain) IBOutlet UIView *favoriteView;
 @property (nonatomic, retain) IBOutlet UIView *newsView;
+@property (nonatomic, retain) IBOutlet UIView *newsBackgroundView;
 
 @property (nonatomic, retain) IBOutlet UIButton *favoriteShowButton;
 @property (nonatomic, retain) IBOutlet UILabel *gameTimeText;
+
+@property (nonatomic, retain) IBOutlet UIView *resultView;
 
 @property (nonatomic, retain) JusikStockMarket *market;
 @property (nonatomic, retain) JusikPlayer *player;
@@ -29,6 +33,7 @@
 - (IBAction)newsSkip: (id)sender;
 - (IBAction)newsParticipateStockMarket: (id)sender;
 
+- (IBAction)resultButtonAction:(id)sender;
 
 - (IBAction)toggleShowingFavoriteView: (id)sender;
 @end

@@ -69,7 +69,6 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUINormalTitle">Menu</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="36477244">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -78,6 +77,10 @@
 						<object class="NSColor" key="IBUINormalTitleShadowColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_button.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
@@ -108,7 +111,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="673824753">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="915878883">
@@ -116,6 +119,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{25, 4}, {80, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="305769899"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -146,15 +150,21 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{5, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="915878883"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage" id="770566410">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_money.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="96052731">
 						<reference key="NSNextResponder" ref="673824753"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{133, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="331997691"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -175,15 +185,21 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{113, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="96052731"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_kospi.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="668673343">
 						<reference key="NSNextResponder" ref="673824753"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{201, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="409819903"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -204,15 +220,21 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{181, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="668673343"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_dow.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="258793551">
 						<reference key="NSNextResponder" ref="673824753"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{269, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="2060078"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -233,15 +255,22 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{249, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="258793551"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_exchange.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="743206013">
 						<reference key="NSNextResponder" ref="673824753"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{337, 4}, {87, 21}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -261,12 +290,19 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{317, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="673824753"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="743206013"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage" id="608260184">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_date.png</string>
+						</object>
 					</object>
 				</array>
 				<string key="NSFrameSize">{430, 30}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="220748541"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -280,7 +316,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="1045423177">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="130115110">
@@ -288,6 +324,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{25, 4}, {80, 21}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="663572390"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -308,15 +345,18 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{5, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="130115110"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<reference key="IBUIImage" ref="770566410"/>
 					</object>
 					<object class="IBUILabel" id="508590640">
 						<reference key="NSNextResponder" ref="1045423177"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{133, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="555403533"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -337,15 +377,21 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{113, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="508590640"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_inteligence.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="190441925">
 						<reference key="NSNextResponder" ref="1045423177"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{201, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="239708816"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -366,15 +412,21 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{181, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="190441925"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_reliability.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="160590596">
 						<reference key="NSNextResponder" ref="1045423177"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{269, 4}, {40, 21}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="345646556"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -395,15 +447,22 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{249, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="160590596"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">Images/sidebar_fatigability.png</string>
+						</object>
 					</object>
 					<object class="IBUILabel" id="174699351">
 						<reference key="NSNextResponder" ref="1045423177"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{337, 4}, {87, 21}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -423,12 +482,16 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{317, 5}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="1045423177"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="174699351"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<reference key="IBUIImage" ref="608260184"/>
 					</object>
 				</array>
 				<string key="NSFrameSize">{430, 30}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="819322630"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -868,6 +931,17 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="Images/sidebar_button.png">{16, 16}</string>
+			<string key="Images/sidebar_date.png">{16, 16}</string>
+			<string key="Images/sidebar_dow.png">{16, 16}</string>
+			<string key="Images/sidebar_exchange.png">{16, 16}</string>
+			<string key="Images/sidebar_fatigability.png">{16, 16}</string>
+			<string key="Images/sidebar_inteligence.png">{16, 16}</string>
+			<string key="Images/sidebar_kospi.png">{16, 16}</string>
+			<string key="Images/sidebar_money.png">{16, 16}</string>
+			<string key="Images/sidebar_reliability.png">{16, 16}</string>
+		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">933</string>
 	</data>
 </archive>

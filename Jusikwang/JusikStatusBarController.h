@@ -47,6 +47,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *activityTimeFatigabilityText;
 @property (nonatomic, retain) IBOutlet UILabel *activityTimeDateText;
 
+- (void)updateDate;
 - (void)updateStatus;
 
 @end

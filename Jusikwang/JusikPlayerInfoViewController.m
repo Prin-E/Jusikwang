@@ -119,6 +119,8 @@
     [super viewDidLoad];
     self.tab.tabCount = 2;
     self.tab.delegate = self;
+    [self updateStat];
+    [self touchUpInsideTabIndex: 0];
 }
 
 - (void)viewDidUnload
