@@ -32,6 +32,12 @@
 @property (nonatomic, readonly) BOOL hasEndValue;
 @property (nonatomic, readonly) BOOL isRecording;
 
+- (id)initWithDate: (NSDate *)date
+         startTime: (double)startTime
+            period: (double)period
+            values: (NSArray *)values
+       hasEndValue: (BOOL)hasEndValue;
+
 @end
 
 @interface JusikRecord : NSObject {
@@ -58,6 +64,8 @@
 @property double endValue;
 
 @property (nonatomic, readonly) BOOL isRecording;
+
+- (void)replaceDayRecordHistories: (NSArray *)records;
 
 - (void)startRecording;
 - (void)endRecording;

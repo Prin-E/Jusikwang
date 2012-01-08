@@ -576,7 +576,7 @@ combinedPriceRecord:(JusikRecord *)combinedPriceRecord
 
 - (double)_calculatedClosedPriceRate {
     double val = pow(1.0+_A, _x) * pow(1.0+_B, _y) * (1.0+_C) * (1.0+_D) * (1.0+_E) * (1.0+_F) + _G + _H + _I + _J;
-    NSLog(@"A=%.3f, B=%.3f, C=%.3f, D=%.3f, E=%.3f, F=%.3f, G=%.3f, H=%.3f, I=%.3f", _A, _B, _C, _D, _E, _F, _G, _H, _I);
+    //NSLog(@"A=%.3f, B=%.3f, C=%.3f, D=%.3f, E=%.3f, F=%.3f, G=%.3f, H=%.3f, I=%.3f", _A, _B, _C, _D, _E, _F, _G, _H, _I);
     return val;
 }
 

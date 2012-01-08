@@ -51,17 +51,17 @@ typedef enum {
 @property (nonatomic, readonly) JusikRecord *USStockPriceRecord;
 @property (nonatomic, readonly) JusikRecord *exchangeRateRecord;
 
-@property (nonatomic, readonly) double combinedPrice;
-@property (nonatomic, readonly) double USStockPrice;
-@property (nonatomic, readonly) double exchangeRate;
+@property (nonatomic) double combinedPrice;
+@property (nonatomic) double USStockPrice;
+@property (nonatomic) double exchangeRate;
 
 @property double duration;
 @property double period;
 
-@property (nonatomic, readonly) NSUInteger turn;
-@property (nonatomic, readonly) NSUInteger openedCount;
+@property (nonatomic) NSUInteger turn;
+@property (nonatomic) NSUInteger openedCount;
 
-@property (nonatomic, readonly) NSDate *currentDate;
+@property (nonatomic, copy) NSDate *currentDate;
 
 - (id)initWithInitialDateWithYear: (NSUInteger)year month: (NSUInteger)month day: (NSUInteger)day;
 

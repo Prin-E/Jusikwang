@@ -47,6 +47,31 @@
     return self;
 }
 
+- (id)initWithDate: (NSDate *)date
+         startTime: (double)startTime
+            period: (double)period
+            values: (NSArray *)values
+       hasEndValue: (BOOL)hasEndValue
+{
+    self = [self init];
+    if(self) {
+        self.date = date;
+        self.startTime = startTime;
+        self.period = period;
+        [_values addObjectsFromArray: values];
+        self.hasEndValue = hasEndValue;
+        if([_values count] > 0) {
+            self.startValue = [[_values objectAtIndex: 0] doubleValue];
+            if(self.hasEndValue) {
+                self.endValue = [[_values lastObject] doubleValue];
+            }
+        }
+        _isRecording = NO;
+    }
+    return self;
+}
+
+
 #pragma mark - 레코딩
 - (void)startRecording {
     if(_isRecording) return;
@@ -144,6 +169,21 @@
 }
 
 #pragma mark - 레코딩
+- (void)replaceDayRecordHistories: (NSArray *)records {
+    for(id obj in records) {
+        if([obj isKindOfClass: [JusikDayRecord class]] == NO) {
+            NSLog(@"%s - record is not JusikDayRecord", __PRETTY_FUNCTION__);
+            return;
+        }
+    }
+    
+    if(self.isRecording)
+        [self endRecording];
+    
+    [_records removeAllObjects];
+    [_records addObjectsFromArray: records];
+}
+
 - (void)startRecording {
     JusikDayRecord *newRecord = [[JusikDayRecord alloc] init];
     newRecord.date = self.currentDate;

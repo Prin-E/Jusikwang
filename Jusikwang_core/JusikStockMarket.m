@@ -49,7 +49,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
 
 #pragma mark - 초기화 메서드
 - (id)init {
-    return [self initWithInitialDateWithYear: 2011 month: 11 day: 11];
+    return [self initWithInitialDateWithYear: 2011 month: 11 day: 10];
 }
 
 - (id)initWithInitialDateWithYear: (NSUInteger)year month: (NSUInteger)month day: (NSUInteger)day {
@@ -97,6 +97,8 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     }
     
     NSDate *newDate = [[gregorian dateByAddingComponents: comp toDate: _currentDate options: 0] retain];
+    [gregorian release];
+    [comp release];
     
     if(_currentDate) {
         [_currentDate release];
@@ -118,7 +120,11 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     
     // 대기중인 이벤트를 미리 적용시킨다.
     _state = JusikStockMarketStateOpen;
-    NSLog(@"%s, turn:%d", __PRETTY_FUNCTION__, _turn);
+    
+    NSDateFormatter *f = [NSDateFormatter new];
+    [f setDateFormat: @"yyyy-MM-dd EEE"];
+    NSLog(@"%s, date: %@, turn:%d", __PRETTY_FUNCTION__, [f stringFromDate: _currentDate], _turn);
+    [f release];
 }
 
 - (void)close {
@@ -262,12 +268,14 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     comp.second = 0;
     NSDate *date = [[gregorian dateFromComponents: comp] retain];
     [gregorian release];
+    [comp release];
     
     [self _setInitialDate: date];
+    [date release];
 }
 
 - (void)_setInitialDate: (NSDate *)date {
-    _currentDate = date;
+    _currentDate = [date copy];
 }
 
 - (void)_addStock: (JusikStock *)stock {
