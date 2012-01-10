@@ -73,6 +73,36 @@
     return [NSArray arrayWithArray: _favorites];
 }
 
+- (double)intelligence {
+    return _intelligence;
+}
+
+- (void)setIntelligence:(double)intelligence {
+    if(intelligence < 0)
+        intelligence = 0;
+    [super setIntelligence: intelligence];
+}
+
+- (double)reliability {
+    return _reliability;
+}
+
+- (void)setReliability:(double)reliability {
+    if(reliability < 0)
+        reliability = 0;
+    [super setReliability: reliability];
+}
+
+- (double)fatigability {
+    return _fatigability;
+}
+
+- (void)setFatigability:(double)fatigability {
+    if(fatigability < 0)
+        fatigability = 0;
+    [super setFatigability: fatigability];
+}
+
 #pragma mark - 주식 구입/매각
 - (BOOL)buyStockName: (NSString *)name fromMarket: (JusikStockMarket *)market count: (NSUInteger)count {
     JusikStock *stock = [market stockOfCompanyWithName: name];
