@@ -9,10 +9,15 @@
 #import "JusikMainMenuViewController.h"
 #import "JusikUIDataTypes.h"
 
+@interface JusikMainMenuViewController (Private)
+- (void)_translateCurrentViewToView: (UIView *)view2;
+@end
+
 @implementation JusikMainMenuViewController {
     IBOutlet UIImageView *logoImageView;
     UIView *_currentView;
 }
+@synthesize startGameButton = _startGameButton;
 @synthesize startNewGameButton = _startNewGameButton;
 @synthesize mainMenuView = _mainMenuView;
 @synthesize preferenceView = _preferenceView;
@@ -44,6 +49,10 @@
     
     [self.view addSubview: self.mainMenuView];
     _currentView = self.mainMenuView;
+    
+    UIImage *optionImage = [UIImage imageNamed: @"Images/option_option.png"];
+    if(optionImage)
+        _preferenceView.backgroundColor = [UIColor colorWithPatternImage: optionImage];
 }
 
 - (void)viewDidUnload
@@ -59,17 +68,45 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
+#pragma mark - 뷰간 전환
 - (void)changeToMainMenuView {
-    [UIView transitionFromView: _currentView
-                        toView: _mainMenuView
-                      duration: kJusikViewFadeTime
-                       options: UIViewAnimationOptionCurveEaseOut
-                    completion: ^(BOOL completed) {
-                        
-                    }];
+    [self _translateCurrentViewToView: _mainMenuView];
+}
+
+- (void)showPreferences:(id)sender {
+    [self _translateCurrentViewToView: _preferenceView];
+}
+
+- (void)showCredit:(id)sender {
+    [self _translateCurrentViewToView: _creditView];
+}
+
+- (void)backToMainMenu:(id)sender {
+    [self changeToMainMenuView];
+    [self showMainMenuAnimation];
+}
+
+- (void)_translateCurrentViewToView: (UIView *)view2 {
+    UIView *prevView = _currentView;
+    view2.alpha = 0;
+    [self.view addSubview: view2];
+    [UIView animateWithDuration: kJusikViewFadeTime
+                     animations: ^{
+                         prevView.alpha = 0;
+                     }
+                     completion: ^(BOOL finished) {
+                         [prevView removeFromSuperview];
+                     }];
+    [UIView animateWithDuration: kJusikViewFadeTime
+                     animations: ^{
+                         view2.alpha = 1;
+                     }
+                     completion: ^(BOOL completed) {
+                         _currentView = view2;
+                     }];
 }
 
 #pragma mark - 애니메이션

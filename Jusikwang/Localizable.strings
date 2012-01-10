@@ -60,3 +60,7 @@
 "Intelligence" = "지력";
 "Reliability" = "신뢰도";
 "Fatigability" = "피로도";
+
+// 스크립트
+"com.jusikwang.script.end" = "스크립트가 종료되었습니다. 종료하려면 터치하십시오.";
+"com.jusikwang.script.touch" = "   _ 터치";

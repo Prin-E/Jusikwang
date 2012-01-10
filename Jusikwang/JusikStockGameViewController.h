@@ -25,6 +25,8 @@
 @property (nonatomic, retain) JusikStockMarket *market;
 @property (nonatomic, retain) JusikPlayer *player;
 
+@property (nonatomic, copy) NSDate *date;
+
 - (void)play;
 - (void)pause;
 - (void)resume;

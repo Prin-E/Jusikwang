@@ -9,6 +9,7 @@
 #import "JusikStatusBarController.h"
 #import "JusikStockMarket.h"
 #import "JusikPlayer.h"
+#import "JusikUIDataTypes.h"
 
 @implementation JusikStatusBarController
 #pragma mark - 프로퍼티
@@ -21,6 +22,8 @@
 
 @synthesize statusContainerView = _statusContainerView;
 @synthesize statusBarButton = _statusBarButton;
+
+@synthesize currentStatusView = _currentStatusView;
 
 @synthesize stockTimeStatusView = _stockTimeStatusView;
 @synthesize activityTimeStatusView = _activityTimeStatusView;
@@ -129,14 +132,31 @@
 
 - (void)setMode:(JusikStatusBarMode)mode {
     _mode = mode;
+    UIView *newView = nil;
+    
     if(mode == JusikStatusBarModeStockTime) {
-        [self.activityTimeStatusView removeFromSuperview];
-        [self.statusContainerView addSubview: self.stockTimeStatusView];
+        newView = self.stockTimeStatusView;
     }
     else if(mode == JusikStatusBarModeActivity) {
-        [self.stockTimeStatusView removeFromSuperview];
-        [self.statusContainerView addSubview: self.activityTimeStatusView];
+        newView = self.activityTimeStatusView;
     }
+    else
+        return;
+    
+    if(self.currentStatusView && self.currentStatusView != newView) {
+        [UIView transitionFromView: self.currentStatusView
+                            toView: newView
+                          duration: kJusikViewFadeTime
+                           options: UIViewAnimationOptionTransitionCurlUp
+                        completion: ^(BOOL completed) {
+                            
+                        }];
+    }
+    else {
+        [self.statusContainerView addSubview: newView];
+    }
+    self.currentStatusView = newView;
+    
     [self updateStatus];
 }
 
@@ -159,6 +179,10 @@
     [super viewDidLoad];
     
     self.mode = JusikStatusBarModeStockTime;
+    
+    UIImage *containerImage = [UIImage imageNamed: @"Images/sidebar_minibar.png"];
+    if(containerImage)
+        self.statusContainerView.backgroundColor = [UIColor colorWithPatternImage: containerImage];
 }
 
 - (void)viewDidUnload
@@ -187,7 +211,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 #pragma mark - 상태 업데이트

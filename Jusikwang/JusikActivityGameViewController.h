@@ -13,6 +13,22 @@
 @interface JusikActivityGameViewController : UIViewController <JusikGameController>
 
 @property (nonatomic, retain) JusikPlayer *player;
+@property (nonatomic, readonly) NSUInteger activityCount;
+@property (nonatomic, copy) NSDate *date;
+
+@property (nonatomic) NSUInteger visitComputerCount;
+@property (nonatomic) NSUInteger visitChartCount;
+@property (nonatomic) NSUInteger visitBookCount;
+@property (nonatomic) NSUInteger visitBedCount;
+@property (nonatomic) NSUInteger visitDoorCount;
+
+@property (nonatomic) NSUInteger visitHeeseungCount;
+@property (nonatomic) NSUInteger visitShopCount;
+@property (nonatomic) NSUInteger visitStreetCount;
+@property (nonatomic) NSUInteger visitParkCount;
+@property (nonatomic) NSUInteger visitPoliceCount;
+
+
 - (void)play;
 - (void)pause;
 - (void)resume;

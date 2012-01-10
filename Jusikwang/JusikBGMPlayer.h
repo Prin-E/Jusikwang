@@ -21,6 +21,7 @@
 
 @end
 
+extern NSString *const JusikBGMMusicNone;
 extern NSString *const JusikBGMMusicMainMenu;
 extern NSString *const JusikBGMMusicHappyEnding;
 extern NSString *const JusikBGMMusicActivity;

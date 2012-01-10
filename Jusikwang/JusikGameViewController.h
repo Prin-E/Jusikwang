@@ -29,7 +29,7 @@ typedef enum {
 @property (nonatomic, retain) JusikStockMarket *market;
 @property (nonatomic, retain) JusikPlayer *player;
 
-@property (nonatomic, readonly) JusikGamePlayState gameState;
+@property (nonatomic, readwrite) JusikGamePlayState gameState;
 
 @property (nonatomic, copy) NSDate *date;
 @property (nonatomic, readwrite) NSUInteger turn;
@@ -57,7 +57,8 @@ typedef enum {
 - (void)stop;
 
 - (void)nextDay;
-- (BOOL)isWeekday;
+
+- (void)showTutorial;
 
 - (IBAction)exitGame:(id)sender;
 

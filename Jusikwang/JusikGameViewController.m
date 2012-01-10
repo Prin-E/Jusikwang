@@ -13,6 +13,7 @@
 #import "JusikPlayerInfoViewController.h"
 #import "JusikStockGameViewController.h"
 #import "JusikActivityGameViewController.h"
+#import "NSDate+Extension.h"
 
 #import "JusikCore.h"
 
@@ -23,7 +24,7 @@
 
 @implementation JusikGameViewController {
     BOOL _showingMenu;
-    UIViewController *_currentGameController;
+    UIViewController<JusikGameController> *_currentGameController;
 }
 
 @synthesize market = _market;
@@ -58,7 +59,16 @@
         [_date retain];
         [comp release];
         
-        _gameState = JusikGamePlayStateStock;
+        
+        JusikStockGameViewController *stockGame = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
+        self.stockGameController = stockGame;
+        [stockGame release];
+        
+        JusikActivityGameViewController *activityGame = [[JusikActivityGameViewController alloc] initWithNibName: @"JusikActivityGameViewController" bundle: nil];
+        self.activityGameController = activityGame;
+        [activityGame release];
+        
+        self.gameState = JusikGamePlayStateStock;
         _showsTutorial = YES;
         
         [[NSNotificationCenter defaultCenter] addObserver: self
@@ -134,8 +144,16 @@
     
     self.stockGameController.market = self.market;
     self.stockGameController.player = self.player;
+}
+
+- (void)setActivityGameController:(JusikActivityGameViewController *)activityGameController {
+    [_activityGameController.view removeFromSuperview];
+    [activityGameController retain];
+    [_activityGameController release];
     
-    [self.contentView addSubview: self.stockGameController.view];
+    _activityGameController = activityGameController;
+    
+    self.activityGameController.player = self.player;
 }
 
 - (JusikPlayer *)player {
@@ -173,15 +191,8 @@
         _date = [date copy];
     }
     self.statusBarController.date = self.date;
-}
-
-- (BOOL)isWeekday {
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit fromDate: self.date];
-    if(comp.day >= 6) {
-        return YES;
-    }
-    return NO;
+    self.stockGameController.date = self.date;
+    self.activityGameController.date = self.date;
 }
 
 - (JusikGamePlayState)gameState {
@@ -189,16 +200,27 @@
 }
 
 - (void)setGameState:(JusikGamePlayState)gameState {
-    if(_gameState == gameState) return;
+    if(_gameState == gameState) {
+        if(_currentGameController != nil) return;
+    }
     if(gameState == JusikGamePlayStateStock) {
-        if([self isWeekday]) {
+        if([self.date isWeekday]) {
             // 주말은 주식시장을 이용할 수 없다.
+            // 활동모드로 전환
+            self.gameState = JusikGamePlayStateActivity;
             return;
         }
     }
     _gameState = gameState;
     
-    UIViewController *gameController = nil;
+    // 상태 바 전환
+    if(gameState == JusikStatusBarModeStockTime)
+        self.statusBarController.mode = JusikStatusBarModeStockTime;
+    else if(gameState == JusikStatusBarModeActivity)
+        self.statusBarController.mode = JusikStatusBarModeActivity;
+    
+    // 뷰 전환
+    UIViewController<JusikGameController> *gameController = nil;
     if(self.gameState == JusikGamePlayStateStock) {
         gameController = self.stockGameController;
         [(JusikActivityGameViewController *)_currentGameController stop];
@@ -246,11 +268,19 @@
                         options: UIViewAnimationOptionCurveEaseOut
                      animations: ^{
                          CGRect frame = self.statusBarMenuView.frame;
-                         if(_showingMenu)
+                         if(_showingMenu) {
                              frame.origin.y = -frame.size.height + self.statusBarController.view.frame.size.height;
-                         else
+                             
+                             UIImage *buttonImage = [UIImage imageNamed: @"Images/sidebar_button_down.png"];
+                             if(buttonImage)
+                                 self.statusBarController.statusBarButton.backgroundColor =  [UIColor colorWithPatternImage: buttonImage];
+                         }
+                         else {
                              frame.origin.y = 0.0;
-                         
+                             UIImage *buttonImage = [UIImage imageNamed: @"Images/sidebar_button_up.png"];
+                             if(buttonImage)
+                                 self.statusBarController.statusBarButton.backgroundColor =  [UIColor colorWithPatternImage: buttonImage];
+                         }
                          self.statusBarMenuView.frame = frame;                         
                      }
                      completion: ^(BOOL completed) {
@@ -275,9 +305,9 @@
     [self.viewController exitGame];
 }
 
-- (void)play {
+- (void)play {    
     if(self.gameState == JusikGamePlayStateStock) {
-        if([self isWeekday] == NO)
+        if([self.date isWeekday] == NO)
             [self.stockGameController play];
         else {
             self.gameState = JusikGamePlayStateActivity;
@@ -329,6 +359,50 @@
     [_date retain];
 }
 
+- (void)showTutorial {
+    if(self.showsTutorial == NO) return;
+    
+    [_currentGameController pause];
+    [UIView animateWithDuration: kJusikViewFadeTime
+                          delay: 0
+                        options: UIViewAnimationCurveEaseOut
+                     animations: ^{
+                         _currentGameController.view.alpha = 0;
+                     }
+                     completion: ^(BOOL completed){
+                         [_currentGameController.view removeFromSuperview];
+                     }];
+    
+    // show attention
+    UIImage *attentionImage = [UIImage imageNamed: @"attention.png"];
+    UIImageView *attentionView = [[UIImageView alloc] initWithImage: attentionImage];
+    attentionView.frame = self.contentView.frame;
+    attentionView.alpha = 0;
+    [self.contentView addSubview: attentionView];
+    [UIView animateWithDuration: kJusikViewFadeTime
+                          delay: kJusikViewFadeTime
+                        options: UIViewAnimationCurveEaseOut
+                     animations: ^{
+                         attentionView.alpha = 1.0;
+                     }
+                     completion: nil];
+    
+    // hide attention
+    [UIView animateWithDuration: kJusikViewAttentionTime
+                          delay:kJusikViewFadeTime*2
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         attentionView.alpha = 0;
+                     }
+                     completion: ^(BOOL completed) {
+                         // run script
+                         
+                         //
+                         
+                         [_currentGameController resume];
+                     }];
+}
+
 #pragma mark - 노티피케이션
 - (void)stockGameDidStart: (NSNotification *)n {
     
@@ -361,20 +435,19 @@
     [self _initStatusBar];
     [self.view addSubview: self.statusBarMenuView];
     [self.statusBarMenuView addSubview: self.menuView];
+    UIImage *menuImage = [UIImage imageNamed: @"Images/sidebar_sidebar.png"];
+    if(menuImage)
+        self.statusBarMenuView.backgroundColor = [UIColor colorWithPatternImage: menuImage];
+    UIImage *buttonImage = [UIImage imageNamed: @"Images/sidebar_button_down.png"];
+    if(buttonImage)
+        self.statusBarController.statusBarButton.backgroundColor = [UIColor colorWithPatternImage: buttonImage];
+    
     
     JusikPlayerInfoViewController *pi = [[JusikPlayerInfoViewController alloc] initWithNibName:@"JusikPlayerInfoViewController" bundle: nil];
     self.piViewController = pi;
     [pi release];
     
     [self _layoutViews];
-    
-    JusikStockGameViewController *stockGame = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
-    self.stockGameController = stockGame;
-    [stockGame release];
-    
-    JusikActivityGameViewController *activityGame = [[JusikActivityGameViewController alloc] initWithNibName: @"JusikActivityGameViewController" bundle: nil];
-    self.activityGameController = activityGame;
-    [activityGame release];
     
     self.gameState = JusikGamePlayStateStock;
     
@@ -393,7 +466,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 #pragma mark - 비공개 메서드

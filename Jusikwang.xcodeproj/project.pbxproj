@@ -20,7 +20,6 @@
 		95B9527A14B8E28300EE53C3 /* JusikActivityGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */; };
 		95B9527E14B8E42800EE53C3 /* JusikBGMPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */; };
 		95B9528014B8E4FA00EE53C3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B9527F14B8E4FA00EE53C3 /* AVFoundation.framework */; };
-		95B9528414B98F8C00EE53C3 /* JusikActivityGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */; };
 		95B9528614B9EA9E00EE53C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B9528514B9EA9D00EE53C3 /* QuartzCore.framework */; };
 		95BA71A714ABB3290020B203 /* DB in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71A514ABB3290020B203 /* DB */; };
 		95BA71AF14ABBCD40020B203 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71AE14ABBCD40020B203 /* Images */; };
@@ -46,6 +45,10 @@
 		95D1D6C414B201F300BEF3A0 /* JusikLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D6C214B201F000BEF3A0 /* JusikLoadingViewController.m */; };
 		95D1D6C514B201F300BEF3A0 /* JusikLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */; };
 		95D1D6CF14B20A0600BEF3A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95D1D6D014B20A0600BEF3A0 /* Localizable.strings */; };
+		95D57FE814BA1D1B00459E04 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D57FE714BA1D1B00459E04 /* NSDate+Extension.m */; };
+		95D57FEC14BB1C7200459E04 /* JusikScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D57FEB14BB1C7100459E04 /* JusikScript.m */; };
+		95D57FF014BB25C400459E04 /* JusikScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D57FEE14BB25BE00459E04 /* JusikScriptViewController.m */; };
+		95D57FF114BB25C400459E04 /* JusikScriptViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95D57FEF14BB25C000459E04 /* JusikScriptViewController.xib */; };
 		95EA63E214A619E2007E86D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E114A619E2007E86D1 /* UIKit.framework */; };
 		95EA63E414A619E2007E86D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E314A619E2007E86D1 /* Foundation.framework */; };
 		95EA63E614A619E2007E86D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95EA63E514A619E2007E86D1 /* CoreGraphics.framework */; };
@@ -79,8 +82,6 @@
 		95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikBGMPlayer.m; sourceTree = "<group>"; };
 		95B9527F14B8E4FA00EE53C3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		95B9528114B96EDA00EE53C3 /* JusikGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikGameController.h; sourceTree = "<group>"; };
-		95B9528214B98F8100EE53C3 /* JusikActivityGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikActivityGameView.h; sourceTree = "<group>"; };
-		95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikActivityGameView.m; sourceTree = "<group>"; };
 		95B9528514B9EA9D00EE53C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		95BA71A514ABB3290020B203 /* DB */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DB; path = ../../DB; sourceTree = "<group>"; };
 		95BA71AE14ABBCD40020B203 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = ../../Images; sourceTree = "<group>"; };
@@ -125,6 +126,13 @@
 		95D1D6C814B2090800BEF3A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ko; path = "/Users/leehyeonwoo/Desktop/내 개발/Projects/3Ds/Jusikwang/Jusikwang/Jusikwang/ko.lproj/JusikViewController.xib"; sourceTree = "<absolute>"; };
 		95D1D6C914B2090800BEF3A0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/leehyeonwoo/Desktop/내 개발/Projects/3Ds/Jusikwang/Jusikwang/Jusikwang/ko.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		95D1D6D014B20A0600BEF3A0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		95D57FE614BA1D1B00459E04 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		95D57FE714BA1D1B00459E04 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		95D57FEA14BB1C7000459E04 /* JusikScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikScript.h; sourceTree = "<group>"; };
+		95D57FEB14BB1C7100459E04 /* JusikScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikScript.m; sourceTree = "<group>"; };
+		95D57FED14BB25BC00459E04 /* JusikScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikScriptViewController.h; sourceTree = "<group>"; };
+		95D57FEE14BB25BE00459E04 /* JusikScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikScriptViewController.m; sourceTree = "<group>"; };
+		95D57FEF14BB25C000459E04 /* JusikScriptViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikScriptViewController.xib; sourceTree = "<group>"; };
 		95EA63DD14A619E2007E86D1 /* Jusikwang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jusikwang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95EA63E114A619E2007E86D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		95EA63E314A619E2007E86D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -192,6 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				9585274C14B22CD600EBC3CC /* SlidingTabs */,
+				95D57FE614BA1D1B00459E04 /* NSDate+Extension.h */,
+				95D57FE714BA1D1B00459E04 /* NSDate+Extension.m */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -250,8 +260,11 @@
 				95B9527C14B8E42500EE53C3 /* JusikBGMPlayer.h */,
 				95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */,
 				95B9528114B96EDA00EE53C3 /* JusikGameController.h */,
-				95B9528214B98F8100EE53C3 /* JusikActivityGameView.h */,
-				95B9528314B98F8400EE53C3 /* JusikActivityGameView.m */,
+				95D57FEA14BB1C7000459E04 /* JusikScript.h */,
+				95D57FEB14BB1C7100459E04 /* JusikScript.m */,
+				95D57FED14BB25BC00459E04 /* JusikScriptViewController.h */,
+				95D57FEE14BB25BE00459E04 /* JusikScriptViewController.m */,
+				95D57FEF14BB25C000459E04 /* JusikScriptViewController.xib */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -410,6 +423,7 @@
 				95D1D6CF14B20A0600BEF3A0 /* Localizable.strings in Resources */,
 				9585275114B22FB800EBC3CC /* JusikPlayerInfoViewController.xib in Resources */,
 				95B9527A14B8E28300EE53C3 /* JusikActivityGameViewController.xib in Resources */,
+				95D57FF114BB25C400459E04 /* JusikScriptViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,7 +460,9 @@
 				9506950B14B730ED0038BC74 /* JusikDBManager.m in Sources */,
 				95B9527914B8E28300EE53C3 /* JusikActivityGameViewController.m in Sources */,
 				95B9527E14B8E42800EE53C3 /* JusikBGMPlayer.m in Sources */,
-				95B9528414B98F8C00EE53C3 /* JusikActivityGameView.m in Sources */,
+				95D57FE814BA1D1B00459E04 /* NSDate+Extension.m in Sources */,
+				95D57FEC14BB1C7200459E04 /* JusikScript.m in Sources */,
+				95D57FF014BB25C400459E04 /* JusikScriptViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

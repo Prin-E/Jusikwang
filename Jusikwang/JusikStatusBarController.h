@@ -29,6 +29,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *statusContainerView;
 @property (nonatomic, retain) IBOutlet UIButton *statusBarButton;
 
+@property (nonatomic, assign) UIView *currentStatusView;
 // 주식 상태 뷰들
 @property (nonatomic, retain) IBOutlet UIView *stockTimeStatusView;
 

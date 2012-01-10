@@ -163,10 +163,11 @@
 				<int key="NSvFlags">292</int>
 				<string key="NSFrameSize">{480, 80}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MSAwLjQwMDAwMDAwNiAxAA</bytes>
+				<object class="NSColor" key="IBUIBackgroundColor" id="531288427">
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MCAwAA</bytes>
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -175,16 +176,13 @@
 				<int key="NSvFlags">292</int>
 				<string key="NSFrameSize">{50, 30}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MCAxIDEAA</bytes>
-				</object>
+				<reference key="IBUIBackgroundColor" ref="531288427"/>
 				<bool key="IBUIOpaque">NO</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUIContentHorizontalAlignment">0</int>
 				<int key="IBUIContentVerticalAlignment">0</int>
-				<string key="IBUINormalTitle">Show</string>
 				<reference key="IBUIHighlightedTitleColor" ref="451585980"/>
 				<object class="NSColor" key="IBUINormalTitleColor">
 					<int key="NSColorSpace">1</int>
@@ -241,6 +239,7 @@
 						<string key="NSFrame">{{20, 41}, {210, 21}}</string>
 						<reference key="NSSuperview" ref="441441319"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="411836234"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -268,6 +267,7 @@
 						<string key="NSFrame">{{89, 93}, {72, 37}}</string>
 						<reference key="NSSuperview" ref="441441319"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -287,7 +287,7 @@
 				<string key="NSFrameSize">{250, 150}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
+				<reference key="NSNextKeyView" ref="494670343"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -533,6 +533,7 @@
 						<string key="newsParticipateStockMarket:">id</string>
 						<string key="newsSkip:">id</string>
 						<string key="resultButtonAction:">id</string>
+						<string key="toggleShowingFavoriteView:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="newsParticipateStockMarket:">
@@ -545,6 +546,10 @@
 						</object>
 						<object class="IBActionInfo" key="resultButtonAction:">
 							<string key="name">resultButtonAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleShowingFavoriteView:">
+							<string key="name">toggleShowingFavoriteView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

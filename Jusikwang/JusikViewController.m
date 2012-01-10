@@ -72,7 +72,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 #pragma mark 게임 시작
@@ -114,6 +114,7 @@
                                           }
                                           completion: ^(BOOL completed) {
                                               self.gameViewController.view.alpha = 1;
+                                              [self.gameViewController play];
                                           }];
                          
                      }];

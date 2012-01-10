@@ -11,6 +11,7 @@
 
 JusikBGMPlayer *_BGMPlayer = nil;
 
+NSString *const JusikBGMMusicNone = @"BG 0";
 NSString *const JusikBGMMusicMainMenu = @"BG 1";
 NSString *const JusikBGMMusicHappyEnding = @"BG 2";
 NSString *const JusikBGMMusicActivity = @"BG 3";
@@ -48,8 +49,11 @@ NSString *const JusikBGMMusicBadEnding = @"BG 5";
     if([_musics objectForKey: musicName] == nil) {
         NSString *path = [[NSBundle mainBundle] pathForResource: musicName ofType: @"mp3" inDirectory: @"Musics"];
         AVAudioPlayer *audio = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: nil];
-        [_musics setObject: audio forKey: musicName];
-        [audio release];
+        
+        if(audio) {
+            [_musics setObject: audio forKey: musicName];
+            [audio release];
+        }
     }
 }
 
@@ -60,18 +64,20 @@ NSString *const JusikBGMMusicBadEnding = @"BG 5";
 - (void)playMusic:(NSString *)musicName {
     if([_currentMusic isEqualToString: musicName] == NO) {
         [_player stop];
-        [_player release];
-        _player = nil;
         [_currentMusic release];
         _currentMusic = nil;
     }
     else
         return;
     
+    if([musicName isEqualToString: JusikBGMMusicNone])
+        return;
+    
     [self loadMusic: musicName];
     _player = [_musics objectForKey: musicName];
     _player.numberOfLoops = 1000000;
     _player.volume = self.volume;
+    _player.currentTime = 0; 
     [_player play];
     [_player retain];
     _currentMusic = [musicName copy];    

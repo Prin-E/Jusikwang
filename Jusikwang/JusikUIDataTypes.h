@@ -12,8 +12,16 @@
 #define kJusikViewFadeInTime 0.5
 #define kJusikViewFadeOutTime 0.5
 
+#define kJusikViewIdleTime 0.5
+
 // Logo Idle Time
 #define kJusikLogoViewIdleTime 0.5
 
 // Show/Hide
 #define kJusikViewShowHideTime 0.5
+
+#define kJusikViewAttentionTime 3.0
+
+// Zoom
+#define kJusikViewZoomTime 1.0
+#define kJusikViewZoomRate 1.12

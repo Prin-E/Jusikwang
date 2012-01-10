@@ -62,6 +62,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 @synthesize market = _market;
 @synthesize player = _player;
 
+@synthesize date = _date;
+
 #pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -128,7 +130,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     
     [self removeTimer];
     
-    NSUInteger remainingPeriods = (kJusikStockGameMaxSeconds - _seconds - 1) / kJusikStockTimePeriod;
+    NSUInteger remainingPeriods = (kJusikStockGameMaxSeconds - _seconds) / kJusikStockTimePeriod;
     
     while(remainingPeriods--)
         [self.market nextPeriod];
@@ -281,6 +283,13 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     frame.origin.x = self.view.frame.size.width - frame.size.width;
     frame.origin.y = self.view.frame.size.height - frame.size.height;
     self.favoriteShowButton.frame = frame;
+    
+    UIImage *favoriteImage = [UIImage imageNamed: @"Images/favorite_favorite.png"];
+    if(favoriteImage)
+        self.favoriteView.backgroundColor = [UIColor colorWithPatternImage: favoriteImage];
+    UIImage *buttonImage = [UIImage imageNamed: @"Images/favorite_button_up.png"];
+    if(buttonImage)
+        self.favoriteShowButton.backgroundColor = [UIColor colorWithPatternImage:buttonImage];
 }
 
 - (void)toggleShowingFavoriteView:(id)sender {
@@ -300,7 +309,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     CGRect viewFrame = self.view.frame;
     favoriteViewFrame.origin.x = 0;
     favoriteViewFrame.origin.y = viewFrame.size.height - favoriteViewFrame.size.height;
-    favoriteButtonFrame.origin.x = viewFrame.size.width;
+    favoriteButtonFrame.origin.x = viewFrame.size.width - favoriteButtonFrame.size.width;
     favoriteButtonFrame.origin.y = viewFrame.size.height - favoriteButtonFrame.size.height - favoriteViewFrame.size.height;
     
     [UIView animateWithDuration: kJusikViewShowHideTime
@@ -308,6 +317,10 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
                          self.favoriteView.frame = favoriteViewFrame;
                          self.favoriteShowButton.frame = favoriteButtonFrame;
                      }];
+    
+    UIImage *buttonImage = [UIImage imageNamed: @"Images/favorite_button_down.png"];
+    if(buttonImage)
+        self.favoriteShowButton.backgroundColor = [UIColor colorWithPatternImage:buttonImage];
 }
 
 - (void)hideFavoriteView {
@@ -320,7 +333,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     CGRect viewFrame = self.view.frame;
     favoriteViewFrame.origin.x = 0;
     favoriteViewFrame.origin.y = viewFrame.size.height;
-    favoriteButtonFrame.origin.x = viewFrame.size.width;
+    favoriteButtonFrame.origin.x = viewFrame.size.width - favoriteButtonFrame.size.width;
     favoriteButtonFrame.origin.y = viewFrame.size.height - favoriteButtonFrame.size.height;
     
     [UIView animateWithDuration: kJusikViewShowHideTime
@@ -328,6 +341,10 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
                          self.favoriteView.frame = favoriteViewFrame;
                          self.favoriteShowButton.frame = favoriteButtonFrame;
                      }];
+    
+    UIImage *buttonImage = [UIImage imageNamed: @"Images/favorite_button_up.png"];
+    if(buttonImage)
+        self.favoriteShowButton.backgroundColor = [UIColor colorWithPatternImage:buttonImage];
 }
 
 #pragma mark - View lifecycle
@@ -356,7 +373,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 @end

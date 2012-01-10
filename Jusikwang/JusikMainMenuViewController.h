@@ -10,6 +10,7 @@
 
 @interface JusikMainMenuViewController : UIViewController
 
+@property (nonatomic, retain) IBOutlet UIButton *startGameButton;
 @property (nonatomic, retain) IBOutlet UIButton *startNewGameButton;
 
 @property (nonatomic, retain) IBOutlet UIView *mainMenuView;
@@ -19,4 +20,7 @@
 - (void)changeToMainMenuView;
 - (void)showMainMenuAnimation;
 
+- (IBAction)showPreferences: (id)sender;
+- (IBAction)showCredit: (id)sender;
+- (IBAction)backToMainMenu:(id)sender;
 @end
