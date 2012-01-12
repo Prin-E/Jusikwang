@@ -13,6 +13,7 @@
 #import "JusikScript.h"
 #import "JusikUIDataTypes.h"
 #import "NSDate+Extension.h"
+#import "JusikDBManager.h"
 
 NSString *const JusikActivityGameViewGameDidStartNotification = @"JusikActivityGameViewGameDidStartNotification";
 NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGameViewGameDidStopNotification";
@@ -56,6 +57,7 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
     
     BOOL _isAnimating;
     
+    // 영역 검사용
     CGRect doorArea;
     CGRect chartArea;
     CGRect computerArea;
@@ -74,6 +76,7 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 @synthesize player = _player;
 @synthesize activityCount = _activityCount;
 @synthesize date = _date;
+@synthesize db = _db;
 
 @synthesize visitBedCount = _visitBedCount;
 @synthesize visitComputerCount = _visitComputerCount;
@@ -261,8 +264,20 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
                 });
             });
         }
-        // 컴퓨터(기업분석) 판정
-        
+        // 컴퓨터 판정
+        else if(p.x >= CGRectGetMinX(computerArea) && p.x <= CGRectGetMaxX(computerArea) &&
+           p.y >= CGRectGetMinY(computerArea) && p.y <= CGRectGetMaxY(computerArea)) {
+            _isAnimating = NO;
+        }
+        // 침대 판정
+        // 침대는 사각형이 아니니 체크 영역이 2개 필요하다 제길.
+        else if((p.x >= CGRectGetMinX(bed1Area) && p.x <= CGRectGetMaxX(bed1Area) &&
+            p.y >= CGRectGetMinY(bed1Area) && p.y <= CGRectGetMaxY(bed1Area)) ||
+           (p.x >= CGRectGetMinX(bed2Area) && p.x <= CGRectGetMaxX(bed2Area) &&
+            p.y >= CGRectGetMinY(bed2Area) && p.y <= CGRectGetMaxY(bed2Area))) 
+        {
+            _isAnimating = NO;
+        }
         else {
             _isAnimating = NO;
         }
@@ -308,7 +323,7 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
         // 희승
         else if(p.x >= CGRectGetMinX(heeseungArea) && p.x <= CGRectGetMaxX(heeseungArea) &&
                 p.y >= CGRectGetMinY(heeseungArea) && p.y <= CGRectGetMaxY(heeseungArea)) {
-            
+            _isAnimating = NO;
         }
         else {
             _isAnimating = NO;
@@ -497,6 +512,8 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
     [homeDoorLayer release];
     
     [_player release];
+    [_date release];
+    [_db release];
     
     [super dealloc];
 }

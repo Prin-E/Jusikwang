@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    JusikStandingCutPositionNone,
-    JusikStandingCutPositionLeft,
-    JusikStandingCutPositionRight
+    JusikStandingCutPositionNone = 0,
+    JusikStandingCutPositionLeft = 1,
+    JusikStandingCutPositionRight = 2
 } JusikStandingCutPosition;
 
 @interface JusikSpeech : NSObject {

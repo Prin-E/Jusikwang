@@ -25,6 +25,7 @@
 		95BA71AF14ABBCD40020B203 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71AE14ABBCD40020B203 /* Images */; };
 		95BA71B314ABBDA40020B203 /* JusikMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */; };
 		95BA71B414ABBDA40020B203 /* JusikMainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */; };
+		95CE07CF14BCF963001C888B /* JusikStockGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */; };
 		95D1D6A014AFD65400BEF3A0 /* JusikStockMarket.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */; };
 		95D1D6A114AFD65400BEF3A0 /* JusikCompanyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68F14AFD65400BEF3A0 /* JusikCompanyInfo.m */; };
 		95D1D6A214AFD65400BEF3A0 /* JusikStockDataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D69114AFD65400BEF3A0 /* JusikStockDataType.m */; };
@@ -88,6 +89,8 @@
 		95BA71B014ABBDA40020B203 /* JusikMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikMainMenuViewController.h; sourceTree = "<group>"; };
 		95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikMainMenuViewController.m; sourceTree = "<group>"; };
 		95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikMainMenuViewController.xib; sourceTree = "<group>"; };
+		95CE07CD14BCF955001C888B /* JusikStockGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockGraphView.h; sourceTree = "<group>"; };
+		95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockGraphView.m; sourceTree = "<group>"; };
 		95D1D68B14AFD65400BEF3A0 /* JusikCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikCore.h; path = ../../Jusikwang_core/JusikCore.h; sourceTree = "<group>"; };
 		95D1D68C14AFD65400BEF3A0 /* JusikStockMarket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikStockMarket.h; path = ../../Jusikwang_core/Jusikwang_core/JusikStockMarket.h; sourceTree = "<group>"; };
 		95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JusikStockMarket.m; path = ../../Jusikwang_core/Jusikwang_core/JusikStockMarket.m; sourceTree = "<group>"; };
@@ -265,6 +268,8 @@
 				95D57FED14BB25BC00459E04 /* JusikScriptViewController.h */,
 				95D57FEE14BB25BE00459E04 /* JusikScriptViewController.m */,
 				95D57FEF14BB25C000459E04 /* JusikScriptViewController.xib */,
+				95CE07CD14BCF955001C888B /* JusikStockGraphView.h */,
+				95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -463,6 +468,7 @@
 				95D57FE814BA1D1B00459E04 /* NSDate+Extension.m in Sources */,
 				95D57FEC14BB1C7200459E04 /* JusikScript.m in Sources */,
 				95D57FF014BB25C400459E04 /* JusikScriptViewController.m in Sources */,
+				95CE07CF14BCF963001C888B /* JusikStockGraphView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +494,43 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		95CE07E414BE5FE3001C888B /* Ad-hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad-hoc";
+		};
+		95CE07E514BE5FE3001C888B /* Ad-hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Jusikwang/Jusikwang-Prefix.pch";
+				INFOPLIST_FILE = "Jusikwang/Jusikwang-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad-hoc";
+		};
 		95EA63F914A619E3007E86D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -513,6 +556,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -536,6 +580,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -573,6 +618,7 @@
 			buildConfigurations = (
 				95EA63F914A619E3007E86D1 /* Debug */,
 				95EA63FA14A619E3007E86D1 /* Release */,
+				95CE07E414BE5FE3001C888B /* Ad-hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -582,6 +628,7 @@
 			buildConfigurations = (
 				95EA63FC14A619E3007E86D1 /* Debug */,
 				95EA63FD14A619E3007E86D1 /* Release */,
+				95CE07E514BE5FE3001C888B /* Ad-hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

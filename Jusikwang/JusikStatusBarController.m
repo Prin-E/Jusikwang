@@ -96,10 +96,11 @@
 
 - (void)setPlayer:(JusikPlayer *)player {
     if(_player != player) {
-        [_market removeObserver: self forKeyPath: @"money"];
-        [_market removeObserver: self forKeyPath: @"intelligence"];
-        [_market removeObserver: self forKeyPath: @"reliability"];
-        [_market removeObserver: self forKeyPath: @"fatigability"];
+        
+        [_player removeObserver: self forKeyPath: @"money"];
+        [_player removeObserver: self forKeyPath: @"intelligence"];
+        [_player removeObserver: self forKeyPath: @"reliability"];
+        [_player removeObserver: self forKeyPath: @"fatigability"];
         
         [player addObserver: self
                  forKeyPath: @"money"

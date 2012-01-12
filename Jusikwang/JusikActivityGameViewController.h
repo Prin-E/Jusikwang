@@ -10,11 +10,13 @@
 #import "JusikGameController.h"
 
 @class JusikPlayer;
+@class JusikDBManager;
 @interface JusikActivityGameViewController : UIViewController <JusikGameController>
 
 @property (nonatomic, retain) JusikPlayer *player;
 @property (nonatomic, readonly) NSUInteger activityCount;
 @property (nonatomic, copy) NSDate *date;
+@property (nonatomic, retain) JusikDBManager *db;
 
 @property (nonatomic) NSUInteger visitComputerCount;
 @property (nonatomic) NSUInteger visitChartCount;

@@ -14,6 +14,7 @@
 #import "JusikStock.h"
 #import "JusikGameViewController.h"
 #import "JusikBGMPlayer.h"
+#import "JusikScript.h"
 
 NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingViewLoadDidCompleteNotification";
 
@@ -96,8 +97,8 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         _countOfObjects++; // JusikPlayer
         _countOfObjects++; // GameViewController
         
-        _countOfObjects+=[[JusikBGMPlayer sharedPlayer] musics].count; // 음악
-        
+        _countOfObjects += [[JusikBGMPlayer sharedPlayer] musics].count; // 음악
+        _countOfObjects++; // Tutorial script
         
         // 프로그레스를 0으로 설정
         [self.progressView setProgress: 0];
@@ -210,6 +211,7 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         _gameViewController = [[JusikGameViewController alloc] initWithNibName: @"JusikGameViewController" bundle: nil];
         _gameViewController.market = _market;
         _gameViewController.player = _player;
+        _gameViewController.db = db;
         [self updateProgress];
         
         /* ----------------------------
@@ -242,6 +244,41 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
             [[JusikBGMPlayer sharedPlayer] loadMusic: musicName];
             [self updateProgress];
         }
+        
+        /* ----------------------------
+         Scripts
+         --------------------------- */
+        [db selectTable: @"script_tutorial_intro"];
+        [db nextRow];
+        NSUInteger uid = [db integerColumnOfCurrentRowAtIndex: 0];
+        [db query: [NSString stringWithFormat: @"select * from script_speech where uid=%d order by speech_num asc", uid]];
+        JusikScript *tutorialScript = [[JusikScript alloc] init];
+        NSMutableArray *speeches = [NSMutableArray array];
+        while([db nextRow]) {
+            JusikSpeech *speech = [[JusikSpeech alloc] init];
+            NSDictionary *d = [db rowData];
+            
+            speech.who = [d objectForKey: @"who"];
+            speech.speech = [d objectForKey: @"speech"];
+            speech.standingImageName = [d objectForKey: @"standing_image_name"];
+            
+            id obj = [d objectForKey: @"position"];
+            if([obj isKindOfClass: [NSNumber class]])
+                speech.position = (JusikStandingCutPosition)[obj unsignedIntegerValue];
+            else
+                speech.position = JusikStandingCutPositionNone;
+            
+            speech.musicName = [d objectForKey: @"music_name"];
+            speech.soundEffectName = [d objectForKey: @"sound_effect_name"];
+            speech.backgroundImageName = [d objectForKey: @"background_image_name"];
+            [speeches addObject: speech];
+            [speech release];
+        }
+        tutorialScript.speeches = speeches;
+        _gameViewController.showsTutorial = YES;
+        _gameViewController.tutorialScript = tutorialScript;
+        [tutorialScript release];
+        [self updateProgress];
         
         [db release];
     });

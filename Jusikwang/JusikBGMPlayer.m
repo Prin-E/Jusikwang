@@ -83,4 +83,12 @@ NSString *const JusikBGMMusicBadEnding = @"BG 5";
     _currentMusic = [musicName copy];    
 }
 
+- (void)pause {
+    [_player pause];
+}
+
+- (void)resume {
+    [_player play];
+}
+
 @end

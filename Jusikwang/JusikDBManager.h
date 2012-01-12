@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@class JusikLoadingViewController;
 @interface JusikDBManager : NSObject
-
-@property (nonatomic, assign) JusikLoadingViewController *loadingViewController;
 
 - (id)initWithDBNamed: (NSString *)dbName;
 - (void)query: (NSString *)query;
 - (void)selectTable: (NSString *)tableName;
 - (NSUInteger)numberOfRowsOfTable: (NSString *)tableName;
 - (BOOL)nextRow;
+
 - (NSInteger)integerColumnOfCurrentRowAtIndex: (NSUInteger)idx;
 - (NSString *)stringColumnOfCurrentRowAtIndex: (NSUInteger)idx;
 - (double)doubleColumnOfCurrentRowAtIndex: (NSUInteger)idx;
+- (const void *)byteColumnOfCurrentRowAtIndex: (NSUInteger)idx;
+- (NSDictionary *)rowData;
 
 @end
 

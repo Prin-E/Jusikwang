@@ -91,25 +91,25 @@
         NSNumber *val = [change objectForKey: NSKeyValueChangeNewKey];
         NSUInteger number = [val unsignedIntegerValue];
         if([keyPath isEqualToString: @"money"]) {
-            self.statAssetText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Asset", @"Asset"), number];
+            self.statAssetText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Asset", @"Asset"), number];
         }
         else if([keyPath isEqualToString: @"intelligence"]) {
-            self.statIntelligenceText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Intelligence", @"Intelligence"), number];
+            self.statIntelligenceText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Intelligence", @"Intelligence"), number];
         }
         else if([keyPath isEqualToString: @"reliability"]) {
-            self.statReliabilityText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Reliability", @"Reliability"), number];
+            self.statReliabilityText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Reliability", @"Reliability"), number];
         }
         else if([keyPath isEqualToString: @"fatigability"]) {
-            self.statFatigabilityText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Fatigability", @"Fatigability"), number];
+            self.statFatigabilityText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Fatigability", @"Fatigability"), number];
         }
     }
 }
 
 - (void)updateStat {
-    self.statAssetText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Asset", @"Asset"), self.player.money];
-    self.statIntelligenceText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Intelligence", @"Intelligence"), self.player.intelligence];
-    self.statReliabilityText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Reliability", @"Reliability"), self.player.reliability];
-    self.statFatigabilityText.text = [NSString stringWithFormat: @"%@ : %d", NSLocalizedString(@"Fatigability", @"Fatigability"), self.player.fatigability];
+    self.statAssetText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Asset", @"Asset"), self.player.money];
+    self.statIntelligenceText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Intelligence", @"Intelligence"), self.player.intelligence];
+    self.statReliabilityText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Reliability", @"Reliability"), self.player.reliability];
+    self.statFatigabilityText.text = [NSString stringWithFormat: @"%@ : %.0f", NSLocalizedString(@"Fatigability", @"Fatigability"), self.player.fatigability];
 
 }
 
@@ -139,7 +139,7 @@
 }
 
 - (void)dealloc {
-    [_player release];
+    self.player = nil;
     
     [super dealloc];
 }

@@ -20,7 +20,7 @@
 // Show/Hide
 #define kJusikViewShowHideTime 0.5
 
-#define kJusikViewAttentionTime 3.0
+#define kJusikViewAttentionTime 5.0
 
 // Zoom
 #define kJusikViewZoomTime 1.0

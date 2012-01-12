@@ -37,8 +37,8 @@
 "com.jusikwang.business.medicine_manufacture.vaccine" = "백신 개발";
 
 // 기업
-"com.jusikwang.company.kodae" = "고대차";
-"com.jusikwang.company.khia" = "키아차";
+"com.jusikwang.company.kodai" = "고대차";
+"com.jusikwang.company.cia" = "키아차";
 "com.jusikwang.company.hanisamhwa" = "한이삼화";
 "com.jusikwang.company.yusang" = "유상기업";
 "com.jusikwang.company.otae" = "오때";
@@ -54,6 +54,34 @@
 "com.jusikwang.company.spxengine" = "SPX엔진";
 "com.jusikwang.company.hanjeon" = "한전해운";
 "com.jusikwang.company.css" = "CSS해운";
+"com.jusikwang.company.pisco" = "PISCO";
+"com.jusikwang.company.seoguk" = "서국제강";
+"com.jusikwang.company.njsteel" = "NJ스틸";
+"com.jusikwang.company.kdbank" = "KD금융";
+"com.jusikwang.company.kiop" = "기옵은행";
+"com.jusikwang.company.neohee" = "너희금융";
+"com.jusikwang.company.kiwoom" = "키움증권";
+"com.jusikwang.company.neoheetuja" = "너희투자증권";
+"com.jusikwang.company.xk" = "XK증권";
+"com.jusikwang.company.seoyang" = "서양증권";
+"com.jusikwang.company.xoil" = "X-oil";
+"com.jusikwang.company.gx" = "GX";
+"com.jusikwang.company.oki" = "OKI";
+"com.jusikwang.company.anwa" = "아놔";
+"com.jusikwang.company.saseum" = "사슴페인팅";
+"com.jusikwang.company.ng" = "NG전자";
+"com.jusikwang.company.samsonjeonja" = "삼손전자";
+"com.jusikwang.company.samsontechwin" = "삼손테크윈";
+"com.jusikwang.company.busanbandoche" = "부산반도체";
+"com.jusikwang.company.ahnlab" = "안영희연구소";
+"com.jusikwang.company.hancom" = "한글과콤퓨타";
+"com.jusikwang.company.namhan" = "남한항공";
+"com.jusikwang.company.asinayo" = "아시나요항공";
+"com.jusikwang.company.woongjang" = "웅장쌩큐빅";
+"com.jusikwang.company.geunseong" = "근성교육";
+"com.jusikwang.company.ibmsisa" = "IBM시사닷컴";
+"com.jusikwang.company.hyein" = "혜인";
+"com.jusikwang.company.sansung" = "산성솔라에너지";
 
 // 스탯
 "Asset" = "자금";
@@ -64,3 +92,30 @@
 // 스크립트
 "com.jusikwang.script.end" = "스크립트가 종료되었습니다. 종료하려면 터치하십시오.";
 "com.jusikwang.script.touch" = "   _ 터치";
+
+// 등장인물
+"com.jusikwang.character.yuri" = "서유리";
+"com.jusikwang.character.heeseung" = "진희승";
+"com.jusikwang.character.mina" = "서미나";
+"com.jusikwang.character.sumin" = "서수민";
+"com.jusikwang.character.hanyeong" = "이한영";
+"com.jusikwang.character.minyeong" = "박민영";
+"com.jusikwang.character.sunhyun" = "박성현";
+"com.jusikwang.character.guard" = "키움증권 수위아저씨";
+"com.jusikwang.character.god" = "주식의 신";
+"com.jusikwang.character.spy" = "스파이";
+
+/*
+ * 스크립트 내용
+ */
+
+// 학습 실패
+"com.jusikwang.script.analysis.failed.1" = "어...어...이게 대체 무슨 말이지? 피곤해서 그런지 머리에 하나도 안들어와.....";
+"com.jusikwang.script.analysis.failed.2" = "학습에 실패했다.";
+
+// 기업 분석
+"com.jusikwang.script.analysis.company.step1.1" = "ROE는 Return on Equity의 약자로...자기자본 이익률이라는 뜻인데...연간순이익을 자기자본으로 나눈 백분율로서..주절주절...";
+"com.jusikwang.script.analysis.company.step1.2" = "으~! 오늘은 여기까지! 다음에 계속해야지.";
+"com.jusikwang.script.analysis.company.step2.1" = "ROE의 투자 포인트는 높을수록, 그리고 연속적으로 성장할 수록 투차가치가 높고... 그 반대로...중얼중얼....";
+"com.jusikwang.script.analysis.company.step2.2" = "음, 오늘은 여기까지.";
+"com.jusikwang.script.analysis.company.step2.3" = "ROE 스킬을 획득했다!";

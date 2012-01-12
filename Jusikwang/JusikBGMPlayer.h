@@ -18,6 +18,8 @@
 
 - (void)loadMusic: (NSString *)musicName;
 - (void)playMusic: (NSString *)musicName;
+- (void)pause;
+- (void)resume;
 
 @end
 

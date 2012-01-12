@@ -10,9 +10,14 @@
 #import "JusikStockMarket.h"
 #import "JusikPlayer.h"
 #import "JusikUIDataTypes.h"
+#import "JusikStock.h"
+#import "JusikCompanyInfo.h"
+#import "JusikPurchasedStockInfo.h"
+#import "JusikBGMPlayer.h"
+#import "JusikDBManager.h"
 
 #define kJusikStockTimePeriod 10
-#define kJusikStockGameMaxSeconds 10
+#define kJusikStockGameMaxSeconds 180
 
 NSString *const JusikStockGameViewGameDidStartNotification =  @"JusikStockGameViewGameDidStartNotification";
 NSString *const JusikStockGameViewPeriodDidUpdateNotification = @"JusikStockGameViewPeriodDidUpdateNotification";
@@ -40,6 +45,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 - (void)showResultView;
 - (void)hideResultView;
+
+- (void)updateStockInfoView;
 @end
 
 @implementation JusikStockGameViewController {
@@ -50,6 +57,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     
     NSUInteger _seconds;
     NSUInteger _timerCount;
+    
+    JusikStock *_selectedStock;
 }
 
 @synthesize favoriteView = _favoriteView;
@@ -59,10 +68,22 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 @synthesize gameTimeText = _gameTimeText;
 @synthesize resultView = _resultView;
 
+@synthesize worldMapView = _worldMapView;
+@synthesize scrollView = _scrollView;
+
+@synthesize stockInfoNameText = _stockInfoNameText;
+@synthesize stockInfoView = _stockInfoView;
+@synthesize stockInfoTypeText = _stockInfoTypeText;
+@synthesize stockInfoCountText = _stockInfoCountText;
+@synthesize stockInfoPriceText = _stockInfoPriceText;
+@synthesize stockInfoPurchasedText = _stockInfoPurchasedText;
+
 @synthesize market = _market;
 @synthesize player = _player;
 
 @synthesize date = _date;
+
+@synthesize db = _db;
 
 #pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,6 +106,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 #pragma mark - 게임 시작/중지
 - (void)play {
+    [[JusikBGMPlayer sharedPlayer] playMusic: JusikBGMMusicMainMenu];
     [self showNews];
 }
 
@@ -149,9 +171,111 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     UIImage *img = [UIImage imageNamed: @"Images/result.png"];
     if(img)
         self.resultView.backgroundColor = [UIColor colorWithPatternImage: img];
+    
+    [self.scrollView addSubview: self.worldMapView];
+    self.scrollView.contentSize = self.worldMapView.frame.size;
+    self.scrollView.contentMode = UIViewContentModeCenter;
 }
 
+- (IBAction)showStockInfo:(id)sender {
+    if(_timer == nil) return;
+    
+    NSUInteger tag = [sender tag];
+    NSString *companyName;
+    switch(tag) {
+        case 1:
+            companyName = @"com.jusikwang.company.kodae";
+            break;
+        case 2:
+            companyName = @"com.jusikwang.company.khia";
+            break;
+        case 3:
+            companyName = @"com.jusikwang.company.yusang";
+            break;
+        case 4:
+            companyName = @"com.jusikwang.company.hanisamhwa";
+            break;
+        case 5:
+            companyName = @"com.jusikwang.company.otae";
+            break;
+    }
+    
+    _selectedStock = [self.market stockOfCompanyWithName: companyName];
+    
+    [self updateStockInfoView];
+    
+    [self.view addSubview: self.stockInfoView];
+    CGRect frame = self.stockInfoView.frame;
+    CGRect viewFrame = self.view.frame;
+    frame.origin.x = (viewFrame.size.width - frame.size.width) * 0.5;
+    frame.origin.y = (viewFrame.size.height - frame.size.height) * 0.5;
+    self.stockInfoView.frame = frame;
+}
+
+- (IBAction)hideStockInfo:(id)sender {
+    _selectedStock = nil;
+    [self.stockInfoView removeFromSuperview];
+}
+
+- (void)updateStockInfoView {
+    if(_selectedStock) {
+        self.stockInfoNameText.text = NSLocalizedString(_selectedStock.info.name, @"");
+        self.stockInfoPriceText.text = [NSString stringWithFormat: @"%.0f", _selectedStock.price];
+        self.stockInfoTypeText.text = NSLocalizedString(_selectedStock.info.businessType.name, @"");
+        
+        JusikPurchasedStockInfo *i = [self.player.purchasedStockInfos objectForKey: _selectedStock.info.name];
+        self.stockInfoPurchasedText.text = [NSString stringWithFormat: @"%d", i.count];
+    }
+}
+
+- (IBAction)buyStock:(id)sender {
+    NSInteger i = 0;
+    BOOL success = [[NSScanner scannerWithString: self.stockInfoCountText.text] scanInteger: &i];
+    if(success == NO) {
+        UIAlertView *a = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
+                                                    message: @"숫자로 지정하세요"
+                                                   delegate: nil
+                                          cancelButtonTitle: nil
+                                          otherButtonTitles: nil];
+        [a show];
+        [a release];
+        return;
+    }
+    
+    [self.player buyStockName: _selectedStock.info.name
+                   fromMarket: self.market
+                        count: i];
+    [self updateStockInfoView];
+}
+
+- (IBAction)sellStock:(id)sender {
+    NSInteger i = 0;
+    BOOL success = [[NSScanner scannerWithString: self.stockInfoCountText.text] scanInteger: &i];
+    if(success == NO) {
+        UIAlertView *a = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
+                                                    message: @"숫자로 지정하세요"
+                                                   delegate: nil
+                                          cancelButtonTitle: nil
+                                          otherButtonTitles: nil];
+        [a show];
+        [a release];
+        return;
+    }
+    
+    [self.player sellStockName: _selectedStock.info.name
+                      toMarket: self.market
+                         count: i];
+    [self updateStockInfoView];
+}
+
+- (IBAction)addFavorite:(id)sender {
+    _selectedStock = nil;
+}
+
+#pragma mark - 결과 창
 - (void)showResultView {
+    [self hideStockInfo: self];
+    
     [self.view addSubview: self.resultView];
     CGRect frame = self.resultView.frame;
     CGRect viewFrame = self.view.frame;
@@ -204,6 +328,9 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName: JusikStockGameViewPeriodDidUpdateNotification
                           object: self];
+        
+        // for testing
+        [self updateStockInfoView];
     }
     
     NSUInteger time = kJusikStockGameMaxSeconds - _seconds;
@@ -347,6 +474,12 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         self.favoriteShowButton.backgroundColor = [UIColor colorWithPatternImage:buttonImage];
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.stockInfoCountText resignFirstResponder];
+    return NO;
+}
+
 #pragma mark - View lifecycle
 - (void)viewDidLoad
 {
@@ -368,12 +501,28 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     self.favoriteView = nil;
     self.favoriteShowButton = nil;
     self.gameTimeText = nil;
+    self.worldMapView = nil;
+    self.scrollView = nil;
+    
+    self.stockInfoPriceText = nil;
+    self.stockInfoTypeText = nil;
+    self.stockInfoView = nil;
+    self.stockInfoNameText = nil;
+    self.stockInfoCountText = nil;
+    self.stockInfoPurchasedText = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
+
+- (void)dealloc {
+    self.market = nil;
+    self.player = nil;
+    self.db = nil;
+    [super dealloc];
 }
 
 @end

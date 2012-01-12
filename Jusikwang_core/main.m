@@ -114,7 +114,7 @@ int main (int argc, const char * argv[])
     e3.change = JusikRangeMake(-0.03, 0.03);
     e3.changeWay = JusikEventChangeWayRateAbsolute;
     e3.startTurn = 71;
-    e3.persistTurn = 10;
+    e3.persistTurn = 6;
     
     [market processJusikEvents: [NSArray arrayWithObjects: e, e2, e3, nil]];
     [e release];

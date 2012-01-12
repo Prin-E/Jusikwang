@@ -11,8 +11,8 @@
 #import "JusikUIDataTypes.h"
 #import "JusikBGMPlayer.h"
 
-NSString *const JusikScriptViewScriptDidStartNotification = @"JusikScriptViewScriptDidEndNotification";
-NSString *const JusikScriptViewNextSpeechNotification = @"JusikScriptViewScriptDidEndNotification";
+NSString *const JusikScriptViewScriptDidStartNotification = @"JusikScriptViewScriptDidStartNotification";
+NSString *const JusikScriptViewNextSpeechNotification = @"JusikScriptViewNextSpeechNotification";
 NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScriptDidEndNotification";
 
 @implementation JusikScriptViewController {
@@ -125,6 +125,7 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
     if(_scriptEnded) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName: JusikScriptViewScriptDidEndNotification object: self];
+        return;
     }
     
     // 대화가 끝나면 호출된다.

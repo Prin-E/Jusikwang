@@ -14,16 +14,22 @@
 #import "JusikStockGameViewController.h"
 #import "JusikActivityGameViewController.h"
 #import "NSDate+Extension.h"
-
+#import "JusikScript.h"
+#import "JusikScriptViewController.h"
+#import "JusikDBManager.h"
 #import "JusikCore.h"
 
 @interface JusikGameViewController (Private)
+- (void)_setupNotifications;
 - (void)_initStatusBar;
+- (void)_initStatusBarMenuView;
+- (void)_initConfirmViews;
 - (void)_layoutViews;
 @end
 
 @implementation JusikGameViewController {
     BOOL _showingMenu;
+    BOOL _showingConfirmView;
     UIViewController<JusikGameController> *_currentGameController;
 }
 
@@ -33,7 +39,12 @@
 @synthesize gameState = _gameState;
 @synthesize date = _date;
 @synthesize turn = _turn;
+
 @synthesize showsTutorial = _showsTutorial;
+@synthesize tutorialScript = _tutorialScript;
+@synthesize scriptViewController = _scriptViewController;
+
+@synthesize db = _db;
 
 @synthesize statusBarController = _statusBarController;
 @synthesize viewController = _viewController;
@@ -45,6 +56,8 @@
 @synthesize contentView = _contentView;
 @synthesize statusBarMenuView = _statusBarMenuView;
 @synthesize menuView = _menuView;
+
+@synthesize exitConfirmView = _exitConfirmView;
 
 #pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -59,38 +72,32 @@
         [_date retain];
         [comp release];
         
-        
+        // Stock Game View
         JusikStockGameViewController *stockGame = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
         self.stockGameController = stockGame;
         [stockGame release];
         
+        // Activity Game View
         JusikActivityGameViewController *activityGame = [[JusikActivityGameViewController alloc] initWithNibName: @"JusikActivityGameViewController" bundle: nil];
         self.activityGameController = activityGame;
         [activityGame release];
         
-        self.gameState = JusikGamePlayStateStock;
+        // Status Bar
+        JusikStatusBarController *bar = [[JusikStatusBarController alloc] initWithNibName: @"JusikStatusBarController" bundle: nil];
+        self.statusBarController = bar;
+        [bar release];
+        
+        // Player Info
+        JusikPlayerInfoViewController *pi = [[JusikPlayerInfoViewController alloc] initWithNibName:@"JusikPlayerInfoViewController" bundle: nil];
+        self.piViewController = pi;
+        [pi release];
+        
+        // set default game state
+        self.gameState = JusikGamePlayStateNone;
         _showsTutorial = YES;
         
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(stockGameDidStart:)
-                                                     name: JusikStockGameViewGameDidStartNotification
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(stockGamePeriodDidUpdate:)
-                                                     name: JusikStockGameViewPeriodDidUpdateNotification
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(stockGameDidEnd:)
-                                                     name: JusikStockGameViewGameDidStopNotification
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(activityGameDidStart:)
-                                                     name: JusikActivityGameViewGameDidStartNotification
-                                                   object: nil];
-        [[NSNotificationCenter defaultCenter] addObserver: self
-                                                 selector: @selector(activityGameDidStart:)
-                                                     name: JusikActivityGameViewGameDidStopNotification
-                                                   object: nil];
+        // Setup Notifications
+        [self _setupNotifications];
     }
     return self;
 }
@@ -156,6 +163,16 @@
     self.activityGameController.player = self.player;
 }
 
+- (JusikScriptViewController *)scriptViewController {
+    return _scriptViewController;
+}
+
+- (void)setScriptViewController:(JusikScriptViewController *)scriptViewController {
+    [scriptViewController retain];
+    [_scriptViewController release];
+    _scriptViewController = scriptViewController;
+}
+
 - (JusikPlayer *)player {
     return _player;
 }
@@ -167,6 +184,7 @@
     
     self.statusBarController.player = player;
     self.piViewController.player = player;
+    self.stockGameController.player = player;
 }
 
 - (JusikStockMarket *)market {
@@ -179,6 +197,7 @@
     _market = market;
     
     self.statusBarController.market = market;
+    self.stockGameController.market = market;
 }
 
 - (NSDate *)date {
@@ -214,42 +233,66 @@
     _gameState = gameState;
     
     // 상태 바 전환
-    if(gameState == JusikStatusBarModeStockTime)
+    if(gameState == JusikGamePlayStateStock)
         self.statusBarController.mode = JusikStatusBarModeStockTime;
-    else if(gameState == JusikStatusBarModeActivity)
+    else if(gameState == JusikGamePlayStateActivity)
         self.statusBarController.mode = JusikStatusBarModeActivity;
     
     // 뷰 전환
     UIViewController<JusikGameController> *gameController = nil;
     if(self.gameState == JusikGamePlayStateStock) {
         gameController = self.stockGameController;
-        [(JusikActivityGameViewController *)_currentGameController stop];
+    }
+    else if(self.gameState == JusikGamePlayStateActivity) {
+        gameController = self.activityGameController;
     }
     else {
-        gameController = self.activityGameController;
-        [(JusikStockGameViewController *)_currentGameController stop];
+        gameController = nil;
     }
-    [UIView animateWithDuration: kJusikViewFadeTime
-                          delay: 0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations: ^{
-                         _currentGameController.view.alpha = 0;
-                     }
-                     completion: ^(BOOL completed) {
-                         [_currentGameController.view removeFromSuperview];
-                         gameController.view.alpha = 0;
-                         [self.contentView addSubview: gameController.view];
-                         [UIView animateWithDuration: kJusikViewFadeTime
-                                               delay: 0
-                                             options: UIViewAnimationOptionCurveEaseOut
-                                          animations: ^{
-                                              gameController.view.alpha = 1;
-                                          }
-                                          completion: ^(BOOL completed) {
-                                              gameController.view.alpha = 1;
-                                              _currentGameController = gameController;
-                                          }];
-                     }];
+    [_currentGameController stop];
+    
+    double delay = 0;
+    if(_currentGameController) {
+        UIViewController<JusikGameController> *vc = _currentGameController;
+        [UIView animateWithDuration: kJusikViewFadeTime
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             vc.view.alpha = 0;
+                         }
+                         completion: ^(BOOL completed) {
+                             [vc.view removeFromSuperview];
+                         }];
+
+        delay = kJusikViewFadeTime;
+    }
+    
+    if(gameController) {
+        gameController.view.alpha = 0;
+        [self.contentView addSubview: gameController.view];
+        [UIView animateWithDuration: kJusikViewFadeTime
+                              delay: delay
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             gameController.view.alpha = 1;
+                         }
+                         completion: ^(BOOL completed) {
+                             _currentGameController = gameController;
+                         }];
+    }
+}
+
+- (JusikDBManager *)db {
+    return _db;
+}
+
+- (void)setDb:(JusikDBManager *)db {
+    [db retain];
+    [_db release];
+    _db = db;
+    
+    self.stockGameController.db = _db;
+    self.activityGameController.db = _db;
 }
 
 #pragma mark 메모리 관리
@@ -297,15 +340,44 @@
                 [self.stockGameController resume];
             break;
         case JusikGamePlayStateActivity:
+            if(_showingMenu)
+                [self.activityGameController pause];
+            else
+                [self.activityGameController resume];
+            break;
+        default:
             break;
     }
 }
 
 - (void)exitGame:(id)sender {
+    _showingConfirmView = NO;
     [self.viewController exitGame];
 }
 
-- (void)play {    
+- (IBAction)showExitConfirmView:(id)sender {
+    _showingConfirmView = YES;
+    [self.view addSubview: self.exitConfirmView];
+    CGRect frame = self.exitConfirmView.frame;
+    CGRect viewFrame = self.view.frame;
+    frame.origin.x = (viewFrame.size.width - frame.size.width) * 0.5;
+    frame.origin.y = (viewFrame.size.height - frame.size.height) * 0.5;
+    self.exitConfirmView.frame = frame;
+}
+
+- (IBAction)cancelExit:(id)sender {
+    _showingConfirmView = NO;
+    [self.exitConfirmView removeFromSuperview];
+}
+
+- (void)play {
+    if(self.showsTutorial && self.tutorialScript) {
+        [self showTutorial];
+        return;
+    }
+    
+    [self nextDay];
+    
     if(self.gameState == JusikGamePlayStateStock) {
         if([self.date isWeekday] == NO)
             [self.stockGameController play];
@@ -362,25 +434,16 @@
 - (void)showTutorial {
     if(self.showsTutorial == NO) return;
     
-    [_currentGameController pause];
-    [UIView animateWithDuration: kJusikViewFadeTime
-                          delay: 0
-                        options: UIViewAnimationCurveEaseOut
-                     animations: ^{
-                         _currentGameController.view.alpha = 0;
-                     }
-                     completion: ^(BOOL completed){
-                         [_currentGameController.view removeFromSuperview];
-                     }];
+    self.gameState = JusikGamePlayStateNone;
     
     // show attention
-    UIImage *attentionImage = [UIImage imageNamed: @"attention.png"];
+    UIImage *attentionImage = [UIImage imageNamed: @"Images/attention.png"];
     UIImageView *attentionView = [[UIImageView alloc] initWithImage: attentionImage];
-    attentionView.frame = self.contentView.frame;
+    attentionView.frame = self.view.frame;
+    [self.view addSubview: attentionView];
     attentionView.alpha = 0;
-    [self.contentView addSubview: attentionView];
     [UIView animateWithDuration: kJusikViewFadeTime
-                          delay: kJusikViewFadeTime
+                          delay: 0
                         options: UIViewAnimationCurveEaseOut
                      animations: ^{
                          attentionView.alpha = 1.0;
@@ -388,19 +451,33 @@
                      completion: nil];
     
     // hide attention
-    [UIView animateWithDuration: kJusikViewAttentionTime
-                          delay:kJusikViewFadeTime*2
+    [UIView animateWithDuration: kJusikViewFadeTime
+                          delay:kJusikViewFadeTime*2+kJusikViewAttentionTime
                         options: UIViewAnimationOptionCurveEaseOut
                      animations: ^{
                          attentionView.alpha = 0;
                      }
                      completion: ^(BOOL completed) {
                          // run script
+                         JusikScriptViewController *vc = [[JusikScriptViewController alloc] initWithNibName: @"JusikScriptViewController" bundle: nil];
+                         self.scriptViewController = vc;
+                         [vc release];
+                         [self.contentView addSubview: vc.view];
                          
-                         //
-                         
-                         [_currentGameController resume];
+                         [[NSNotificationCenter defaultCenter] addObserver: self
+                                                                  selector: @selector(tutorialDidEnd:)
+                                                                      name: JusikScriptViewScriptDidEndNotification
+                                                                    object: vc];
+                         [self.scriptViewController runScript: self.tutorialScript defaultBackground: nil];
                      }];
+}
+
+- (void)tutorialDidEnd: (NSNotification *)n {
+    [self.scriptViewController.view removeFromSuperview];
+    self.scriptViewController = nil;
+    self.showsTutorial = NO;
+    self.gameState = JusikGamePlayStateStock;
+    [self play];
 }
 
 #pragma mark - 노티피케이션
@@ -423,6 +500,22 @@
 
 - (void)activityGameDidEnd: (NSNotification *)n {
     [self nextDay];
+    
+    // for testing
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit
+                                          fromDate: self.date];
+    if(comp.day >= 25) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
+                                                            message: @"테스트는 여기까지입니다. 앞으로 더 멋지게 나올 주식왕을 기대해주세요!" 
+                                                           delegate: nil
+                                                  cancelButtonTitle: nil
+                                                  otherButtonTitles: nil];
+        [alertView show];
+        [alertView release];
+        [self exitGame: self];
+    }
+    
     self.gameState = JusikGamePlayStateStock;
     [self play];
 }
@@ -432,35 +525,23 @@
 {
     [super viewDidLoad];
     
+    [self _initStatusBarMenuView];
     [self _initStatusBar];
-    [self.view addSubview: self.statusBarMenuView];
-    [self.statusBarMenuView addSubview: self.menuView];
-    UIImage *menuImage = [UIImage imageNamed: @"Images/sidebar_sidebar.png"];
-    if(menuImage)
-        self.statusBarMenuView.backgroundColor = [UIColor colorWithPatternImage: menuImage];
-    UIImage *buttonImage = [UIImage imageNamed: @"Images/sidebar_button_down.png"];
-    if(buttonImage)
-        self.statusBarController.statusBarButton.backgroundColor = [UIColor colorWithPatternImage: buttonImage];
-    
-    
-    JusikPlayerInfoViewController *pi = [[JusikPlayerInfoViewController alloc] initWithNibName:@"JusikPlayerInfoViewController" bundle: nil];
-    self.piViewController = pi;
-    [pi release];
+    [self _initConfirmViews];
     
     [self _layoutViews];
     
-    self.gameState = JusikGamePlayStateStock;
-    
-    [self nextDay];
-    [self play];
+    self.gameState = JusikGamePlayStateNone;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     
+    self.contentView = nil;
     self.statusBarMenuView = nil;
     self.menuView = nil;
+    self.exitConfirmView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -470,15 +551,55 @@
 }
 
 #pragma mark - 비공개 메서드
+- (void)_setupNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(stockGameDidStart:)
+                                                 name: JusikStockGameViewGameDidStartNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(stockGamePeriodDidUpdate:)
+                                                 name: JusikStockGameViewPeriodDidUpdateNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(stockGameDidEnd:)
+                                                 name: JusikStockGameViewGameDidStopNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(activityGameDidStart:)
+                                                 name: JusikActivityGameViewGameDidStartNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(activityGameDidStart:)
+                                                 name: JusikActivityGameViewGameDidStopNotification
+                                               object: nil];
+}
+
 - (void)_initStatusBar {
-    JusikStatusBarController *bar = [[JusikStatusBarController alloc] initWithNibName: @"JusikStatusBarController" bundle: nil];
-    self.statusBarController = bar;
-    [bar release];
-    
-    [self.statusBarMenuView addSubview: bar.view];
-    
+    [self.statusBarMenuView addSubview: self.statusBarController.view];
+        
     self.statusBarController.player = self.player;
     self.statusBarController.market = self.market;
+    
+    UIImage *buttonImage = [UIImage imageNamed: @"Images/sidebar_button_down.png"];
+    if(buttonImage)
+        self.statusBarController.statusBarButton.backgroundColor = [UIColor colorWithPatternImage: buttonImage];
+
+}
+
+- (void)_initStatusBarMenuView {
+    [self.view addSubview: self.statusBarMenuView];
+    [self.statusBarMenuView addSubview: self.menuView];
+    [self.statusBarMenuView addSubview: self.piViewController.view];
+    UIImage *menuImage = [UIImage imageNamed: @"Images/sidebar_sidebar.png"];
+    if(menuImage)
+        self.statusBarMenuView.backgroundColor = [UIColor colorWithPatternImage: menuImage];
+}
+
+- (void)_initConfirmViews {
+    UIImage *img = [UIImage imageNamed: @"Images/confirm.png"];
+    if(img) {
+        self.exitConfirmView.backgroundColor = [UIColor colorWithPatternImage: img];
+    }
 }
 
 - (void)_layoutViews {
@@ -527,11 +648,14 @@
     [_market release];
     [_player release];
     [_date release];
+    [_db release];
     
     self.statusBarController = nil;
     self.piViewController = nil;
     self.stockGameController = nil;
     self.activityGameController = nil;
+    self.scriptViewController = nil;
+    self.tutorialScript = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
