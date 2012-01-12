@@ -13,6 +13,14 @@
 @synthesize market = _market;
 @synthesize count = _count;
 
+- (id)copyWithZone:(NSZone *)zone {
+    JusikPurchasedStockInfo *newInfo = [[JusikPurchasedStockInfo allocWithZone: zone] init];
+    newInfo.stockName = _stockName;
+    newInfo.market = _market;
+    newInfo.count = _count;
+    return newInfo;
+}
+
 - (void)dealloc {
     self.stockName = nil;
     self.market = nil;

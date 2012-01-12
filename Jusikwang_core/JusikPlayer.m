@@ -80,7 +80,7 @@
 - (void)setIntelligence:(double)intelligence {
     if(intelligence < 0)
         intelligence = 0;
-    [super setIntelligence: intelligence];
+    _intelligence = intelligence;
 }
 
 - (double)reliability {
@@ -90,7 +90,7 @@
 - (void)setReliability:(double)reliability {
     if(reliability < 0)
         reliability = 0;
-    [super setReliability: reliability];
+    _reliability = reliability;
 }
 
 - (double)fatigability {
@@ -100,13 +100,17 @@
 - (void)setFatigability:(double)fatigability {
     if(fatigability < 0)
         fatigability = 0;
-    [super setFatigability: fatigability];
+    _fatigability = fatigability;
 }
 
 #pragma mark - 주식 구입/매각
 - (BOOL)buyStockName: (NSString *)name fromMarket: (JusikStockMarket *)market count: (NSUInteger)count {
     JusikStock *stock = [market stockOfCompanyWithName: name];
     if(stock == nil)
+        return NO;
+    
+    // 자금보다 구입 비용이 많으면 구입 불가능
+    if((stock.price * (1.0 + kJusikStockCommission)) * (double)count > _money)
         return NO;
     
     JusikPurchasedStockInfo *info = [_purchasedStockInfos objectForKey: stock.info.name];
@@ -137,13 +141,14 @@
     if(info == nil)
         return NO;
     
-    info.count = ((info.count < count) ? 0 : info.count - count);
-    if(info.count)
+    NSUInteger actualCount = ((info.count < count) ? info.count : count);
+    info.count -= actualCount;
+    if(info.count < 1)
         [_purchasedStockInfos removeObjectForKey: stock.info.name];
     
     // 수수료 제외한 금액 증가
     [self willChangeValueForKey: @"money"];
-    _money += (stock.price * (1.0 - kJusikStockCommission)) * (double)count;
+    _money += (stock.price * (1.0 - kJusikStockCommission)) * (double)actualCount;
     [self didChangeValueForKey: @"money"];
     return YES;
 }

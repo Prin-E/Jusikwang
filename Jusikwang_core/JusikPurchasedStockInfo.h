@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class JusikStockMarket;
-@interface JusikPurchasedStockInfo : NSObject {
+@interface JusikPurchasedStockInfo : NSObject <NSCopying> {
     NSString *_stockName;
     JusikStockMarket *_market;
     
