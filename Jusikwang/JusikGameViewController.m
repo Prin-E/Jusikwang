@@ -24,6 +24,7 @@
 - (void)_initStatusBar;
 - (void)_initStatusBarMenuView;
 - (void)_initConfirmViews;
+- (void)_setupGameViews;
 - (void)_layoutViews;
 @end
 
@@ -64,13 +65,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
         NSDateComponents *comp = [NSDateComponents new];
         comp.year = 2011;
         comp.month = 11;
         comp.day = 10;
-        _date = [comp date];
+        _date = [gregorian dateFromComponents: comp];
         [_date retain];
         [comp release];
+        [gregorian release];
         
         // Stock Game View
         JusikStockGameViewController *stockGame = [[JusikStockGameViewController alloc] initWithNibName: @"JusikStockGameViewController" bundle: nil];
@@ -277,9 +280,9 @@
                              gameController.view.alpha = 1;
                          }
                          completion: ^(BOOL completed) {
-                             _currentGameController = gameController;
                          }];
     }
+    _currentGameController = gameController;
 }
 
 - (JusikDBManager *)db {
@@ -372,9 +375,12 @@
 
 - (void)play {
     if(self.showsTutorial && self.tutorialScript) {
-        [self showTutorial];
-        return;
+        // for test mode
+        //[self showTutorial];
+        //return;
     }
+    
+    if(self.gameState == JusikGamePlayStateNone) return;
     
     [self nextDay];
     
@@ -386,7 +392,7 @@
             [self.activityGameController play];
         }
     }
-    else {
+    else if(self.gameState == JusikGamePlayStateActivity) {
         [self.activityGameController play];
     }
 }
@@ -426,9 +432,17 @@
     NSDate *newDate = [gregorian dateByAddingComponents: comp 
                                                  toDate: _date
                                                 options: 0];
+    [gregorian release];
+    [comp release];
+    
+    NSLog(@"prev date: %@", _date);
+    NSLog(@"new date: %@", newDate);
+    
     [_date release];
     _date = newDate;
     [_date retain];
+    
+    self.statusBarController.date = _date;
 }
 
 - (void)showTutorial {
@@ -491,7 +505,7 @@
 
 - (void)stockGameDidEnd: (NSNotification *)n {
     self.gameState = JusikGamePlayStateActivity;
-    [self play];
+    [_currentGameController play];
 }
 
 - (void)activityGameDidStart: (NSNotification *)n {
@@ -499,8 +513,6 @@
 }
 
 - (void)activityGameDidEnd: (NSNotification *)n {
-    [self nextDay];
-    
     // for testing
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents *comp = [gregorian components: NSDayCalendarUnit
@@ -509,15 +521,16 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
                                                             message: @"테스트는 여기까지입니다. 앞으로 더 멋지게 나올 주식왕을 기대해주세요!" 
                                                            delegate: nil
-                                                  cancelButtonTitle: nil
+                                                  cancelButtonTitle: @"OK!"
                                                   otherButtonTitles: nil];
         [alertView show];
         [alertView release];
         [self exitGame: self];
     }
     
+    [self nextDay];
     self.gameState = JusikGamePlayStateStock;
-    [self play];
+    [_currentGameController play];
 }
 
 #pragma mark - View lifecycle
@@ -529,9 +542,8 @@
     [self _initStatusBar];
     [self _initConfirmViews];
     
+    [self _setupGameViews];
     [self _layoutViews];
-    
-    self.gameState = JusikGamePlayStateNone;
 }
 
 - (void)viewDidUnload
@@ -569,7 +581,7 @@
                                                  name: JusikActivityGameViewGameDidStartNotification
                                                object: nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(activityGameDidStart:)
+                                             selector: @selector(activityGameDidEnd:)
                                                  name: JusikActivityGameViewGameDidStopNotification
                                                object: nil];
 }
@@ -641,6 +653,27 @@
     statusBarFrame.origin.x = 0;
     statusBarFrame.origin.y = barMenuViewFrame.size.height - statusBarFrame.size.height;
     self.statusBarController.view.frame = statusBarFrame;
+}
+
+- (void)_setupGameViews {
+    JusikGamePlayState state = self.gameState;
+    switch(state) {
+        case JusikGamePlayStateNone:
+            return;
+        case JusikGamePlayStateStock:
+            _currentGameController = self.stockGameController;
+            break;
+        case JusikGamePlayStateActivity:
+            _currentGameController = self.activityGameController;
+            break;
+    }
+    
+    [self.contentView addSubview: _currentGameController.view];
+    _currentGameController.view.alpha = 0;
+    [UIView animateWithDuration: kJusikViewFadeTime
+                     animations: ^{
+                         _currentGameController.view.alpha = 1.0; 
+                     }];
 }
 
 #pragma mark - 메모리 해제

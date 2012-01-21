@@ -32,6 +32,9 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 @end
 
 @implementation JusikActivityGameViewController {
+    BOOL _playing;
+    
+    // 레이어
     CALayer *backgroundLayer;
     CALayer *touchAreaLayer;
     CALayer *messageLayer;
@@ -48,14 +51,18 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
     CALayer *homeBedLayer;
     
     // 활동 수
-    NSUInteger _activityCount;
+    NSInteger _activityCount;
     BOOL _isNight;
     
     // 이미 방문했는지 확인하는 논리 변수
     BOOL _visitsStockAnalysis, _visitsCompanyAlalysis, _visitsStudy, _visitsRest;
     BOOL _visitsStreet, _visitsKiwoom, _visitsPolice, _visitsHeeseung, _visitsShop, _visitsPark;
     
+    // 애니메이션 확인용
     BOOL _isAnimating;
+    
+    // 스크립트 컨트롤러
+    JusikScriptViewController *_scriptViewController;
     
     // 영역 검사용
     CGRect doorArea;
@@ -108,6 +115,14 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
         kiwoomArea = CGRectMake(196, 0, 41, 135);
         streetArea = CGRectMake(0, 14, 170, 114);
         shopArea = CGRectMake(306, 165, 80, 100);
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver: self
+               selector: @selector(scriptDidEnd:)
+                   name: JusikScriptViewScriptDidEndNotification
+                 object: nil];
+        
+        _scriptViewController = [[JusikScriptViewController alloc] initWithNibName: @"JusikScriptViewController" bundle: nil];
     }
     return self;
 }
@@ -123,6 +138,9 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 
 #pragma mark - 게임
 - (void)play {
+    if(_playing) return;
+    _playing = YES;
+    
     [[JusikBGMPlayer sharedPlayer] playMusic: JusikBGMMusicActivity];
     [self backToHome];
     _activityCount = [self activityCountOfDay];
@@ -141,6 +159,9 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 }
 
 - (void)stop {
+    if(_playing == NO) return;
+    _playing = NO;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName: JusikActivityGameViewGameDidStopNotification object: nil];
 }
 
@@ -267,7 +288,24 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
         // 컴퓨터 판정
         else if(p.x >= CGRectGetMinX(computerArea) && p.x <= CGRectGetMaxX(computerArea) &&
            p.y >= CGRectGetMinY(computerArea) && p.y <= CGRectGetMaxY(computerArea)) {
-            _isAnimating = NO;
+            // Zoom
+            [self zoomAtPosition: p rate: kJusikViewZoomRate];
+            
+            // 홈레이어 숨기기
+            [CATransaction begin];
+            [CATransaction setAnimationDuration: kJusikViewZoomTime];
+            
+            homeLayer.opacity = 0;
+            
+            [CATransaction commit];
+            
+            double delayInSeconds = kJusikViewZoomTime;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.view addSubview: _scriptViewController.view];
+                [_scriptViewController runScript: nil defaultBackground: nil];
+            });
+            
         }
         // 침대 판정
         // 침대는 사각형이 아니니 체크 영역이 2개 필요하다 제길.
@@ -354,6 +392,18 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 {
     // Return YES for supported orientations
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
+
+#pragma mark - 노티피케이션
+- (void)scriptDidEnd: (NSNotification *)notification {
+    [_scriptViewController.view removeFromSuperview];
+    
+    _isAnimating = NO;
+    currentPosition.opacity = 1;
+    
+    _activityCount -= 1;
+    if(_activityCount < 1)
+        [self stop];
 }
 
 #pragma mark - 비공개 메서드
@@ -502,6 +552,8 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
 
 #pragma mark - 메모리 해제
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
     [backgroundLayer release];
     [touchAreaLayer release];
     [messageLayer release];
@@ -510,10 +562,16 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
     [outerLayer release];
     
     [homeDoorLayer release];
+    [homeComputerLayer release];
+    [homeChartLayer release];
+    [homeBedLayer release];
+    [homeBookLayer release];
     
     [_player release];
     [_date release];
     [_db release];
+    
+    [_scriptViewController release];
     
     [super dealloc];
 }

@@ -12,8 +12,10 @@
 
 - (BOOL)isWeekday {
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit fromDate: self];
-    if(comp.day >= 6) {
+    
+    NSDateComponents *comp = [gregorian components: NSWeekdayCalendarUnit fromDate: self];
+    NSLog(@"%d", comp.weekday);
+    if(comp.weekday == 7 || comp.weekday == 1) {
         return YES;
     }
     return NO;

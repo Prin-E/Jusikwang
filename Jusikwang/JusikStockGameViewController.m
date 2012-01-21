@@ -50,6 +50,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 @end
 
 @implementation JusikStockGameViewController {
+    BOOL _playing;
+    
     NSTimer *_timer;
     BOOL _participating;
     
@@ -106,8 +108,12 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 #pragma mark - 게임 시작/중지
 - (void)play {
+    if(_playing) return;
+    _playing = YES;
+    
     [[JusikBGMPlayer sharedPlayer] playMusic: JusikBGMMusicMainMenu];
     [self showNews];
+    [self openMarket];
 }
 
 - (void)pause {
@@ -123,6 +129,9 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 }
 
 - (void)stop {
+    if(_playing == NO) return;
+    _playing = NO;
+    
     [self closeMarket];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -136,15 +145,6 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     _participating = YES;
     
     [self.market open];
-    
-    _timerCount = 0;
-    _seconds = 0;
-    [self setupTimer];
-    
-    [self.view addSubview: self.gameTimeText];
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName: JusikStockGameViewGameDidStartNotification
-                      object: self];
 }
 
 - (void)closeMarket {
@@ -162,8 +162,6 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     self.gameTimeText.text = @"";
     [self.gameTimeText removeFromSuperview];
     _participating = NO;
-    
-    [self showResultView];
 }
 
 - (void)setupGameView {
@@ -235,7 +233,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         UIAlertView *a = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
                                                     message: @"숫자로 지정하세요"
                                                    delegate: nil
-                                          cancelButtonTitle: nil
+                                          cancelButtonTitle: @"OK"
                                           otherButtonTitles: nil];
         [a show];
         [a release];
@@ -255,7 +253,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         UIAlertView *a = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
                                                     message: @"숫자로 지정하세요"
                                                    delegate: nil
-                                          cancelButtonTitle: nil
+                                          cancelButtonTitle: @"OK"
                                           otherButtonTitles: nil];
         [a show];
         [a release];
@@ -319,6 +317,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     
     if(_seconds >= kJusikStockGameMaxSeconds) {
         [self closeMarket];
+        [self showResultView];
         return;
     }
     if(_timerCount >= kJusikStockTimePeriod) {
@@ -388,7 +387,15 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 
 - (IBAction)newsParticipateStockMarket:(id)sender {
     [self hideNews];
-    [self openMarket];
+    
+    _timerCount = 0;
+    _seconds = 0;
+    [self setupTimer];
+    
+    [self.view addSubview: self.gameTimeText];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName: JusikStockGameViewGameDidStartNotification
+                      object: self];
 }
 
 - (IBAction)newsSkip:(id)sender {

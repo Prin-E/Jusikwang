@@ -11,7 +11,10 @@
 #import "JusikPlayer.h"
 #import "JusikUIDataTypes.h"
 
-@implementation JusikStatusBarController
+@implementation JusikStatusBarController {
+    BOOL _showingMessage;
+}
+
 #pragma mark - 프로퍼티
 @synthesize mode = _mode;
 
@@ -39,6 +42,9 @@
 @synthesize activityTimeReliabilityText = _activityTimeReliabilityText;
 @synthesize activityTimeFatigabilityText = _activityTimeFatigabilityText;
 @synthesize activityTimeDateText = _activityTimeDateText;
+
+@synthesize messageStatusView = _messageStatusView;
+@synthesize messageText = _messageText;
 
 #pragma mark - 초기화 메서드
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -132,8 +138,8 @@
 }
 
 - (void)setMode:(JusikStatusBarMode)mode {
-    _mode = mode;
     UIView *newView = nil;
+    UIView *currentView = self.currentStatusView;
     
     if(mode == JusikStatusBarModeStockTime) {
         newView = self.stockTimeStatusView;
@@ -141,17 +147,45 @@
     else if(mode == JusikStatusBarModeActivity) {
         newView = self.activityTimeStatusView;
     }
-    else
-        return;
+    else {
+        if(_showingMessage)
+            newView = self.messageStatusView;
+        else
+            return;
+    }
+    
+    _mode = mode;
     
     if(self.currentStatusView && self.currentStatusView != newView) {
-        [UIView transitionFromView: self.currentStatusView
-                            toView: newView
-                          duration: kJusikViewFadeTime
-                           options: UIViewAnimationOptionTransitionCurlUp
-                        completion: ^(BOOL completed) {
-                            
-                        }];
+        __block CGRect currentViewFrame = currentView.frame;
+        __block CGRect newViewFrame = newView.frame;
+        
+        currentViewFrame.origin.y = 0;
+        newViewFrame.origin.y = newViewFrame.size.height;
+        
+        currentView.frame = currentViewFrame;
+        newView.frame = newViewFrame;
+        
+        [self.statusContainerView addSubview: newView];
+        newView.alpha = 0;
+        currentView.alpha = 1;
+
+        [UIView animateWithDuration: kJusikViewShowHideTime
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             currentView.alpha = 0;
+                             newView.alpha = 1;
+                             
+                             currentViewFrame.origin.y = -currentViewFrame.size.height;
+                             newViewFrame.origin.y = 0;
+                             
+                             currentView.frame = currentViewFrame;
+                             newView.frame = newViewFrame;
+                         }
+                         completion: ^(BOOL completed) {
+                             [currentView removeFromSuperview];
+                         }];
     }
     else {
         [self.statusContainerView addSubview: newView];
@@ -265,6 +299,25 @@
     self.stockTimeDateText.text = [formatter stringFromDate: _date];
     self.activityTimeDateText.text = [formatter stringFromDate: _date];
     [formatter release];
+}
+
+#pragma mark - 메시지 출력
+- (void)showMessage: (NSString *)string seconds: (double)seconds {
+    _showingMessage = YES;
+    
+    JusikStatusBarMode prevMode = self.mode;
+    
+    self.messageText.text = string;
+    self.mode = JusikStatusBarModeMessage;
+    
+    if(seconds < 5.0)
+        seconds = 5.0;
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        self.mode = prevMode;
+        _showingMessage = NO;
+    });
 }
 
 #pragma mark - 메모리 해제

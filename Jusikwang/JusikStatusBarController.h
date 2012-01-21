@@ -10,7 +10,8 @@
 
 typedef enum {
     JusikStatusBarModeStockTime,
-    JusikStatusBarModeActivity
+    JusikStatusBarModeActivity,
+    JusikStatusBarModeMessage
 } JusikStatusBarMode;
 
 @class JusikStockMarket;
@@ -30,6 +31,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *statusBarButton;
 
 @property (nonatomic, assign) UIView *currentStatusView;
+
 // 주식 상태 뷰들
 @property (nonatomic, retain) IBOutlet UIView *stockTimeStatusView;
 
@@ -48,7 +50,12 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *activityTimeFatigabilityText;
 @property (nonatomic, retain) IBOutlet UILabel *activityTimeDateText;
 
+// 메시지 뷰
+@property (nonatomic, retain) IBOutlet UIView *messageStatusView;
+@property (nonatomic, retain) IBOutlet UILabel *messageText;
+
 - (void)updateDate;
 - (void)updateStatus;
+- (void)showMessage: (NSString *)string seconds: (double)seconds;
 
 @end

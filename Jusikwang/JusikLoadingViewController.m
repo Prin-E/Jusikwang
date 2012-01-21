@@ -76,16 +76,16 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
 }
 
 - (void)updateProgress {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    //dispatch_sync(dispatch_get_main_queue(), ^{
         _loadedObjects++;
         [self.progressView setProgress: (double)_loadedObjects / (double)_countOfObjects];
-    });
+    //});
 }
 
 - (BOOL)loadWithDBName:(NSString *)dbName {
     if(_isLoading) return NO;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         JusikDBManager *db = [[JusikDBManager alloc] initWithDBNamed: dbName];
         
         // 어떠한 객체를 로딩할 것인지 결정한다.
@@ -93,7 +93,11 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         _countOfObjects += [db numberOfRowsOfTable: @"business_type"];
         _countOfObjects += [db numberOfRowsOfTable: @"company"];
         
+        // Stock Market
         _countOfObjects++; // JusikStockMarket
+        _countOfObjects += [db numberOfRowsOfTable: @"dow_flow"];
+    
+        // Player
         _countOfObjects++; // JusikPlayer
         _countOfObjects++; // GameViewController
         
@@ -112,6 +116,33 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         // JusikStockMarket
         _market = [[JusikStockMarket alloc] init];
         [self updateProgress];
+    
+    // DOW 흐름 불러오기
+    [db query: @"select e.uid as uid, e.name as name, value, type, s.name as target, start_turn, persist_turn, change_start, change_end, change_way from dow_flow as d, event as e, event_target as t, stock_market as s where d.uid = e.uid and e.target_id = t.uid and s.uid = t.target"];
+    NSMutableArray *dowEvents = [NSMutableArray new];
+    while([db nextRow]) {
+        NSDictionary *d = [db rowData];
+        JusikEvent *e = [[JusikEvent alloc] init];
+        e.name = [d objectForKey: @"name"];
+        e.value = [d objectForKey: @"value"];
+        e.type = (JusikEventType)[[d objectForKey: @"type"] unsignedIntegerValue];
+        e.targets = [NSMutableArray arrayWithObject: [d objectForKey: @"target"]];
+        e.startTurn = [[d objectForKey: @"start_turn"] unsignedIntegerValue];
+        e.persistTurn = [[d objectForKey: @"persist_turn"] unsignedIntegerValue];
+        
+        double change_start = [[d objectForKey: @"change_start"] doubleValue];
+        double change_end = [[d objectForKey: @"change_end"] doubleValue];
+        JusikRange change = JusikRangeMake(change_start, change_end);
+        e.change = change;
+        
+        e.changeWay = (JusikEventChangeWay)[[d objectForKey: @"change_way"] unsignedIntegerValue];
+        [dowEvents addObject: e];
+        [e release];
+        
+        [self updateProgress];
+    }
+    [_market processJusikEvents: dowEvents];
+    [dowEvents release];
         
         // JusikPlayer
         NSUInteger playerStateRow = [db numberOfRowsOfTable: @"player_state"];
@@ -207,38 +238,50 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         
         /* ----------------------------
          Game View Controller
-         --------------------------- */
+         --------------------------- */        
         _gameViewController = [[JusikGameViewController alloc] initWithNibName: @"JusikGameViewController" bundle: nil];
         _gameViewController.market = _market;
         _gameViewController.player = _player;
         _gameViewController.db = db;
-        [self updateProgress];
         
-        /* ----------------------------
-         Game State
-         --------------------------- */
-        [db selectTable: @"game_state"];
+        // 저장된 게임 상태를 로드하여 적용시킨다.
+        [db selectTable: @"game_saved_state"];
         if([db nextRow]) {
-            NSUInteger turn = [db integerColumnOfCurrentRowAtIndex: 0];
-            NSString *dateStr = [db stringColumnOfCurrentRowAtIndex: 1];
-            NSDateFormatter *f = [NSDateFormatter new];
-            [f setDateFormat: @"yyyy-MM-ddd EEE"];
-            NSDate *date = [f dateFromString: dateStr];
-            [f release];
+            NSDictionary *d = [db rowData];
             
-            _gameViewController.date = date;
-            _gameViewController.turn = turn;
-            if(_gameViewController.turn > 0)
-                _gameViewController.showsTutorial = NO;
+            // state
+            NSNumber *n = [d objectForKey: @"state"];
+            if(n) {
+                JusikGamePlayState state = (JusikGamePlayState)[n unsignedIntegerValue];
+                _gameViewController.gameState = state;
+            }
+            
+            // turn
+            n = [d objectForKey: @"turn"];
+            if(n) {
+                _gameViewController.turn = [n unsignedIntegerValue];
+            }
+            
+            // date
+            NSString *s = [d objectForKey: @"date"];
+            if(s) {
+                NSDateFormatter *f = [NSDateFormatter new];
+                [f setDateFormat: @"yyyy-MM-dd"];
+                NSDate *date = [f dateFromString: s];
+                if(date)
+                    _gameViewController.date = date;
+            }
+        }
+        else {
+            // 없을 때는 기본 값 적용
+            _gameViewController.gameState = JusikGamePlayStateStock;
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName: JusikLoadingViewLoadDidCompleteNotification
-                                                                object: self];
-        });
+        [self updateProgress];
+        
         
         /* ----------------------------
-         Game State
+         소리 불러오기
          --------------------------- */
         for(NSString *musicName in [[JusikBGMPlayer sharedPlayer] musics]) {
             [[JusikBGMPlayer sharedPlayer] loadMusic: musicName];
@@ -281,7 +324,12 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
         [self updateProgress];
         
         [db release];
-    });
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName: JusikLoadingViewLoadDidCompleteNotification
+                                                                object: self];
+        });
+    //});
     return YES;
 }
 
