@@ -25,6 +25,9 @@
     
     NSMutableArray *_skills;    // 스킬
     NSMutableArray *_favorites; // 즐겨찾기
+    
+    BOOL _callsAddFavoites;
+    BOOL _callsRemoveFavorites;
 }
 
 @synthesize name = _name;
@@ -172,13 +175,17 @@
 
 #pragma mark - 스킬/즐겨찾기
 - (void)addSkill: (NSString *)skill {
+    [self willChangeValueForKey: @"skills"];
     if(skill != nil)
         [_skills addObject: skill];
+    [self didChangeValueForKey: @"skills"];
 }
 
 - (void)removeSkill: (NSString *)skill {
+    [self willChangeValueForKey: @"skills"];
     if(skill != nil)
         [_skills removeObject: skill];
+    [self didChangeValueForKey: @"skills"];
     
 }
 
@@ -186,14 +193,59 @@
     return [_skills containsObject: skill];
 }
 
-- (void)addCompanyNameToFavorites: (NSString *)company {
-    if(company != nil)
-        [_favorites addObject: company];
+- (void)addFavorite:(NSString *)companyName {
+    // 요렇게 한 이유는 중복 호출을 방지하려고.
+    if(_callsAddFavoites) {
+        [self willChangeValueForKey: @"favorites"];
+    }
+    
+    if(companyName != nil && [_favorites containsObject: companyName] == NO)
+        [_favorites addObject: companyName];
+    
+    if(_callsAddFavoites) {
+        [self didChangeValueForKey: @"favorites"];
+    }
 }
 
-- (void)removeCompanyNameFromFavorites: (NSString *)company {
-    if(company != nil)
-        [_favorites removeObject: company];
+- (void)addFavorites:(NSSet *)objects {
+    _callsAddFavoites = YES;
+    
+    [self willChangeValueForKey: @"favorites"];
+    
+    for(NSString *companyName in objects) {
+        [self addFavorite: companyName];
+    }
+    
+    [self didChangeValueForKey: @"favorites"];
+    
+    _callsAddFavoites = NO;
+}
+
+- (void)removeFavorite: (NSString *)companyName {
+    if(_callsRemoveFavorites) {
+        [self willChangeValueForKey: @"favorites"];
+    }
+    
+    if(companyName != nil && [_favorites containsObject: companyName] == YES)
+        [_favorites removeObject: companyName];
+    
+    if(_callsRemoveFavorites) {
+        [self didChangeValueForKey: @"favorites"];
+    }
+}
+
+- (void)removeFavorites:(NSSet *)objects {
+    _callsRemoveFavorites = YES;
+    
+    [self willChangeValueForKey: @"favorites"];
+    
+    for(NSString *companyName in objects) {
+        [self removeFavorite: companyName];
+    }
+    
+    [self didChangeValueForKey: @"favorites"];
+    
+    _callsRemoveFavorites = NO;
 }
 
 #pragma mark - 메모리 해제

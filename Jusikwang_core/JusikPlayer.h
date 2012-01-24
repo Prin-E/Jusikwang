@@ -37,8 +37,10 @@
 - (void)removeSkill: (NSString *)skill;
 - (BOOL)hasSkill: (NSString *)skill;
 
-- (void)addCompanyNameToFavorites: (NSString *)company;
-- (void)removeCompanyNameFromFavorites: (NSString *)company;
+- (void)addFavorite: (NSString *)companyName;
+- (void)addFavorites:(NSSet *)objects;
+- (void)removeFavorite: (NSString *)companyName;
+- (void)removeFavorites:(NSSet *)objects;
 
 
 @end
