@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "JusikGameController.h"
+#import "JusikFavoriteStockView.h"
 
 @class JusikStockMarket;
 @class JusikPlayer;
 @class JusikDBManager;
-@interface JusikStockGameViewController : UIViewController <JusikGameController, UITextFieldDelegate>
+@class JusikFavoriteStockView;
+@interface JusikStockGameViewController : UIViewController <JusikGameController, UITextFieldDelegate, JusikFavoriteStockViewDelegate>
 
-@property (nonatomic, retain) IBOutlet UIView *favoriteView;
+@property (nonatomic, retain) IBOutlet JusikFavoriteStockView *favoriteView;
 @property (nonatomic, retain) IBOutlet UIView *newsView;
 @property (nonatomic, retain) IBOutlet UIView *newsBackgroundView;
 
@@ -33,6 +35,8 @@
 @property (nonatomic, retain) IBOutlet UITextField *stockInfoCountText;
 @property (nonatomic, retain) IBOutlet UILabel *stockInfoTypeText;
 @property (nonatomic, retain) IBOutlet UILabel *stockInfoPurchasedText;
+@property (nonatomic, retain) IBOutlet UIButton *stockInfoFavoriteAddButton;
+@property (nonatomic, retain) IBOutlet UIButton *stockInfoFavoriteRemoveButton;
 
 // market, player
 @property (nonatomic, retain) JusikStockMarket *market;
@@ -63,7 +67,9 @@
 
 - (IBAction)buyStock:(id)sender;
 - (IBAction)sellStock:(id)sender;
+
 - (IBAction)addFavorite:(id)sender;
+- (IBAction)removeFavorite:(id)sender;
 @end
 
 extern NSString *const JusikStockGameViewGameDidStartNotification;

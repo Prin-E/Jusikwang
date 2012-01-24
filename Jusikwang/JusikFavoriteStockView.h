@@ -9,18 +9,29 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-    JusikFavoriteSortWayName,
-    JusikFavoriteSortWayBusinessType,
-    JusikFavoriteSortWayPrice
-} JusikFavoriteSortWay;
+    JusikFavoriteSortByName,
+    JusikFavoriteSortByBusinessType,
+    JusikFavoriteSortByPrice
+} JusikFavoriteSorting;
 
 @class JusikPlayer;
+@class JusikStock;
+@class JusikStockMarket;
 @interface JusikFavoriteStockView : UIView
 
-@property (nonatomic, readonly) JusikFavoriteSortWay currentSortWay;
+@property (nonatomic) JusikFavoriteSorting sort;
 @property (nonatomic, retain) JusikPlayer *player;
+@property (nonatomic, retain) JusikStockMarket *market;
+@property (nonatomic, assign) id delegate;
 
 - (void)update;
 - (void)reload;
 
+- (void)ariseTouchActionOfStock: (NSString *)stockName;
+
+@end
+
+@protocol JusikFavoriteStockViewDelegate
+@optional
+- (void)favoriteView: (JusikFavoriteStockView *)view didSelectStock: (NSString *)stockName;
 @end

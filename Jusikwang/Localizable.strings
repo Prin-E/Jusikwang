@@ -6,8 +6,31 @@
   Copyright (c) 2012 서울시립대학교. All rights reserved.
 */
 
+
 "Jusikwang" = "주식왕";
 "jusikwang" = "주식왕";
+
+"com.jusikwang.main_menu.not_support_start_game" = "아직 저장된 게임을 시작하는 기능은 지원하지 않습니다. '새로운 게임' 버튼을 누르세요. :-)";
+
+"com.jusikwang.stock_activity.favorite_stock.view.sort.name" = "이름";
+"com.jusikwang.stock_activity.favorite_stock.view.sort.price" = "가격";
+"com.jusikwang.stock_activity.favorite_stock.view.sort.business_type" = "업종";
+
+// 활동 상태
+// 집 안 물체
+"com.jusikwang.activity.home.object.computer" = "컴퓨터";
+"com.jusikwang.activity.home.object.chart" = "차트";
+"com.jusikwang.activity.home.object.book" = "책장";
+"com.jusikwang.activity.home.object.bed1" = "침대";
+"com.jusikwang.activity.home.object.bed2" = "침대";
+"com.jusikwang.activity.home.object.door" = "문";
+
+"com.jusikwang.activity.home.object.computer.description" = "기업정보 분석을 학습합니다.";
+"com.jusikwang.activity.home.object.chart.description" = "차트 분석을 학습합니다.";
+"com.jusikwang.activity.home.object.book.description" = "입시공부를 합니다.";
+"com.jusikwang.activity.home.object.bed1.description" = "휴식을 취합니다.";
+"com.jusikwang.activity.home.object.bed2.description" = "휴식을 취합니다.";
+"com.jusikwang.activity.home.object.door.description" = "외출합니다.";
 
 // 업종
 "com.jusikwang.business.car" = "자동차";
@@ -110,12 +133,18 @@
  */
 
 // 학습 실패
-"com.jusikwang.script.analysis.failed.1" = "어...어...이게 대체 무슨 말이지? 피곤해서 그런지 머리에 하나도 안들어와.....";
-"com.jusikwang.script.analysis.failed.2" = "학습에 실패했다.";
+"com.jusikwang.script.home.analysis.failed.1" = "어...어...이게 대체 무슨 말이지? 피곤해서 그런지 머리에 하나도 안들어와.....";
+"com.jusikwang.script.home.analysis.failed.2" = "학습에 실패했다.";
 
 // 기업 분석
-"com.jusikwang.script.analysis.company.step1.1" = "ROE는 Return on Equity의 약자로...자기자본 이익률이라는 뜻인데...연간순이익을 자기자본으로 나눈 백분율로서..주절주절...";
-"com.jusikwang.script.analysis.company.step1.2" = "으~! 오늘은 여기까지! 다음에 계속해야지.";
-"com.jusikwang.script.analysis.company.step2.1" = "ROE의 투자 포인트는 높을수록, 그리고 연속적으로 성장할 수록 투차가치가 높고... 그 반대로...중얼중얼....";
-"com.jusikwang.script.analysis.company.step2.2" = "음, 오늘은 여기까지.";
-"com.jusikwang.script.analysis.company.step2.3" = "ROE 스킬을 획득했다!";
+"com.jusikwang.script.home.analysis.company.step1.1" = "ROE는 Return on Equity의 약자로...자기자본 이익률이라는 뜻인데...연간순이익을 자기자본으로 나눈 백분율로서..주절주절...";
+"com.jusikwang.script.home.analysis.company.step1.2" = "으~! 오늘은 여기까지! 다음에 계속해야지.";
+"com.jusikwang.script.home.analysis.company.step2.1" = "ROE의 투자 포인트는 높을수록, 그리고 연속적으로 성장할 수록 투차가치가 높고... 그 반대로...중얼중얼....";
+"com.jusikwang.script.home.analysis.company.step2.2" = "음, 오늘은 여기까지.";
+"com.jusikwang.script.home.analysis.company.step2.3" = "ROE 스킬을 획득했다!";
+"com.jusikwang.script.home.analysis.company.step3.1" = "오늘부터는 PER에 대해서 공부해볼까? PER은 Price Earning Ratio의 약자로 현재 주가에서 EPS로 나누면 저절로 계산이 되는데...중얼중얼";
+"com.jusikwang.script.home.analysis.company.step3.2" = "주식투자를 잘 하려면 많은 공부가 필요한거군.......";
+
+// 침대
+"com.jusikwang.script.home.bed.sleep.1" = "아~ 너무 피곤해....하루쯤 푹 쉬어도 되겠지........";
+"com.jusikwang.script.home.bed.sleep.2" = "Zzzzzz.......";

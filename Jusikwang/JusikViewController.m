@@ -36,6 +36,8 @@
 {
     [super viewDidLoad];
     
+    [self setupUserDefaults];
+    [self setupBGMVolume];
     [self showLogoView];
 }
 
@@ -75,6 +77,24 @@
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
+#pragma mark BGM
+- (void)setupUserDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity: 2];
+    [d setObject: [NSNumber numberWithDouble: 0.5] forKey: @"volume_bgm"];
+    [d setObject: [NSNumber numberWithDouble: 0.5] forKey: @"volume_sound"];
+    [defaults registerDefaults: d];
+}
+
+- (void)setupBGMVolume {
+    JusikBGMPlayer *player = [JusikBGMPlayer sharedPlayer];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *volume = [defaults objectForKey: @"volume_bgm"];
+    if(volume) {
+        player.volume = [volume doubleValue];
+    }
+}
+
 #pragma mark 게임 시작
 - (void)startNewGame:(id)sender {
     [self hideMainMenuView];
@@ -93,8 +113,24 @@
                                                      name: JusikLoadingViewLoadDidCompleteNotification
                                                    object: vc];
         
-        [vc loadWithDBName: @"game.db"];
+        // 임시 땜빵
+        // 왜 UIViewController asynchronous 로딩이 제대로 안되냐...
+        double delayInSeconds = 0.5;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_current_queue(), ^(void){
+            [vc loadWithDBName: @"game.db"];
+        });
     });
+}
+
+- (void)startGame:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Jusikwang", @"Jusikwang")
+                                                    message: NSLocalizedString(@"com.jusikwang.main_menu.not_support_start_game", @"com.jusikwang.main_menu.not_support_start_game")
+                                                   delegate: nil
+                                          cancelButtonTitle: NSLocalizedString(@"OK", @"OK")
+                                          otherButtonTitles: nil];
+    [alert show];
+    [alert release];
 }
 
 - (void)gameLoadDidComplete: (NSNotification *)n {
@@ -149,6 +185,9 @@
     [self.mainMenuViewController.startNewGameButton addTarget: self
                                                        action: @selector(startNewGame:)
                                              forControlEvents: UIControlEventTouchUpInside];
+    [self.mainMenuViewController.startGameButton addTarget: self
+                                                    action: @selector(startGame:)
+                                          forControlEvents: UIControlEventTouchUpInside];
     
     [UIView animateWithDuration: kJusikViewFadeTime
                           delay: 0.0

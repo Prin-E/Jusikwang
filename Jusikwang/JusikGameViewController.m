@@ -188,6 +188,7 @@
     self.statusBarController.player = player;
     self.piViewController.player = player;
     self.stockGameController.player = player;
+    self.activityGameController.player = player;
 }
 
 - (JusikStockMarket *)market {
@@ -435,14 +436,7 @@
     [gregorian release];
     [comp release];
     
-    NSLog(@"prev date: %@", _date);
-    NSLog(@"new date: %@", newDate);
-    
-    [_date release];
-    _date = newDate;
-    [_date retain];
-    
-    self.statusBarController.date = _date;
+    self.date = newDate;
 }
 
 - (void)showTutorial {

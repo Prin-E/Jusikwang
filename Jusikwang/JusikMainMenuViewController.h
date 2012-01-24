@@ -17,10 +17,17 @@
 @property (nonatomic, retain) IBOutlet UIView *preferenceView;
 @property (nonatomic, retain) IBOutlet UIView *creditView;
 
+@property (nonatomic, retain) IBOutlet UISlider *prefBGMSlider;
+@property (nonatomic, retain) IBOutlet UISlider *prefSoundSlider;
+
 - (void)changeToMainMenuView;
 - (void)showMainMenuAnimation;
 
 - (IBAction)showPreferences: (id)sender;
 - (IBAction)showCredit: (id)sender;
 - (IBAction)backToMainMenu:(id)sender;
+
+- (IBAction)changeBGMVolume:(id)sender;
+- (IBAction)changeSoundVolume:(id)sender;
+
 @end

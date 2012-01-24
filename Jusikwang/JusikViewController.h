@@ -18,6 +18,11 @@
 @property (nonatomic, retain) JusikMainMenuViewController *mainMenuViewController;
 @property (nonatomic, retain) JusikGameViewController *gameViewController;
 @property (nonatomic, retain) JusikLoadingViewController *loadingViewController;
+
+// 초기화
+- (void)setupUserDefaults;
+- (void)setupBGMVolume;
+
 // 로고
 - (void)logoAnimationDidEnd: (NSNotification *)n;
 - (void)showLogoView;
@@ -28,6 +33,7 @@
 - (void)hideMainMenuView;
 
 // 게임 시작
+- (void)startGame: (id)sender;
 - (void)startNewGame: (id)sender;
 - (void)exitGame;
 

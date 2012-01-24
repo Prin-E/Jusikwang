@@ -44,7 +44,6 @@
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MSAwAA</bytes>
@@ -254,7 +253,6 @@
 						<string key="NSFrame">{{338, 169}, {120, 31}}</string>
 						<reference key="NSSuperview" ref="1004445217"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MSAwAA</bytes>
@@ -397,7 +395,6 @@
 						<string key="NSFrame">{{125, 204}, {337, 23}}</string>
 						<reference key="NSSuperview" ref="689891342"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<reference key="IBUIBackgroundColor" ref="224800283"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -424,7 +421,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="261177291">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIButton" id="264347952">
@@ -432,7 +429,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{380, 20}, {80, 45}}</string>
 						<reference key="NSSuperview" ref="261177291"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -449,9 +445,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{480, 320}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -523,6 +516,22 @@
 					<int key="connectionID">34</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">prefBGMSlider</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="396504274"/>
+					</object>
+					<int key="connectionID">48</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">prefSoundSlider</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="919413319"/>
+					</object>
+					<int key="connectionID">49</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showPreferences:</string>
 						<reference key="source" ref="110485567"/>
@@ -548,6 +557,24 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">38</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">changeBGMVolume:</string>
+						<reference key="source" ref="396504274"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">46</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">changeSoundVolume:</string>
+						<reference key="source" ref="919413319"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">47</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -721,7 +748,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">45</int>
+			<int key="maxID">49</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -730,12 +757,22 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="backToMainMenu:">id</string>
+						<string key="changeBGMVolume:">id</string>
+						<string key="changeSoundVolume:">id</string>
 						<string key="showCredit:">id</string>
 						<string key="showPreferences:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backToMainMenu:">
 							<string key="name">backToMainMenu:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeBGMVolume:">
+							<string key="name">changeBGMVolume:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeSoundVolume:">
+							<string key="name">changeSoundVolume:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showCredit:">
@@ -750,6 +787,8 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="creditView">UIView</string>
 						<string key="mainMenuView">UIView</string>
+						<string key="prefBGMSlider">UISlider</string>
+						<string key="prefSoundSlider">UISlider</string>
 						<string key="preferenceView">UIView</string>
 						<string key="startGameButton">UIButton</string>
 						<string key="startNewGameButton">UIButton</string>
@@ -762,6 +801,14 @@
 						<object class="IBToOneOutletInfo" key="mainMenuView">
 							<string key="name">mainMenuView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prefBGMSlider">
+							<string key="name">prefBGMSlider</string>
+							<string key="candidateClassName">UISlider</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="prefSoundSlider">
+							<string key="name">prefSoundSlider</string>
+							<string key="candidateClassName">UISlider</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="preferenceView">
 							<string key="name">preferenceView</string>

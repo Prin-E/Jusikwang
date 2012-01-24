@@ -11,6 +11,7 @@
 		9506950B14B730ED0038BC74 /* JusikDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9506950A14B730EC0038BC74 /* JusikDBManager.m */; };
 		952E4F3A14AA689D003CC95F /* JusikLogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 952E4F3814AA689D003CC95F /* JusikLogoViewController.m */; };
 		952E4F3B14AA689D003CC95F /* JusikLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */; };
+		9549165C14CD722500059C1B /* JusikActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9549165B14CD722500059C1B /* JusikActivityObject.m */; };
 		9585273F14B21D4F00EBC3CC /* JusikFavoriteStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */; };
 		9585274A14B22CD100EBC3CC /* SlidingTabsTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585274714B22CCC00EBC3CC /* SlidingTabsTab.m */; };
 		9585274B14B22CD100EBC3CC /* SlidingTabsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9585274914B22CCE00EBC3CC /* SlidingTabsControl.m */; };
@@ -25,6 +26,10 @@
 		95BA71AF14ABBCD40020B203 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71AE14ABBCD40020B203 /* Images */; };
 		95BA71B314ABBDA40020B203 /* JusikMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */; };
 		95BA71B414ABBDA40020B203 /* JusikMainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */; };
+		95CB246114CAECDC001C156B /* JusikStockInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CB245F14CAECDB001C156B /* JusikStockInfoViewController.m */; };
+		95CB246214CAECDC001C156B /* JusikStockInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95CB246014CAECDB001C156B /* JusikStockInfoViewController.xib */; };
+		95CB246614CAF4AA001C156B /* JusikDBManager+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CB246514CAF4A9001C156B /* JusikDBManager+Extension.m */; };
+		95CB246D14CC1CAA001C156B /* JusikFavoriteStockItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CB246C14CC1CA3001C156B /* JusikFavoriteStockItem.m */; };
 		95CE07CF14BCF963001C888B /* JusikStockGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */; };
 		95D1D6A014AFD65400BEF3A0 /* JusikStockMarket.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68D14AFD65400BEF3A0 /* JusikStockMarket.m */; };
 		95D1D6A114AFD65400BEF3A0 /* JusikCompanyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D1D68F14AFD65400BEF3A0 /* JusikCompanyInfo.m */; };
@@ -67,6 +72,8 @@
 		952E4F3714AA689D003CC95F /* JusikLogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikLogoViewController.h; sourceTree = "<group>"; };
 		952E4F3814AA689D003CC95F /* JusikLogoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikLogoViewController.m; sourceTree = "<group>"; };
 		952E4F3914AA689D003CC95F /* JusikLogoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikLogoViewController.xib; sourceTree = "<group>"; };
+		9549165A14CD722500059C1B /* JusikActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikActivityObject.h; sourceTree = "<group>"; };
+		9549165B14CD722500059C1B /* JusikActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikActivityObject.m; sourceTree = "<group>"; };
 		9585273D14B21D4F00EBC3CC /* JusikFavoriteStockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikFavoriteStockView.h; sourceTree = "<group>"; };
 		9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikFavoriteStockView.m; sourceTree = "<group>"; };
 		9585274614B22CCB00EBC3CC /* SlidingTabsTab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlidingTabsTab.h; sourceTree = "<group>"; };
@@ -89,6 +96,13 @@
 		95BA71B014ABBDA40020B203 /* JusikMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikMainMenuViewController.h; sourceTree = "<group>"; };
 		95BA71B114ABBDA40020B203 /* JusikMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikMainMenuViewController.m; sourceTree = "<group>"; };
 		95BA71B214ABBDA40020B203 /* JusikMainMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikMainMenuViewController.xib; sourceTree = "<group>"; };
+		95CB245E14CAECDA001C156B /* JusikStockInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockInfoViewController.h; sourceTree = "<group>"; };
+		95CB245F14CAECDB001C156B /* JusikStockInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockInfoViewController.m; sourceTree = "<group>"; };
+		95CB246014CAECDB001C156B /* JusikStockInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JusikStockInfoViewController.xib; sourceTree = "<group>"; };
+		95CB246414CAF4A9001C156B /* JusikDBManager+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JusikDBManager+Extension.h"; sourceTree = "<group>"; };
+		95CB246514CAF4A9001C156B /* JusikDBManager+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JusikDBManager+Extension.m"; sourceTree = "<group>"; };
+		95CB246B14CC1C99001C156B /* JusikFavoriteStockItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikFavoriteStockItem.h; sourceTree = "<group>"; };
+		95CB246C14CC1CA3001C156B /* JusikFavoriteStockItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikFavoriteStockItem.m; sourceTree = "<group>"; };
 		95CE07CD14BCF955001C888B /* JusikStockGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JusikStockGraphView.h; sourceTree = "<group>"; };
 		95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JusikStockGraphView.m; sourceTree = "<group>"; };
 		95D1D68B14AFD65400BEF3A0 /* JusikCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JusikCore.h; path = ../../Jusikwang_core/JusikCore.h; sourceTree = "<group>"; };
@@ -174,6 +188,8 @@
 				95D1D6C314B201F100BEF3A0 /* JusikLoadingViewController.xib */,
 				9506950914B730EC0038BC74 /* JusikDBManager.h */,
 				9506950A14B730EC0038BC74 /* JusikDBManager.m */,
+				95CB246414CAF4A9001C156B /* JusikDBManager+Extension.h */,
+				95CB246514CAF4A9001C156B /* JusikDBManager+Extension.m */,
 			);
 			name = Loading;
 			sourceTree = "<group>";
@@ -243,23 +259,9 @@
 		9585276514B25BF500EBC3CC /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				95D1D6B114AFE87F00BEF3A0 /* JusikStatusBarController.h */,
-				95D1D6B214AFE87F00BEF3A0 /* JusikStatusBarController.m */,
-				95D1D6B314AFE88000BEF3A0 /* JusikStatusBarController.xib */,
-				95D1D6B614B0C62500BEF3A0 /* JusikGameViewController.h */,
-				95D1D6B714B0C62600BEF3A0 /* JusikGameViewController.m */,
-				95D1D6B814B0C62600BEF3A0 /* JusikGameViewController.xib */,
-				95D1D6BC14B0F81200BEF3A0 /* JusikStockGameViewController.h */,
-				95D1D6BD14B0F81200BEF3A0 /* JusikStockGameViewController.m */,
-				95D1D6BE14B0F81300BEF3A0 /* JusikStockGameViewController.xib */,
-				9585273D14B21D4F00EBC3CC /* JusikFavoriteStockView.h */,
-				9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */,
-				9585274D14B22FAE00EBC3CC /* JusikPlayerInfoViewController.h */,
-				9585274E14B22FB100EBC3CC /* JusikPlayerInfoViewController.m */,
-				9585274F14B22FB200EBC3CC /* JusikPlayerInfoViewController.xib */,
-				95B9527614B8E28300EE53C3 /* JusikActivityGameViewController.h */,
-				95B9527714B8E28300EE53C3 /* JusikActivityGameViewController.m */,
-				95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */,
+				95CB247014CC1D54001C156B /* Common */,
+				95CB246F14CC1D37001C156B /* Activity */,
+				95CB246E14CC1CCD001C156B /* Stock */,
 				95B9527C14B8E42500EE53C3 /* JusikBGMPlayer.h */,
 				95B9527D14B8E42600EE53C3 /* JusikBGMPlayer.m */,
 				95B9528114B96EDA00EE53C3 /* JusikGameController.h */,
@@ -272,6 +274,51 @@
 				95CE07CE14BCF95A001C888B /* JusikStockGraphView.m */,
 			);
 			name = Game;
+			sourceTree = "<group>";
+		};
+		95CB246E14CC1CCD001C156B /* Stock */ = {
+			isa = PBXGroup;
+			children = (
+				95D1D6BC14B0F81200BEF3A0 /* JusikStockGameViewController.h */,
+				95D1D6BD14B0F81200BEF3A0 /* JusikStockGameViewController.m */,
+				95D1D6BE14B0F81300BEF3A0 /* JusikStockGameViewController.xib */,
+				95CB245E14CAECDA001C156B /* JusikStockInfoViewController.h */,
+				95CB245F14CAECDB001C156B /* JusikStockInfoViewController.m */,
+				95CB246014CAECDB001C156B /* JusikStockInfoViewController.xib */,
+				9585273D14B21D4F00EBC3CC /* JusikFavoriteStockView.h */,
+				9585273E14B21D4F00EBC3CC /* JusikFavoriteStockView.m */,
+				95CB246B14CC1C99001C156B /* JusikFavoriteStockItem.h */,
+				95CB246C14CC1CA3001C156B /* JusikFavoriteStockItem.m */,
+			);
+			name = Stock;
+			sourceTree = "<group>";
+		};
+		95CB246F14CC1D37001C156B /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				95B9527614B8E28300EE53C3 /* JusikActivityGameViewController.h */,
+				95B9527714B8E28300EE53C3 /* JusikActivityGameViewController.m */,
+				95B9527814B8E28300EE53C3 /* JusikActivityGameViewController.xib */,
+				9549165A14CD722500059C1B /* JusikActivityObject.h */,
+				9549165B14CD722500059C1B /* JusikActivityObject.m */,
+			);
+			name = Activity;
+			sourceTree = "<group>";
+		};
+		95CB247014CC1D54001C156B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				95D1D6B114AFE87F00BEF3A0 /* JusikStatusBarController.h */,
+				95D1D6B214AFE87F00BEF3A0 /* JusikStatusBarController.m */,
+				95D1D6B314AFE88000BEF3A0 /* JusikStatusBarController.xib */,
+				95D1D6B614B0C62500BEF3A0 /* JusikGameViewController.h */,
+				95D1D6B714B0C62600BEF3A0 /* JusikGameViewController.m */,
+				95D1D6B814B0C62600BEF3A0 /* JusikGameViewController.xib */,
+				9585274D14B22FAE00EBC3CC /* JusikPlayerInfoViewController.h */,
+				9585274E14B22FB100EBC3CC /* JusikPlayerInfoViewController.m */,
+				9585274F14B22FB200EBC3CC /* JusikPlayerInfoViewController.xib */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		95EA63D214A619E2007E86D1 = {
@@ -429,6 +476,7 @@
 				9585275114B22FB800EBC3CC /* JusikPlayerInfoViewController.xib in Resources */,
 				95B9527A14B8E28300EE53C3 /* JusikActivityGameViewController.xib in Resources */,
 				95D57FF114BB25C400459E04 /* JusikScriptViewController.xib in Resources */,
+				95CB246214CAECDC001C156B /* JusikStockInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +517,10 @@
 				95D57FEC14BB1C7200459E04 /* JusikScript.m in Sources */,
 				95D57FF014BB25C400459E04 /* JusikScriptViewController.m in Sources */,
 				95CE07CF14BCF963001C888B /* JusikStockGraphView.m in Sources */,
+				95CB246114CAECDC001C156B /* JusikStockInfoViewController.m in Sources */,
+				95CB246614CAF4AA001C156B /* JusikDBManager+Extension.m in Sources */,
+				95CB246D14CC1CAA001C156B /* JusikFavoriteStockItem.m in Sources */,
+				9549165C14CD722500059C1B /* JusikActivityObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

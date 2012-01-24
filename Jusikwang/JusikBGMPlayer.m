@@ -44,6 +44,24 @@ NSString *const JusikBGMMusicBadEnding = @"BG 5";
     return _BGMPlayer;
 }
 
+- (oneway void)release {
+}
+
+- (void)dealloc {
+}
+
+#pragma mark - 프로퍼티 메서드
+- (double)volume {
+    return _volume;
+}
+
+- (void)setVolume:(double)volume {
+    _volume = volume;
+    if(_player) {
+        _player.volume = _volume;
+    }
+}
+
 #pragma mark - 음악 로딩/재생
 - (void)loadMusic: (NSString *)musicName {
     if([_musics objectForKey: musicName] == nil) {

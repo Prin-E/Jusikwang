@@ -15,6 +15,13 @@ NSString *const JusikScriptViewScriptDidStartNotification = @"JusikScriptViewScr
 NSString *const JusikScriptViewNextSpeechNotification = @"JusikScriptViewNextSpeechNotification";
 NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScriptDidEndNotification";
 
+@interface JusikScriptViewController (Private)
+- (void)_showLeftStandingImageWithImage: (UIImage *)image animated: (BOOL)animated;
+- (void)_hideLeftStandingImageAnimated: (BOOL)animated;
+- (void)_showRightStandingImageWithImage: (UIImage *)image animated: (BOOL)animated;
+- (void)_hideRightStandingImageAnimated: (BOOL)animated;
+@end
+
 @implementation JusikScriptViewController {
     JusikScript *_script;
     NSUInteger _currentSpeechIndex;
@@ -116,6 +123,9 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
                              self.backgroundImageView.alpha = 1; 
                          }];
     }
+    else {
+        self.backgroundImageView.image = nil;
+    }
     
     [self nextSpeech];
 }
@@ -125,6 +135,9 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
     if(_scriptEnded) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName: JusikScriptViewScriptDidEndNotification object: self];
+        
+        [self _hideLeftStandingImageAnimated: NO];
+        [self _hideRightStandingImageAnimated: NO];
         return;
     }
     
@@ -160,93 +173,12 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
         standingImage = [UIImage imageNamed: speech.standingImageName];
     if(speech.position != JusikStandingCutPositionNone) {
         if(speech.position == JusikStandingCutPositionLeft) {
-            if(_showingLeftStandingImage) {
-                [UIView animateWithDuration: kJusikViewFadeTime
-                                      delay: 0
-                                    options: UIViewAnimationOptionCurveEaseOut
-                                 animations: ^{
-                                     CGRect frame = _leftStandingImage.frame;
-                                     frame.origin.x = -frame.size.width;
-                                     _leftStandingImage.frame = frame;
-                                 } 
-                                 completion: ^(BOOL completed) {
-                                 }];
-            }
-            if(standingImage) {
-                _leftStandingImage.image = standingImage;
-                [self.backgroundView addSubview: _leftStandingImage];
-                
-                CGRect frame = _leftStandingImage.frame;
-                
-                CGSize imageSize = _leftStandingImage.image.size;
-                if(imageSize.height != 265.0) {
-                    imageSize.width /= imageSize.height / 265.0;
-                    imageSize.height /= imageSize.height / 265.0;
-                }
-                
-                frame.origin.x = -imageSize.width;
-                frame.size.width = imageSize.width;
-                frame.size.height = imageSize.height;
-                _leftStandingImage.frame = frame;
-                
-                [UIView animateWithDuration: kJusikViewFadeTime
-                                      delay: kJusikViewFadeTime
-                                    options: UIViewAnimationOptionCurveEaseOut
-                                 animations: ^{
-                                     CGRect frame = _leftStandingImage.frame;
-                                     frame.origin.x = 20;
-                                     _leftStandingImage.frame = frame;
-                                 }
-                                 completion: nil];
-                _showingLeftStandingImage = YES;
-            }
-            else {
-                _showingLeftStandingImage = NO;
-            }
+            [self _hideLeftStandingImageAnimated: NO];
+            [self _showLeftStandingImageWithImage: standingImage animated: YES];
         }
         else if(speech.position == JusikStandingCutPositionRight) {
-            if(_showingRightStandingImage) {
-                [UIView animateWithDuration: kJusikViewFadeTime
-                                      delay: 0
-                                    options: UIViewAnimationOptionCurveEaseOut
-                                 animations: ^{
-                                     CGRect frame = _rightStandingImage.frame;
-                                     frame.origin.x = self.view.frame.size.width;
-                                     _rightStandingImage.frame = frame;
-                                 } 
-                                 completion: ^(BOOL completed) {
-                                 }];
-            }
-            if(standingImage) {
-                _rightStandingImage.image = standingImage;
-                [self.backgroundView addSubview: _rightStandingImage];
-                
-                CGRect frame = _rightStandingImage.frame;
-                
-                CGSize imageSize = _rightStandingImage.image.size;
-                if(imageSize.height != 265.0) {
-                    imageSize.width /= imageSize.height / 265.0;
-                    imageSize.height /= imageSize.height / 265.0;
-                }
-                
-                frame.size.width = imageSize.width;
-                frame.size.height = imageSize.height;
-                _rightStandingImage.frame = frame;
-                
-                [UIView animateWithDuration: kJusikViewFadeTime
-                                      delay: kJusikViewFadeTime
-                                    options: UIViewAnimationOptionCurveEaseOut
-                                 animations: ^{
-                                     CGRect frame = _rightStandingImage.frame;
-                                     frame.origin.x = self.view.frame.size.width - frame.size.width - 20;
-                                     _rightStandingImage.frame = frame;
-                                 }
-                                 completion: nil];
-                _showingRightStandingImage = YES;
-            }
-            else {
-                _showingRightStandingImage = NO;
-            }
+            [self _hideRightStandingImageAnimated: NO];
+            [self _showRightStandingImageWithImage: standingImage animated: YES];
         }
     }
     if(speech.backgroundImageName) {
@@ -258,7 +190,7 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
                          completion: ^(BOOL finished) {
                              self.backgroundImageView.image = backgroundImage;
                              [UIView animateWithDuration: kJusikViewFadeTime
-                                                   delay: kJusikViewIdleTime
+                                                   delay: 0
                                                  options: UIViewAnimationCurveEaseOut
                                               animations: ^{
                                                   self.backgroundImageView.alpha = 1.0;
@@ -363,6 +295,107 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
+#pragma mark - 비공개 메서드
+- (void)_showLeftStandingImageWithImage: (UIImage *)image animated: (BOOL)animated {
+    if(_showingLeftStandingImage) {
+        [self _hideLeftStandingImageAnimated: NO];
+    }
+    if(image) {
+        _leftStandingImage.image = image;
+        [self.backgroundView addSubview: _leftStandingImage];
+        
+        CGRect frame = _leftStandingImage.frame;
+        
+        CGSize imageSize = _leftStandingImage.image.size;
+        if(imageSize.height != 265.0) {
+            imageSize.width /= imageSize.height / 265.0;
+            imageSize.height /= imageSize.height / 265.0;
+        }
+        
+        frame.origin.x = -imageSize.width;
+        frame.size.width = imageSize.width;
+        frame.size.height = imageSize.height;
+        _leftStandingImage.frame = frame;
+        
+        [UIView animateWithDuration: animated ? kJusikViewFadeTime : 0
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             CGRect frame = _leftStandingImage.frame;
+                             frame.origin.x = 20;
+                             _leftStandingImage.frame = frame;
+                         }
+                         completion: nil];
+        _showingLeftStandingImage = YES;
+    }
+}
+
+- (void)_hideLeftStandingImageAnimated: (BOOL)animated {
+    if(_showingLeftStandingImage) {
+        [UIView animateWithDuration: animated ? kJusikViewFadeTime : 0
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             CGRect frame = _leftStandingImage.frame;
+                             frame.origin.x = -frame.size.width;
+                             _leftStandingImage.frame = frame;
+                         } 
+                         completion: ^(BOOL completed) {
+                         }];
+        _showingLeftStandingImage = NO;
+    }
+}
+
+- (void)_showRightStandingImageWithImage: (UIImage *)image animated: (BOOL)animated {
+    if(_showingRightStandingImage) {
+        [self _hideRightStandingImageAnimated: NO];
+    }
+    if(image) {
+        _rightStandingImage.image = image;
+        [self.backgroundView addSubview: _rightStandingImage];
+        
+        CGRect frame = _rightStandingImage.frame;
+        
+        CGSize imageSize = _rightStandingImage.image.size;
+        if(imageSize.height != 265.0) {
+            imageSize.width /= imageSize.height / 265.0;
+            imageSize.height /= imageSize.height / 265.0;
+        }
+        
+        frame.size.width = imageSize.width;
+        frame.size.height = imageSize.height;
+        _rightStandingImage.frame = frame;
+        
+        [UIView animateWithDuration: animated ? kJusikViewFadeTime : 0
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             CGRect frame = _rightStandingImage.frame;
+                             frame.origin.x = self.view.frame.size.width - frame.size.width - 20;
+                             _rightStandingImage.frame = frame;
+                         }
+                         completion: nil];
+        _showingRightStandingImage = YES;
+    }
+}
+
+- (void)_hideRightStandingImageAnimated: (BOOL)animated {
+    if(_showingRightStandingImage) {
+        [UIView animateWithDuration: animated ? kJusikViewFadeTime : 0
+                              delay: 0
+                            options: UIViewAnimationOptionCurveEaseOut
+                         animations: ^{
+                             CGRect frame = _rightStandingImage.frame;
+                             frame.origin.x = self.view.frame.size.width;
+                             _rightStandingImage.frame = frame;
+                         } 
+                         completion: ^(BOOL completed) {
+                         }];
+        _showingRightStandingImage = NO;
+    }
+}
+
+#pragma mark - 메모리 해제
 - (void)dealloc {
     [_leftStandingImage release];
     [_rightStandingImage release];

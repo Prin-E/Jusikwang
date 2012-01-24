@@ -15,6 +15,8 @@
 #import "JusikPurchasedStockInfo.h"
 #import "JusikBGMPlayer.h"
 #import "JusikDBManager.h"
+#import "JusikDBManager+Extension.h"
+#import "JusikFavoriteStockView.h"
 
 #define kJusikStockTimePeriod 10
 #define kJusikStockGameMaxSeconds 180
@@ -46,6 +48,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 - (void)showResultView;
 - (void)hideResultView;
 
+- (void)_showStockInfoViewWithStockName: (NSString *)stockName;
 - (void)updateStockInfoView;
 @end
 
@@ -79,6 +82,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
 @synthesize stockInfoCountText = _stockInfoCountText;
 @synthesize stockInfoPriceText = _stockInfoPriceText;
 @synthesize stockInfoPurchasedText = _stockInfoPurchasedText;
+@synthesize stockInfoFavoriteAddButton = _stockInfoFavoriteAddButton;
+@synthesize stockInfoFavoriteRemoveButton = _stockInfoFavoriteRemoveButton;
 
 @synthesize market = _market;
 @synthesize player = _player;
@@ -175,57 +180,6 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     self.scrollView.contentMode = UIViewContentModeCenter;
 }
 
-- (IBAction)showStockInfo:(id)sender {
-    if(_timer == nil) return;
-    
-    NSUInteger tag = [sender tag];
-    NSString *companyName;
-    switch(tag) {
-        case 1:
-            companyName = @"com.jusikwang.company.kodae";
-            break;
-        case 2:
-            companyName = @"com.jusikwang.company.khia";
-            break;
-        case 3:
-            companyName = @"com.jusikwang.company.yusang";
-            break;
-        case 4:
-            companyName = @"com.jusikwang.company.hanisamhwa";
-            break;
-        case 5:
-            companyName = @"com.jusikwang.company.otae";
-            break;
-    }
-    
-    _selectedStock = [self.market stockOfCompanyWithName: companyName];
-    
-    [self updateStockInfoView];
-    
-    [self.view addSubview: self.stockInfoView];
-    CGRect frame = self.stockInfoView.frame;
-    CGRect viewFrame = self.view.frame;
-    frame.origin.x = (viewFrame.size.width - frame.size.width) * 0.5;
-    frame.origin.y = (viewFrame.size.height - frame.size.height) * 0.5;
-    self.stockInfoView.frame = frame;
-}
-
-- (IBAction)hideStockInfo:(id)sender {
-    _selectedStock = nil;
-    [self.stockInfoView removeFromSuperview];
-}
-
-- (void)updateStockInfoView {
-    if(_selectedStock) {
-        self.stockInfoNameText.text = NSLocalizedString(_selectedStock.info.name, @"");
-        self.stockInfoPriceText.text = [NSString stringWithFormat: @"%.0f", _selectedStock.price];
-        self.stockInfoTypeText.text = NSLocalizedString(_selectedStock.info.businessType.name, @"");
-        
-        JusikPurchasedStockInfo *i = [self.player.purchasedStockInfos objectForKey: _selectedStock.info.name];
-        self.stockInfoPurchasedText.text = [NSString stringWithFormat: @"%d", i.count];
-    }
-}
-
 - (IBAction)buyStock:(id)sender {
     NSInteger i = 0;
     BOOL success = [[NSScanner scannerWithString: self.stockInfoCountText.text] scanInteger: &i];
@@ -244,6 +198,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
                    fromMarket: self.market
                         count: i];
     [self updateStockInfoView];
+    [self.favoriteView reload];
 }
 
 - (IBAction)sellStock:(id)sender {
@@ -264,10 +219,97 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
                       toMarket: self.market
                          count: i];
     [self updateStockInfoView];
+    [self.favoriteView reload];
 }
 
 - (IBAction)addFavorite:(id)sender {
+    if(_selectedStock) {
+        [self.player addFavorite: _selectedStock.info.name];
+        [self.favoriteView reload];
+        [self updateStockInfoView];
+    }
+}
+
+- (IBAction)removeFavorite:(id)sender {
+    if(_selectedStock) {
+        [self.player removeFavorite: _selectedStock.info.name];
+        [self.favoriteView reload];
+        [self updateStockInfoView];
+    }
+}
+
+#pragma mark - 주식 정보 보기
+- (IBAction)showStockInfo:(id)sender {
+    if(_timer == nil) return;
+    
+    NSUInteger tag = [sender tag];
+    NSString *companyName;
+    switch(tag) {
+        case 1:
+            companyName = @"com.jusikwang.company.kodai";
+            break;
+        case 2:
+            companyName = @"com.jusikwang.company.cia";
+            break;
+        case 3:
+            companyName = @"com.jusikwang.company.yusang";
+            break;
+        case 4:
+            companyName = @"com.jusikwang.company.hanisamhwa";
+            break;
+        case 5:
+            companyName = @"com.jusikwang.company.otae";
+            break;
+    }
+    
+    [self _showStockInfoViewWithStockName: companyName];
+}
+
+- (IBAction)hideStockInfo:(id)sender {
     _selectedStock = nil;
+    [self.stockInfoView removeFromSuperview];
+}
+
+- (void)updateStockInfoView {
+    if(_selectedStock) {
+        self.stockInfoNameText.text = NSLocalizedString(_selectedStock.info.name, @"");
+        self.stockInfoPriceText.text = [NSString stringWithFormat: @"%.0f", _selectedStock.price];
+        self.stockInfoTypeText.text = NSLocalizedString(_selectedStock.info.businessType.name, @"");
+        
+        JusikPurchasedStockInfo *i = [self.player.purchasedStockInfos objectForKey: _selectedStock.info.name];
+        self.stockInfoPurchasedText.text = [NSString stringWithFormat: @"%d", i.count];
+        
+        if([self.player.favorites containsObject: _selectedStock.info.name]) {
+            self.stockInfoFavoriteRemoveButton.enabled = YES;
+            self.stockInfoFavoriteRemoveButton.alpha = 1.0;
+            self.stockInfoFavoriteAddButton.enabled = NO;
+            self.stockInfoFavoriteAddButton.alpha = 0.5;
+        }
+        else {
+            self.stockInfoFavoriteAddButton.enabled = YES;
+            self.stockInfoFavoriteAddButton.alpha = 1.0;
+            self.stockInfoFavoriteRemoveButton.enabled = NO;
+            self.stockInfoFavoriteRemoveButton.alpha = 0.5;
+        }
+    }
+}
+
+- (void)_showStockInfoViewWithStockName:(NSString *)stockName {
+    _selectedStock = [self.market stockOfCompanyWithName: stockName];
+    if(_selectedStock == nil) {
+        NSLog(@"%s -> Cannot find stock named %@", __PRETTY_FUNCTION__, stockName);
+        [self hideStockInfo: self];
+        return;
+    }
+    
+    [self updateStockInfoView];
+    
+    [self.view addSubview: self.stockInfoView];
+    CGRect frame = self.stockInfoView.frame;
+    CGRect viewFrame = self.view.frame;
+    frame.origin.x = (viewFrame.size.width - frame.size.width) * 0.5;
+    frame.origin.y = (viewFrame.size.height - frame.size.height) * 0.5;
+    self.stockInfoView.frame = frame;
 }
 
 #pragma mark - 결과 창
@@ -327,6 +369,8 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName: JusikStockGameViewPeriodDidUpdateNotification
                           object: self];
+        
+        [self.favoriteView update];
         
         // for testing
         [self updateStockInfoView];
@@ -408,6 +452,11 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     [self.view addSubview: self.favoriteShowButton];
     [self.view addSubview: self.favoriteView];
     
+    self.favoriteView.player = self.player;
+    self.favoriteView.market = self.market;
+    self.favoriteView.delegate = self;
+    
+    // 위치, 크기 설정
     CGRect frame = self.favoriteView.frame;
     frame.origin.x = 0;
     frame.origin.y = self.view.frame.size.height;
@@ -418,6 +467,7 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     frame.origin.y = self.view.frame.size.height - frame.size.height;
     self.favoriteShowButton.frame = frame;
     
+    // 배경 설정
     UIImage *favoriteImage = [UIImage imageNamed: @"Images/favorite_favorite.png"];
     if(favoriteImage)
         self.favoriteView.backgroundColor = [UIColor colorWithPatternImage: favoriteImage];
@@ -479,6 +529,10 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
     UIImage *buttonImage = [UIImage imageNamed: @"Images/favorite_button_up.png"];
     if(buttonImage)
         self.favoriteShowButton.backgroundColor = [UIColor colorWithPatternImage:buttonImage];
+}
+
+- (void)favoriteView:(JusikFavoriteStockView *)view didSelectStock:(NSString *)stockName {
+    [self _showStockInfoViewWithStockName: stockName];
 }
 
 #pragma mark - UITextFieldDelegate

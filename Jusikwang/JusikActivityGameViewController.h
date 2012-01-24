@@ -30,7 +30,6 @@
 @property (nonatomic) NSUInteger visitParkCount;
 @property (nonatomic) NSUInteger visitPoliceCount;
 
-
 - (void)play;
 - (void)pause;
 - (void)resume;

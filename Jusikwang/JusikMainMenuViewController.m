@@ -8,9 +8,12 @@
 
 #import "JusikMainMenuViewController.h"
 #import "JusikUIDataTypes.h"
+#import "JusikBGMPlayer.h"
 
 @interface JusikMainMenuViewController (Private)
 - (void)_translateCurrentViewToView: (UIView *)view2;
+
+- (void)_initPreferencesView;
 @end
 
 @implementation JusikMainMenuViewController {
@@ -22,6 +25,8 @@
 @synthesize mainMenuView = _mainMenuView;
 @synthesize preferenceView = _preferenceView;
 @synthesize creditView = _creditView;
+@synthesize prefBGMSlider = _prefBGMSlider;
+@synthesize prefSoundSlider = _prefSoundSlider;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +58,8 @@
     UIImage *optionImage = [UIImage imageNamed: @"Images/option_option.png"];
     if(optionImage)
         _preferenceView.backgroundColor = [UIColor colorWithPatternImage: optionImage];
+    
+    [self _initPreferencesView];
 }
 
 - (void)viewDidUnload
@@ -63,6 +70,9 @@
     self.mainMenuView = nil;
     self.preferenceView = nil;
     self.creditView = nil;
+    
+    self.prefBGMSlider = nil;
+    self.prefSoundSlider = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -89,6 +99,22 @@
     [self showMainMenuAnimation];
 }
 
+#pragma mark - 환경설정
+- (IBAction)changeBGMVolume:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    float value = [self.prefBGMSlider value];
+    [defaults setDouble: value forKey: @"volume_bgm"];
+    
+    [[JusikBGMPlayer sharedPlayer] setVolume: value];
+}
+
+- (IBAction)changeSoundVolume:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    float value = [self.prefSoundSlider value];
+    [defaults setDouble: value forKey: @"volume_sound"];
+}
+
+#pragma mark - 비공개 메서드
 - (void)_translateCurrentViewToView: (UIView *)view2 {
     UIView *prevView = _currentView;
     view2.alpha = 0;
@@ -107,6 +133,13 @@
                      completion: ^(BOOL completed) {
                          _currentView = view2;
                      }];
+}
+
+- (void)_initPreferencesView {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [self.prefBGMSlider setValue: [defaults doubleForKey: @"volume_bgm"]];
+    [self.prefSoundSlider setValue: [defaults doubleForKey: @"volume_sound"]];
 }
 
 #pragma mark - 애니메이션
