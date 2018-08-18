@@ -82,8 +82,8 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     
     _openedCount++;
     
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-    NSDateComponents *weekday = [gregorian components: NSWeekdayCalendarUnit fromDate: _currentDate];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+    NSDateComponents *weekday = [gregorian components: NSCalendarUnitWeekday fromDate: _currentDate];
     
     NSDateComponents *comp = [NSDateComponents new];
     // 토요일/일요일은 개장하지 않으므로 금요일 다음으로 바로 월요일로 넘긴다.
@@ -123,7 +123,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     
     NSDateFormatter *f = [NSDateFormatter new];
     [f setDateFormat: @"yyyy-MM-dd EEE"];
-    NSLog(@"%s, date: %@, turn:%d", __PRETTY_FUNCTION__, [f stringFromDate: _currentDate], _turn);
+    NSLog(@"%s, date: %@, turn:%lu", __PRETTY_FUNCTION__, [f stringFromDate: _currentDate], (unsigned long)_turn);
     [f release];
 }
 
@@ -201,7 +201,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
     }];
     
     if(stock == nil) {
-        NSLog(@"%s - 식별자(%d)로 회사를 찾을 수 없습니다.", __PRETTY_FUNCTION__, identifier);
+        NSLog(@"%s - 식별자(%lu)로 회사를 찾을 수 없습니다.", __PRETTY_FUNCTION__, (unsigned long)identifier);
         return;
     }
     
@@ -258,7 +258,7 @@ NSString *JusikStockMarketNameDow = @"com.jusikwang.stock_market.dow";
 }
 
 - (void)_setInitialDateWithYear: (NSUInteger)year month: (NSUInteger)month day: (NSUInteger)day {
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
     NSDateComponents *comp = [NSDateComponents new];
     comp.year = year;
     comp.month = month;
