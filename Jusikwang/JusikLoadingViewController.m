@@ -266,8 +266,10 @@ NSString *const JusikLoadingViewLoadDidCompleteNotification = @"JusikLoadingView
             NSDateFormatter *f = [NSDateFormatter new];
             [f setDateFormat: @"yyyy-MM-dd"];
             NSDate *date = [f dateFromString: s];
-            if(date)
+            if(date) {
                 _gameViewController.date = date;
+            }
+            [f release];
         }
     }
     else {

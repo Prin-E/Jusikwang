@@ -10,8 +10,7 @@
 
 typedef enum {
     JusikStatusBarModeStockTime,
-    JusikStatusBarModeActivity,
-    JusikStatusBarModeMessage
+    JusikStatusBarModeActivity
 } JusikStatusBarMode;
 
 @class JusikStockMarket;

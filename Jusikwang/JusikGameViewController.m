@@ -377,8 +377,8 @@
 - (void)play {
     if(self.showsTutorial && self.tutorialScript) {
         // for test mode
-        //[self showTutorial];
-        //return;
+        [self showTutorial];
+        return;
     }
     
     if(self.gameState == JusikGamePlayStateNone) return;
@@ -509,9 +509,14 @@
 - (void)activityGameDidEnd: (NSNotification *)n {
     // for testing
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit
+    NSDateComponents *comp = [gregorian components: NSDayCalendarUnit | NSMonthCalendarUnit
                                           fromDate: self.date];
-    if(comp.day >= 25) {
+    [gregorian release];
+    if(comp.day >= 5 && comp.month >= 12) {
+        [self.statusBarController showMessage: NSLocalizedString(@"com.jusikwang.game.message.demo_will_end", @"com.jusikwang.game.message.demo_will_end")
+                                      seconds: 4.0];
+    }
+    if(comp.day >= 11 && comp.month >= 12) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Jusikwang"
                                                             message: @"테스트는 여기까지입니다. 앞으로 더 멋지게 나올 주식왕을 기대해주세요!" 
                                                            delegate: nil
@@ -520,6 +525,7 @@
         [alertView show];
         [alertView release];
         [self exitGame: self];
+        return;
     }
     
     [self nextDay];

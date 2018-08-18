@@ -342,13 +342,85 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
                 [_scriptViewController runScript: script defaultBackground: nil];
             });
         }
+        // 차트 판정
+        else if([_touchingObject.name isEqualToString: @"com.jusikwang.activity.home.object.chart"]) {
+            JusikScript *script;
+            // 피로도가 30이면 습득 실패한다.
+            if(self.player.fatigability >= 30) {
+                [self.db selectTable: kJusikTableNameScriptHomeAnalysisChartFailed];
+                [self.db nextRow];
+                
+                NSUInteger uid = [self.db integerColumnOfCurrentRowAtIndex: 0];
+                script = [self.db scriptWithID: uid];
+                
+                _willObtainingSkill = nil;
+                _visitingSucceeded = NO;
+            }
+            else {
+                NSString *query = [NSString stringWithFormat: @"select * from %@ where step=%d", kJusikTableNameScriptHomeAnalysisChartStudy, self.visitChartCount+1];
+                [self.db query: query];
+                if([self.db nextRow]) {
+                    NSDictionary *rowData = [self.db rowData];
+                    NSUInteger uid = [[rowData objectForKey: @"uid"] unsignedIntegerValue];
+                    script = [self.db scriptWithID: uid];
+                    
+                    _willObtainingSkill = [[rowData objectForKey: @"obtained_skill"] copy];
+                    _visitingSucceeded = YES;
+                }
+                else {
+                    [self.db selectTable: kJusikTableNameScriptHomeAnalysisChartMore];
+                    [self.db nextRow];
+                    
+                    NSUInteger uid = [self.db integerColumnOfCurrentRowAtIndex: 0];
+                    script = [self.db scriptWithID: uid];
+                    _visitingSucceeded = NO;
+                }
+                _willObtainingFatigability += 3;
+            }
+            
+            // 스크립트 재생
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, kJusikViewZoomTime * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.view addSubview: _scriptViewController.view];
+                [_scriptViewController runScript: script defaultBackground: nil];
+            });
+        }
+        // 책 판정
+        else if([_touchingObject.name isEqualToString: @"com.jusikwang.activity.home.object.book"]) {
+            JusikScript *script = nil;
+            NSUInteger uid;
+            
+            [self.db selectTable: kJusikTableNameScriptHomeStudy];
+            NSMutableArray *arrays = [NSMutableArray array];
+            while([self.db nextRow]) {
+                NSDictionary *d = [self.db rowData];
+                [arrays addObject: [d objectForKey: @"uid"]];
+            }
+            if(arrays.count) {
+                NSUInteger randNum = arc4random() % arrays.count;
+                uid = [[arrays objectAtIndex: randNum] unsignedIntegerValue];
+                script = [self.db scriptWithID: uid];
+            }
+            else {
+                NSLog(@"%s -> uid 를 찾지 못하였습니다 : uid 가 존재하지 않습니다.", __PRETTY_FUNCTION__);
+            }
+            
+            _willObtainingIntelligence = 3;
+            
+            // 스크립트 재생
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, kJusikViewZoomTime * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.view addSubview: _scriptViewController.view];
+                [_scriptViewController runScript: script defaultBackground: nil];
+            });
+        }
         // 침대 판정
         // 침대는 사각형이 아니니 체크 영역이 2개 필요하다 제길.
         else if([_touchingObject.name isEqualToString: @"com.jusikwang.activity.home.object.bed1"] ||
                 [_touchingObject.name isEqualToString: @"com.jusikwang.activity.home.object.bed2"]) 
         {
             // ID 얻기
-            [self.db selectTable: @"script_home_bed"];
+            [self.db selectTable: kJusikTableNameScriptHomeBed];
             [self.db nextRow];
             NSUInteger uid = [self.db integerColumnOfCurrentRowAtIndex: 0];
             
@@ -593,6 +665,14 @@ NSString *const JusikActivityGameViewGameDidStopNotification = @"JusikActivityGa
     if([_visitingObject.name isEqualToString: @"com.jusikwang.activity.home.object.computer"]) {
         if(_visitingSucceeded)
             self.visitComputerCount++;
+    }
+    else if([_visitingObject.name isEqualToString: @"com.jusikwang.activity.home.object.chart"]) {
+        if(_visitingSucceeded)
+            self.visitChartCount++;
+    }
+    else if([_visitingObject.name isEqualToString: @"com.jusikwang.activity.home.object.book"]) {
+        if(_visitingSucceeded)
+            self.visitBookCount++;
     }
     // 침대
     else if([_visitingObject.name isEqualToString: @"com.jusikwang.activity.home.object.bed1"] ||

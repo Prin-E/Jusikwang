@@ -32,6 +32,10 @@
     return YES;
 }
 
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

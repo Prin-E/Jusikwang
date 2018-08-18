@@ -25,3 +25,6 @@
 // Zoom
 #define kJusikViewZoomTime 1.0
 #define kJusikViewZoomRate 1.12
+
+// Touch Hold
+#define kJusikViewTouchHoldTime 1.5

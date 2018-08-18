@@ -133,11 +133,11 @@ NSString *const JusikScriptViewScriptDidEndNotification = @"JusikScriptViewScrip
 - (void)nextSpeech {
     // 스크립트가 완전히 끝나면 노티피케이션 호출
     if(_scriptEnded) {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName: JusikScriptViewScriptDidEndNotification object: self];
-        
         [self _hideLeftStandingImageAnimated: NO];
         [self _hideRightStandingImageAnimated: NO];
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName: JusikScriptViewScriptDidEndNotification object: self];
         return;
     }
     

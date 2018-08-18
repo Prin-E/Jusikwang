@@ -27,7 +27,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
@@ -44,7 +43,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
     
     self.logoViewController = nil;
     self.mainMenuViewController = nil;
@@ -71,10 +69,12 @@
 	[super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 #pragma mark BGM
@@ -124,13 +124,13 @@
 }
 
 - (void)startGame:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Jusikwang", @"Jusikwang")
-                                                    message: NSLocalizedString(@"com.jusikwang.main_menu.not_support_start_game", @"com.jusikwang.main_menu.not_support_start_game")
-                                                   delegate: nil
-                                          cancelButtonTitle: NSLocalizedString(@"OK", @"OK")
-                                          otherButtonTitles: nil];
-    [alert show];
-    [alert release];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"Jusikwang", @"Jusikwang")
+                                                                   message: NSLocalizedString(@"com.jusikwang.main_menu.not_support_start_game", @"com.jusikwang.main_menu.not_support_start_game")
+                                                            preferredStyle: UIAlertControllerStyleAlert];
+    [alert addAction: [UIAlertAction actionWithTitle: @"OK"
+                                               style: UIAlertActionStyleDefault
+                                             handler: nil]];
+    [self presentViewController: alert animated: YES completion: nil];
 }
 
 - (void)gameLoadDidComplete: (NSNotification *)n {
@@ -181,7 +181,6 @@
     }
     self.mainMenuViewController.view.alpha = 0;
     [self.view addSubview: self.mainMenuViewController.view];
-    
     [self.mainMenuViewController.startNewGameButton addTarget: self
                                                        action: @selector(startNewGame:)
                                              forControlEvents: UIControlEventTouchUpInside];

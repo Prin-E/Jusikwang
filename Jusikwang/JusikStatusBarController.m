@@ -11,8 +11,18 @@
 #import "JusikPlayer.h"
 #import "JusikUIDataTypes.h"
 
+@interface JusikStatusBarController (Private)
+- (void)_showMessageView;
+- (void)_hideMessageView;
+- (void)_setupMessageViewTimer;
+- (void)_clearMessageViewTimer;
+@end
+
 @implementation JusikStatusBarController {
     BOOL _showingMessage;
+    double _messageTime;
+    
+    NSTimer *_messageViewTimer;
 }
 
 #pragma mark - 프로퍼티
@@ -213,11 +223,15 @@
 {
     [super viewDidLoad];
     
+    self.view.clipsToBounds = YES;
+    self.statusContainerView.clipsToBounds = YES;
     self.mode = JusikStatusBarModeStockTime;
     
     UIImage *containerImage = [UIImage imageNamed: @"Images/sidebar_minibar.png"];
-    if(containerImage)
+    if(containerImage) {
         self.statusContainerView.backgroundColor = [UIColor colorWithPatternImage: containerImage];
+        self.messageStatusView.backgroundColor = [UIColor colorWithPatternImage: containerImage];
+    }
 }
 
 - (void)viewDidUnload
@@ -302,22 +316,81 @@
 }
 
 #pragma mark - 메시지 출력
-- (void)showMessage: (NSString *)string seconds: (double)seconds {
-    _showingMessage = YES;
-    
-    JusikStatusBarMode prevMode = self.mode;
-    
+- (void)showMessage: (NSString *)string seconds: (double)seconds {        
     self.messageText.text = string;
-    self.mode = JusikStatusBarModeMessage;
     
     if(seconds < 5.0)
         seconds = 5.0;
     
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        self.mode = prevMode;
-        _showingMessage = NO;
-    });
+    _messageTime = seconds;
+    [self _showMessageView];
+    [self _setupMessageViewTimer];
+}
+
+#pragma mark - 비공개 메서드
+- (void)_showMessageView {
+    if(_showingMessage) return;
+    _showingMessage = YES;
+    
+    __block CGRect containerViewFrame = self.statusContainerView.frame;
+    __block CGRect messageViewFrame = self.messageStatusView.frame;
+    
+    messageViewFrame.origin.x = 0;
+    messageViewFrame.origin.y = messageViewFrame.size.height;
+    self.messageStatusView.frame = messageViewFrame;
+    [self.view addSubview: self.messageStatusView];
+    
+    [UIView animateWithDuration: kJusikViewShowHideTime
+                          delay: 0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         containerViewFrame.origin.y = -containerViewFrame.size.height;
+                         messageViewFrame.origin.y = 0;
+                         self.statusContainerView.frame = containerViewFrame;
+                         self.messageStatusView.frame = messageViewFrame;
+                     }
+                     completion: ^(BOOL finished) {
+                     }];
+}
+
+- (void)_hideMessageView {
+    if(_showingMessage == NO) return;
+    _showingMessage = NO;
+    
+    __block CGRect containerViewFrame = self.statusContainerView.frame;
+    __block CGRect messageViewFrame = self.messageStatusView.frame;
+    
+    [UIView animateWithDuration: kJusikViewShowHideTime
+                          delay: 0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations: ^{
+                         containerViewFrame.origin.y = 0;
+                         messageViewFrame.origin.y = messageViewFrame.size.height;
+                         self.statusContainerView.frame = containerViewFrame;
+                         self.messageStatusView.frame = messageViewFrame;
+                     }
+                     completion: ^(BOOL finished) {
+                         [self.messageStatusView removeFromSuperview];
+                     }];
+}
+
+- (void)_setupMessageViewTimer {
+    [self _clearMessageViewTimer];
+    
+    _messageViewTimer = [NSTimer scheduledTimerWithTimeInterval: _messageTime
+                                                         target: self
+                                                       selector: @selector(_hideMessageView)
+                                                       userInfo: nil
+                                                        repeats: NO];
+    [_messageViewTimer retain];
+}
+
+- (void)_clearMessageViewTimer {
+    if(_messageViewTimer) {
+        [_messageViewTimer invalidate];
+        [_messageViewTimer release];
+        _messageViewTimer = nil;
+    }
 }
 
 #pragma mark - 메모리 해제

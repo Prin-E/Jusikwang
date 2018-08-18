@@ -260,6 +260,9 @@ NSString *const JusikStockGameViewGameDidStopNotification = @"JusikStockGameView
         case 5:
             companyName = @"com.jusikwang.company.otae";
             break;
+        default:
+            companyName = nil;
+            break;
     }
     
     [self _showStockInfoViewWithStockName: companyName];

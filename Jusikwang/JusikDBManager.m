@@ -7,7 +7,7 @@
 //
 
 #import "JusikDBManager.h"
-#import "/usr/include/sqlite3.h"
+#import <sqlite3.h>
 
 NSString *kJusikDBDefaultName = @"game.db";
 
@@ -41,7 +41,8 @@ NSString *kJusikDBDefaultName = @"game.db";
             path = destPath;
             [fm release];
         }
-        sqlite3_open_v2([path UTF8String], &_gameDB, SQLITE_READONLY, NULL);
+        int ret = sqlite3_open_v2([path UTF8String], &_gameDB, SQLITE_OPEN_READWRITE, NULL);
+        NSLog(@"%s -> ret : %d", __PRETTY_FUNCTION__, ret);
     }
     return self;
 }

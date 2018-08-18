@@ -16,9 +16,14 @@ NSString * const kJusikTableNameScriptSpeech = @"script_speech";
 NSString * const kJusikTableNameBusinessType = @"business_type";
 NSString * const kJusikTableNameActivityHomeObject = @"activity_home_object";
 
-NSString * const kJusikTableNameScriptHomeAnalysisCompanyFailed = @"script_home_analysis_company_failed";
+NSString * const kJusikTableNameScriptHomeAnalysisCompanyFailed = @"script_home_analysis_company_fail";
 NSString * const kJusikTableNameScriptHomeAnalysisCompanyStudy = @"script_home_analysis_company_study";
 NSString * const kJusikTableNameScriptHomeAnalysisCompanyMore = @"script_home_analysis_company_more";
+NSString * const kJusikTableNameScriptHomeAnalysisChartFailed = @"script_home_analysis_chart_fail";
+NSString * const kJusikTableNameScriptHomeAnalysisChartStudy = @"script_home_analysis_chart_study";
+NSString * const kJusikTableNameScriptHomeAnalysisChartMore = @"script_home_analysis_chart_more";
+NSString * const kJusikTableNameScriptHomeStudy = @"script_home_study";
+NSString * const kJusikTableNameScriptHomeBed = @"script_home_bed";
 
 @implementation JusikDBManager (Extension)
 
@@ -124,6 +129,7 @@ NSString * const kJusikTableNameScriptHomeAnalysisCompanyMore = @"script_home_an
         
         if(o) {
             [a addObject: o];
+            [o release];
         }
     }
     return [NSArray arrayWithArray: a];

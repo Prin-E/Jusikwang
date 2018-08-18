@@ -28,3 +28,8 @@ extern NSString * const kJusikTableNameActivityHomeObject;
 extern NSString * const kJusikTableNameScriptHomeAnalysisCompanyFailed;
 extern NSString * const kJusikTableNameScriptHomeAnalysisCompanyStudy;
 extern NSString * const kJusikTableNameScriptHomeAnalysisCompanyMore;
+extern NSString * const kJusikTableNameScriptHomeAnalysisChartFailed;
+extern NSString * const kJusikTableNameScriptHomeAnalysisChartStudy;
+extern NSString * const kJusikTableNameScriptHomeAnalysisChartMore;
+extern NSString * const kJusikTableNameScriptHomeStudy;
+extern NSString * const kJusikTableNameScriptHomeBed;

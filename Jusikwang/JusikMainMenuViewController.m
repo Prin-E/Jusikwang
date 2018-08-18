@@ -50,7 +50,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     [self.view addSubview: self.mainMenuView];
     _currentView = self.mainMenuView;
@@ -75,10 +74,20 @@
     self.prefSoundSlider = nil;
 }
 
+// iOS 5 or below
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
+
+// iOS 6+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 #pragma mark - 뷰간 전환

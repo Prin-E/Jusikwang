@@ -75,10 +75,10 @@
 
 #pragma mark - 메모리 해제
 - (void)dealloc {
-    [self.name release];
-    [self.description release];
-    [self.layer release];
-    [self.overImage release];
+    [_name release];
+    [_description release];
+    [_layer release];
+    [_overImage release];
     
     [super dealloc];
 }
